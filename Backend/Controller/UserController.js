@@ -1,31 +1,44 @@
 const express = require ('express');
+const { UserRepository } = require('../repository/user.repository');
 
-require('../Model/UserModel');
+const {} = require('../Services/UserService')
+
 
 async function getAllUsers (req,res)
 {
-console.log("Working");
-};
+    const userList = UserRepository.findAll();
+    return res.send({'status': true, 'data': userList})
 
+
+};
 
 async function getUser(req,res) 
 {
-console.log("Working");
+   const userId = req.params.UUid;
+
+   return res.send({'status': true, 'data': userId})
 };
 
 async function CreateUser (req,res) 
 {
-console.log("Working");
+
+const user = UserService.CreateUser();
+
 };
 
 async function UpdateUser(req,res)
 {
-console.log("Working");
+    
+    const user =UpdateUserById;    
+    console.log("Working");
 };
 
-async function DeleteUser(req,res,next) 
+async function DeleteUser(req,res) 
 {
-console.log("Woring");
+
+    const userID = req.params.id;
+    const user =DeleteUserById;
+
 };
 
 
