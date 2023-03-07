@@ -1,14 +1,11 @@
 const express = require ('express');
-const { UserRepository } = require('../repository/user.repository');
-
-const {} = require('../Services/UserService')
-
+const UserService = require('../Services/UserService')
 
 async function getAllUsers (req,res)
 {
     
     try {
-        res.send(await UserRepository.getAll(req));
+        res.send(await UserService.FindAllUsers());
       } 
       
       catch (err) {
@@ -21,8 +18,8 @@ async function getAllUsers (req,res)
 async function getUser(req,res) 
 {
     try {
-    
-        res.send(await userService.getUser(req));
+        const id = req.params.id;
+        res.send(await UserService.FindUser(id));
       } catch (err) {
         console.error(err);
         res.send({ status: 500, message: err});

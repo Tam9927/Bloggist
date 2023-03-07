@@ -4,19 +4,21 @@ const { query } = require("express");
 const db = require("../Configs/db.config");
 const controller= require ("../Controller/UserController");
 
-getAll = async()=> {
+const getAll = async()=> {
 
-        const results = await query(`SELECT * FROM users`);
+        const results = await db.query(`SELECT * FROM users`);
+        return results;
+
+    }
+
+    const getUser = async ()=>{
+
+        const results = await db.query(`SELECT * FROM users WHERE Username = ?`);
         return results;
       
     }
 
-    getUserByName = async()=>{
 
-        const results = await query(`SELECT * FROM users WHERE Username = ?`);
-        return results;
-      
-    }
 
 
 
@@ -25,6 +27,6 @@ getAll = async()=> {
 module.exports = {
 
 getAll,
-getUserByName
+getUser
 
 }

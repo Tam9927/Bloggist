@@ -9,8 +9,8 @@ const UserRouter = express.Router();
 //,post
 
 
-UserRouter.get("/",UserController.getAllUsers)
-UserRouter.get("/")
+UserRouter.get("/", UserController.getAllUsers)
+//UserRouter.get("/")
 UserRouter.post("/:username",UserController.getUser)
 UserRouter.put("/:username")
 UserRouter.delete("/:username")

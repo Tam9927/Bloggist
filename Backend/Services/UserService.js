@@ -1,5 +1,5 @@
 
-const userRepository = require("../repository/user.repository");
+const UserRepository = require("../repository/user.repository");
 const  { genSaltSync, hashSync } = require("bcrypt");
 const { v4: uuidv4 } = require('uuid');
 
@@ -23,23 +23,28 @@ function isAlphaNumeric(str) {
 
 
 
-FindAllUsers = (req) => {
+async function FindAllUsers () {
 
 
-return userRepository.getAllUsers(req);
-
-}
-
-const FindUser = () => {
-
-    const username = String(req.params.username).toLowerCase();
-
-return userRepository.GetUser(username);
+return await UserRepository.getAll();
 
 }
 
+const FindUser = async(username) => {
+
+     username = String(req.params.username).toLowerCase();
+
+return await UserRepository.getUser(username);
+
+}
 
 
+createUser = async(username, email, password)=> {
+    username = username.toLowerCase();
+    
+    if (!/^[a-zA-Z0-9]+$/.test(username)) {
+        return await { status: 400, message: 'Username can only contain English alphabets and digits'};
+    }
 
 
 module.exports =
@@ -52,4 +57,4 @@ module.exports =
 
 
 
- 
+}
