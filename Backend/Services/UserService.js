@@ -1,38 +1,44 @@
 
+const userRepository = require("../repository/user.repository");
+const  { genSaltSync, hashSync } = require("bcrypt");
+const { v4: uuidv4 } = require('uuid');
 
-const FindAllUsers = () => {
+function isAlphaNumeric(str) {
+    const alphanumericRegex = /^[a-zA-Z0-9]+$/;
+    return alphanumericRegex.test(str);
+  }
+  
+  function validateEmail(email) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  }
+  
+  function checkPassword(password) {
+    if (password.length >= 6) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+
+
+FindAllUsers = (req) => {
+
+
+return userRepository.getAllUsers(req);
 
 }
 
 const FindUser = () => {
 
-}
+    const username = String(req.params.username).toLowerCase();
 
-
-
-const CreateUser = ()=> {
-
-
-    createUser = async (req,res) => {
-        if(req.Password.length < 6){
-            console.log('Password must be of atleast 6 characters');
-        }
-        const newUser = await UserRepository.createUser(req);
-        console.log(newUser);
-    }
+return userRepository.GetUser(username);
 
 }
 
 
- const UpdateUserById =  (id)=> {
-
-return User.FindById(id);
-
-}
-
-const DeleteUser = () => {
-
-}
 
 
 
@@ -40,11 +46,8 @@ module.exports =
 {
 
     FindAllUsers,
-    FindUser,
-    CreateUser,
-    DeleteUser,
-    UpdateUserById
-
+    FindUser
+    
 }
 
 

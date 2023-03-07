@@ -6,50 +6,37 @@ const {} = require('../Services/UserService')
 
 async function getAllUsers (req,res)
 {
-    const userList = UserRepository.findAll();
-    return res.send({'status': true, 'data': userList})
-
+    
+    try {
+        res.send(await UserRepository.getAll(req));
+      } 
+      
+      catch (err) {
+        console.error(err);
+        res.send({ status: 500, message: err });
+      }
 
 };
 
 async function getUser(req,res) 
 {
-   const userId = req.params.UUid;
-
-   return res.send({'status': true, 'data': userId})
-};
-
-async function CreateUser (req,res) 
-{
-
-const user = UserService.CreateUser();
-
-};
-
-async function UpdateUser(req,res)
-{
+    try {
     
-    const user =UpdateUserById;    
-    console.log("Working");
-};
-
-async function DeleteUser(req,res) 
-{
-
-    const userID = req.params.id;
-    const user =DeleteUserById;
+        res.send(await userService.getUser(req));
+      } catch (err) {
+        console.error(err);
+        res.send({ status: 500, message: err});
+      }
 
 };
+
 
 
 module.exports =
 {
 
     getAllUsers,
-    getUser,
-    CreateUser,
-    DeleteUser,
-    UpdateUser
+    getUser
 
 }
 

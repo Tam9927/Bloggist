@@ -8,13 +8,14 @@ const UserRouter = express.Router();
 //.get
 //,post
 
-UserRouter.get('/users', UserController.getAllUsers)
-          .get('/user/:id', UserController.getUser)
-          .post('/user',UserController.CreateUser)
-          .put('/user/:id',UserController.UpdateUser)
-          .delete('/users',UserController.DeleteUser);
-          
+
+UserRouter.get("/",UserController.getAllUsers)
+UserRouter.get("/")
+UserRouter.post("/:username",UserController.getUser)
+UserRouter.put("/:username")
+UserRouter.delete("/:username")
 
 
 
+        
 module.exports = UserRouter;

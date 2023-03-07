@@ -1,34 +1,30 @@
 
 
+const { query } = require("express");
 const db = require("../Configs/db.config");
+const controller= require ("../Controller/UserController");
 
-  
-    async function findAll() {
-      try{
-          const data = await db.query("SELECT * FROM users");
-          console.log(data.rows);
-          return data;
-        } catch(err){
-          console.log(err.stack);
-        }
+getAll = async()=> {
+
+        const results = await query(`SELECT * FROM users`);
+        return results;
+      
     }
 
-    async function findById(id) {
-        try{
-            const data = await db.query("SELECT * FROM users WHERE Id = $1", [id]);
-            console.log(data.rows);
-            return data;
-          } catch(err){
-            console.log(err.stack);
-          }
-      }
+    getUserByName = async()=>{
+
+        const results = await query(`SELECT * FROM users WHERE Username = ?`);
+        return results;
+      
+    }
+
 
 
 
 
 module.exports = {
 
-findAll,
-findById,
+getAll,
+getUserByName
 
-};
+}

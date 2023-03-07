@@ -1,7 +1,7 @@
 const express = require ('express');
-const mysql = require("mysql");
+const {createPool} = require("mysql");
 
-const db = mysql.createConnection({
+const pool = createPool({
 
     host: 'localhost',
     user : 'root',
@@ -11,16 +11,4 @@ const db = mysql.createConnection({
 });
 
 
-db.connect((err)=>{
-
-if(err) {throw err};
-
-console.log("MYSQL Connected ...")
-;
-})
-
-
-
-
-
-module.exports = db; 
+module.exports = pool; 
