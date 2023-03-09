@@ -3,8 +3,8 @@ const UserService = require('../Services/UserService')
 
  async function getAllUsers (req,res)
 {
-    
-  const data = await UserService.FindAllUsers();
+  
+   const data = await UserService.FindAllUsers();
    res.status(200).send(data);
     
 
@@ -23,11 +23,22 @@ async function getUser(req,res)
 
 async function createUser(req, res) {
   
-  const data = await userService.createUser(req.body);
+  const data = await UserService.createUser(req.body);
   res.status(200).send(data);
 
 }
 
+
+
+async function updateUser (req,res) {
+
+  console.log("yes")
+  const data = await UserService.updateUser(req.params.username,req.body);
+  console.log(req.body)
+  res.status(200).send(data);
+
+
+}
 
 async function deleteUser(req, res) {
   
@@ -46,7 +57,8 @@ module.exports =
     getAllUsers,
     getUser,
     createUser,
-    deleteUser
+    deleteUser,
+    updateUser
 
 }
 

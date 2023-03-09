@@ -1,5 +1,6 @@
 
 const UserRepository = require("../repository/user.repository");
+const userUtils = require('../utils/Validation')
 
 require("email-validator");
 require("bcrypt"); 
@@ -42,17 +43,33 @@ return result;
 }
 
 
-async function CreateUser (username, email, password) {
-    username = username.toLowerCase();
+async function createUser (body) {
     
-    if (!/^[a-zA-Z0-9]+$/.test(username)) {
-        return await { status: 400, message: 'Username can only contain English alphabets and digits'};
+    const userValid = userUtils.userValidator(body.username,body.email,body.password);
+    
+    if(!userValid.valid){
+      return userValid;
+    }
+  
+    const userDuplicate = userUtils.userDuplicate(body.username, body.email);
+    if((await userDuplicate).duplicate){
+      return {status:422, message: (await userDuplicate).message};
+    }
+  
+    try{
+      //const id = crypto.randomUUID();
+      const hashedPassword = await hashPassword(user.password);
+  
+      const data = await userRepository.createUser(body.name,body.email,body.password,body.username);
+      return {status:201, message:'User created successfully'};
+    }
+    catch{
+      return {status:400, message:'Please check your credentials again'};
     }
 
+}
 
-  }
-
-  async function updateUser(username, password) {
+  async function updateUser(username, user) {
     
     const hashedPassword = await bcrypt.hash(password, parseInt(process.env.SALT));
     const {rowCount} = await UsersRepository.updateUser(username.toLowerCase(), hashedPassword);
@@ -81,6 +98,29 @@ async function deleteUser(username){
 
 }
 
+async function updateUser (username,user) {
+
+  try{
+    const hashedPassword = await hashPassword(user.password);
+    const result = await userRepository.updateUser( username,hashedPassword);
+    
+    //console.log(result);
+    if(result.affectedRows == 0){
+      return {status:404, message:'User not found'};
+    }
+    return {status:200, message:'User updated'};
+  }
+  catch{
+    return {status:400, message:'User update failed'};
+  }
+
+
+
+
+}
+
+
+
 
 
 module.exports =
@@ -89,7 +129,8 @@ module.exports =
     FindAllUsers,
     FindUser,
     deleteUser,
-    CreateUser
+    createUser,
+    updateUser
     
 }
 

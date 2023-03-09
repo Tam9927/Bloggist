@@ -69,6 +69,19 @@ const result = await makeQuery(
 
 }
 
+async function updateUser (username , password) {
+
+  const result = await makeQuery(
+    "UPDATE users SET `password`= ? where `username` = ?",
+    [username , password]
+  );
+  return result;
+
+}
+
+
+
+
 
 
 
@@ -78,6 +91,7 @@ module.exports = {
 getAllUsers,
 getUser,
 createUser,
-deleteUser
+deleteUser,
+updateUser
 
 }
