@@ -1,31 +1,42 @@
 const express = require ('express');
 const UserService = require('../Services/UserService')
 
-async function getAllUsers (req,res)
+ async function getAllUsers (req,res)
 {
     
-    try {
-        res.send(await UserService.FindAllUsers());
-      } 
-      
-      catch (err) {
-        console.error(err);
-        res.send({ status: 500, message: err });
-      }
+  const data = await UserService.FindAllUsers();
+   res.status(200).send(data);
+    
 
 };
 
 async function getUser(req,res) 
 {
-    try {
-        const id = req.params.id;
-        res.send(await UserService.FindUser(id));
-      } catch (err) {
-        console.error(err);
-        res.send({ status: 500, message: err});
-      }
+  
+        const data=await UserService.FindUser(req.params.username);
+        res.status(200).send(data);
 
-};
+        if(!data){
+          return res.status(400).send({ message: 'Invalid request parameter!' });
+  };
+}
+
+async function createUser(req, res) {
+  
+  const data = await userService.createUser(req.body);
+  res.status(200).send(data);
+
+}
+
+
+async function deleteUser(req, res) {
+  
+  if(!req.params.username){
+    return res.status(400).send({ message: 'Invalid request parameter!' });
+  }
+  const data = await UserService.deleteUser(req.params.username);
+  return res.status(200).send(data.message);
+}
 
 
 
@@ -33,7 +44,9 @@ module.exports =
 {
 
     getAllUsers,
-    getUser
+    getUser,
+    createUser,
+    deleteUser
 
 }
 

@@ -10,10 +10,10 @@ const UserRouter = express.Router();
 
 
 UserRouter.get("/", UserController.getAllUsers)
-//UserRouter.get("/")
-UserRouter.post("/:username",UserController.getUser)
+UserRouter.get("/:username", UserController.getUser)
+//UserRouter.post("/",UserController.createUser)
 UserRouter.put("/:username")
-UserRouter.delete("/:username")
+UserRouter.delete("/:username",UserController.deleteUser);
 
 
 

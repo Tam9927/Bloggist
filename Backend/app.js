@@ -2,10 +2,12 @@ const express = require('express');
 const app = express();
 const UserRouter = require('./Router/user.router')
 const db = require('./Configs/db.config');
-const PORT = process.env.PORT || 8000;
+const PORT = process.env.PORT || 4000;
+
+
+// app.use(express.json());
 
 app.use('/users', UserRouter)
-app.use(express.json());
 
 app.use((err, req, res, next) => {
     if(err.name == 'ValidationError'){
