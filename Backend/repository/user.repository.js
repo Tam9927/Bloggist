@@ -8,7 +8,7 @@ const controller= require ("../Controller/UserController");
 
 function makeQuery(sql, params) {
   return new Promise((resolve, reject) => {
-    db.db.query(sql, params, (error, results) => {
+    db.query(sql, params, (error, results) => {
       if (error) {
         console.log(error.sqlMessage);
         reject(error);
@@ -45,12 +45,12 @@ async function getUser(username) {
   return result;
 }
 
-async function createUser(name,email,password,username){
+async function createUser(id, name,email,password,username){
 
 
   const result = await makeQuery(
-    "INSERT INTO users(name, email, password, username) VALUES (?, ?, ? , ?) ",
-    [name, email, password,username]
+    "INSERT INTO users(id, name, email, password, username) VALUES (?, ?, ?, ? , ?) ",
+    [id, name, email, password, username]
   );
   console.log("User created successfully");
   return result;
@@ -65,15 +65,18 @@ const result = await makeQuery(
     "DELETE FROM users where `Username` = ?",
     [username]
   );
-  return result;
+  return resu
 
 }
 
 async function updateUser (username , password) {
 
+  console.log(username)
+  console.log(password)
+
   const result = await makeQuery(
     "UPDATE users SET `password`= ? where `username` = ?",
-    [username , password]
+    [password,username]
   );
   return result;
 

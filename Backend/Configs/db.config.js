@@ -25,10 +25,10 @@ db.connect(function(err) {
       function (err, result) {
         if(err)
           console.log(`Error executing the query - ${err}`)
-        else
-          console.log("Result: ",result) 
+        // else
+        //   console.log("Result: ",result) 
       })
     }
 })
 
-module.exports = {db} ;
+module.exports = db ;

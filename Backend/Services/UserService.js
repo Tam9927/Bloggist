@@ -3,7 +3,8 @@ const UserRepository = require("../repository/user.repository");
 const userUtils = require('../utils/Validation')
 
 require("email-validator");
-require("bcrypt"); 
+const crypto=require("crypto"); 
+const bcrypt = require("bcrypt");
 require('uuid');
 
 
@@ -30,7 +31,6 @@ function isAlphaNumeric(str) {
  async function FindAllUsers () {
 
 const data = await UserRepository.getAllUsers();
-console.log(data);
 return data;
 
 }
@@ -43,24 +43,31 @@ return result;
 }
 
 
-async function createUser (body) {
+async function createUser (user) {
+
+  console.log("User");
+  console.log(user);
+  // console.log(user.email)
+  // console.log(user.username)
     
-    const userValid = userUtils.userValidator(body.username,body.email,body.password);
-    
-    if(!userValid.valid){
-      return userValid;
-    }
+    // const userValid = userUtils.userValidator(user.email,user.password,user.username);
+
+    //  if(!userValid.valid){
+    //    return userValid;
+    //  }
   
-    const userDuplicate = userUtils.userDuplicate(body.username, body.email);
-    if((await userDuplicate).duplicate){
-      return {status:422, message: (await userDuplicate).message};
-    }
+    // const userDuplicate = await userUtils.userDuplicate(user.username, user.email);
+    // console.log(userDuplicate);
+    // if(userDuplicate.duplicate){
+    //   return {status:422, message: "Duplicate username or email"};
+    // }
   
     try{
-      //const id = crypto.randomUUID();
-      const hashedPassword = await hashPassword(user.password);
+      const id = crypto.randomUUID();
+      const salt = await bcrypt.genSalt(10);
+      const hashedPassword = await bcrypt.hash(user.password,salt);
   
-      const data = await userRepository.createUser(body.name,body.email,body.password,body.username);
+      const data = await UserRepository.createUser(id, user.name,user.email,hashedPassword,user.username.toLowerCase());
       return {status:201, message:'User created successfully'};
     }
     catch{
@@ -69,16 +76,7 @@ async function createUser (body) {
 
 }
 
-  async function updateUser(username, user) {
-    
-    const hashedPassword = await bcrypt.hash(password, parseInt(process.env.SALT));
-    const {rowCount} = await UsersRepository.updateUser(username.toLowerCase(), hashedPassword);
-    if (rowCount === 0) {
-        return {status: 404, message: 'User not found'};
-    }
-    return {status: 200, message: 'User updated!'};
-  }
-
+  
 async function deleteUser(username){
 
   try{
@@ -100,11 +98,12 @@ async function deleteUser(username){
 
 async function updateUser (username,user) {
 
+
   try{
-    const hashedPassword = await hashPassword(user.password);
-    const result = await userRepository.updateUser( username,hashedPassword);
+    //const hashedPassword = await hashPassword(user.password);
+    const result = await UserRepository.updateUser( username,user.password);
     
-    //console.log(result);
+    
     if(result.affectedRows == 0){
       return {status:404, message:'User not found'};
     }

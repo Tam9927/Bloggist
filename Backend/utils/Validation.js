@@ -1,11 +1,17 @@
 const validator = require("email-validator");
-const userRepository = require("../repository/user.repository");
+const UserRepository = require("../repository/user.repository");
 
-function userValidator(username, email, password){
+function userValidator( email, password , username){
 
-    if(!username || !email || !password ){
-        return {valid:false , message:'Please enter all the fields'}; 
-    }
+console.log(email)
+console.log(password)
+console.log(username)
+
+
+
+     if(!username || !email || !password ){
+         return {valid:false , message:'Please enter all the fields'}; 
+     }
 
     if(!checkUsernameValid(username)){
         return {valid:false, message:'Username cannot contain space and special characters!'};
@@ -24,17 +30,18 @@ function userValidator(username, email, password){
 }
 
 async function userDuplicate(username, email){
-    const duplicateUsername = await userRepository.getUserbyUsername(username);
+    const duplicateUsername = await UserRepository.getUser(username);
     if(duplicateUsername.length>0){
+        console.log("duplicate");
       return {duplicate:true, message:'Username already exists!'};
     }
 
-    const duplicateEmail = await userRepository.getUserbyEmail(email);
-    if(duplicateEmail.length>0){
-      return {duplicate:true, message:'Email already exists!'};
-    }
+    // const duplicateEmail = await userRepository.getUserbyEmail(email);
+    // if(duplicateEmail.length>0){
+    //   return {duplicate:true, message:'Email already exists!'};
+    // }
 
-    return {duplicate:false, message:'Username and email are unique'};
+    // return {duplicate:false, message:'Username and email are unique'};
 }
 
 function checkUsernameValid(username){

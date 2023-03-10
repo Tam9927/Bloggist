@@ -3,11 +3,8 @@ const UserService = require('../Services/UserService')
 
  async function getAllUsers (req,res)
 {
-  
-   const data = await UserService.FindAllUsers();
+  const data = await UserService.FindAllUsers();
    res.status(200).send(data);
-    
-
 };
 
 async function getUser(req,res) 
@@ -23,6 +20,7 @@ async function getUser(req,res)
 
 async function createUser(req, res) {
   
+  // console.log(req.body);
   const data = await UserService.createUser(req.body);
   res.status(200).send(data);
 
@@ -32,11 +30,8 @@ async function createUser(req, res) {
 
 async function updateUser (req,res) {
 
-  console.log("yes")
   const data = await UserService.updateUser(req.params.username,req.body);
-  console.log(req.body)
   res.status(200).send(data);
-
 
 }
 

@@ -16,6 +16,4 @@ UserRouter.put("/:username" , UserController.updateUser);
 UserRouter.delete("/:username",UserController.deleteUser);
 
 
-
-        
 module.exports = UserRouter;
