@@ -1,12 +1,10 @@
-
-
-const { query } = require("express");
+ const express =require("express");
 const db = require("../Configs/db.config");
 const controller= require ("../Controller/UserController");
+const UserDTO = require('../DTO/user.dto')
 
 
-
-function makeQuery(sql, params) {
+function doQuery(sql, params) {
   return new Promise((resolve, reject) => {
     db.query(sql, params, (error, results) => {
       if (error) {
@@ -23,34 +21,38 @@ function makeQuery(sql, params) {
 
  async function getAllUsers() {
    
-  try{
-    const data = "SELECT * FROM users";
-    const result = await makeQuery(data);
+  const query = "SELECT * FROM users";
+  const result = await doQuery(query);
 
-    return result;
-  } catch(err){
-    console.log(err.stack);
-    throw err;
-  }
+  const allUsers = [];
 
-    }
+  result.forEach(element => {
+
+    allUsers.push(new UserDTO(element));
+
+  });
+
+  console.log(allUsers);
+  return allUsers;
+
+}
 
 async function getUser(username) {
 
-  const result = await makeQuery(
+  const result = await doQuery(
     "SELECT * FROM users where `username` = ?",
     [username]
   );    
 
   return result;
+
 }
 
-async function createUser(id, name,email,password,username){
+async function createUser(id,email,password,username){
 
-
-  const result = await makeQuery(
-    "INSERT INTO users(id, name, email, password, username) VALUES (?, ?, ?, ? , ?) ",
-    [id, name, email, password, username]
+  const result = await doQuery(
+    "INSERT INTO users(id,email, password,username,CreatedAt,UpdatedAt) VALUES (?,?, ?, ? ,now(),now()) ",
+    [id, email, password, username]
   );
   console.log("User created successfully");
   return result;
@@ -61,31 +63,23 @@ async function createUser(id, name,email,password,username){
 
 async function deleteUser(username){
 
-const result = await makeQuery(
+const result = await doQuery(
     "DELETE FROM users where `Username` = ?",
     [username]
   );
-  return resu
+  return result
 
 }
 
 async function updateUser (username , password) {
 
-  console.log(username)
-  console.log(password)
-
-  const result = await makeQuery(
-    "UPDATE users SET `password`= ? where `username` = ?",
+  const result = await doQuery(
+    "UPDATE users SET `password`= ?, `updatedAt`=now() where `username` = ?",
     [password,username]
   );
   return result;
 
 }
-
-
-
-
-
 
 
 
