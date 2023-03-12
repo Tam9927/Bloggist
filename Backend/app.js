@@ -4,6 +4,7 @@ const UserRouter = require('./Router/user.router')
 const db = require('./Configs/db.config');
 const PORT = process.env.PORT || 4000;
 
+db.connectToDB();
 
  app.use(express.json());
 

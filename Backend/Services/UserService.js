@@ -1,66 +1,78 @@
 const UserRepository = require("../repository/user.repository");
 const userUtils = require("../utils/Validation");
+const userDuplicate = require("../utils/Duplication");
 const validator = require("email-validator");
 const crypto = require("crypto");
 const bcrypt = require("bcrypt");
-const uuid=require("uuid");
+const uuid = require("uuid");
 
 function isAlphaNumeric(str) {
   const alphanumericRegex = /^[a-zA-Z0-9]+$/;
   return alphanumericRegex.test(str);
 }
 
-function validateEmail(email) {
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  return emailRegex.test(email);
-}
-
-function checkPassword(password) {
-  if (password.length >= 6) {
-    return true;
-  } else {
-    return false;
-  }
-}
-
 async function FindAllUsers() {
-  const data = await UserRepository.getAllUsers();
-  return data;
+
+   try{ console.log('h')
+     const data = await UserRepository.getAllUsers();
+      if (data.length == 0) {
+        return { status: 200, message: "Users table is empty!" };
+     }
+    return { status: 200, message: data };
+   } catch {
+     return { status: 500, message: "Internal server error!" };
+   }
+  
 }
 
 async function FindUser(username) {
-  const result = await UserRepository.getUser(username.toLowerCase());
-  return result;
+  try {
+    const result = await UserRepository.getUser(
+      username.toLowerCase()
+    );
+    if (result.length == 0) {
+      return { status: 404, message: "User not found" };
+    }
+    return { status: 200, message: "User Found", result };
+  } 
+  catch {
+    return { status: 404, message: "Some Error" };
+  }
+}
+
+async function FindEmail(email) {
+  
+    const duplicateEmail = await UserRepository.getEmail(email);
+    if(duplicateEmail.length>0){
+      return {status:200, message:"User Found"};
+    }
+  
+    return {status:404, message:'User not found'};
+  
 }
 
 async function createUser(user) {
-  
-  if(user.email == undefined || user.password == undefined ||user.username == undefined){
-    return {status:401, message:'Please enter all the fields'};
+  const userValid = userUtils.userValidator(
+    user.username,
+    user.email,
+    user.password
+  );
+  if (!userValid.valid) {
+    return { status: 400, message: userValid.message };
   }
 
-  if(user.username.length == 0 || user.email.length == 0 || user.password.length == 0){
-    return {status:401, message:'Some fields are empty!'};
+  const usernameDuplicate = await FindUser(user.username);
+  if (usernameDuplicate.status == 200) {
+    return { status: 400, message: "Username already exists!" };
   }
 
-  if(!checkUsernameValid(user.username)){
-    return {status:401, message:'Username cannot contain space and special characters!'};
+  const emailDuplicate = await FindEmail(user.email);
+  if (emailDuplicate.status == 200) {
+    return { status: 400, message: "Email is already in use!" };
   }
 
-  if(!checkPasswordValid(user.password)){
-    return {status:401, message:'Password must contain atleast 6 characters'};
-  }
-
-  if(!checkEmailValid(user.email)){
-    return {status:401, message:'Email is not valid'};
-  }
-
-  if(await usernameExists(user.username)){
-    return {status:401, message: 'Username already exists!'};
-  }
-
-
-try {
+  try {
+    
     const id = crypto.randomUUID();
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(user.password, salt);
@@ -72,9 +84,7 @@ try {
       user.username.toLowerCase()
     );
     return { status: 201, message: "User created successfully" };
-  } 
-  
-    catch {
+  } catch {
     return { status: 400, message: "Please check your credentials again" };
   }
 }
@@ -89,7 +99,7 @@ async function deleteUser(username) {
 
     return { status: 200, message: "User removed" };
   } catch {
-    return { status: 404, message: "User not found" };
+    return { status: 404, message: "Error" };
   }
 }
 
@@ -108,48 +118,10 @@ async function updateUser(username, user) {
   }
 }
 
-
-function checkUsernameValid(username){
-
-  const usernameValidCheck = /[^A-Za-z0-9]/;
-  if(usernameValidCheck.test(username)){
-    return false;
-  }
-  return true;
-}
-
-function checkPasswordValid(password){
-  if(password.length < 6){
-      return false;
-  }
-  return true;
-}
-
-function checkEmailValid(email){
-  if(validator.validate(email)){
-      return true;
-  }
-  else{
-      return false;
-  }
-}
-
-async function usernameExists(username){
-const data = await UserRepository.getUser(username);
-if(data.length == 0){
-  return false;
-}
-else{
-  return true;
-}
-}
-
-
-
-
 module.exports = {
   FindAllUsers,
   FindUser,
+  FindEmail,
   deleteUser,
   createUser,
   updateUser,
