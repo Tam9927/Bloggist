@@ -1,6 +1,6 @@
 const UserRepository = require("../repository/user.repository");
 const userUtils = require("../utils/Validation");
-const userDuplicate = require("../utils/Duplication");
+const userDuplicate = require("../utils/Hashing");
 const validator = require("email-validator");
 const crypto = require("crypto");
 const bcrypt = require("bcrypt");

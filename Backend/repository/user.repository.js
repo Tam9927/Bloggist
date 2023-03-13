@@ -108,12 +108,9 @@ console.log(result);
 
 async function updateUser (username , password) {
 
-  const result = await user.findAll({
-
-    where:{
-      username
-    }
-}).create({password});
+  const result = await user.update({password:updatedPassword},{where:{username:username}});
+  console.log(result);
+  return result;
 
 
   
