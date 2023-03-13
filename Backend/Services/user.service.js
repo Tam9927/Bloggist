@@ -1,15 +1,11 @@
 const UserRepository = require("../repository/user.repository");
 const userUtils = require("../utils/validation");
-const userDuplicate = require("../utils/hashing");
+const hashPassword = require("../utils/hashing");
 const validator = require("email-validator");
 const crypto = require("crypto");
 const bcrypt = require("bcrypt");
 const uuid = require("uuid");
 
-// function isAlphaNumeric(str) {
-//   const alphanumericRegex = /^[a-zA-Z0-9]+$/;
-//   return alphanumericRegex.test(str);
-// }
 
 async function findAllUsers() {
   try {
@@ -36,7 +32,6 @@ async function findUserName(username) {
 }
 
 async function findByEmail(email) {
-  
   const Email = await UserRepository.getUserByEmail(email);
   if (Email.length > 0) {
     return { status: 200, message: "User Found" };
@@ -76,6 +71,7 @@ async function createUser(user) {
       hashedPassword,
       user.username.toLowerCase()
     );
+    console.log(data);
     return { status: 201, message: "User created successfully" };
   } catch {
     return { status: 400, message: "Please check your credentials again" };
@@ -86,7 +82,7 @@ async function deleteUser(username) {
   try {
     const result = await UserRepository.deleteUser(username.toLowerCase());
 
-    if (result.affectedRows == 0) {
+    if (!result) {
       return { status: 404, message: "User not found" };
     }
 
@@ -98,11 +94,15 @@ async function deleteUser(username) {
 
 async function updateUser(username, user) {
   try {
-    //const hashedPassword = await hashPassword(user.password);
+    
+    const hashedPassword = await hashPassword.hashingPassword(user.password)
 
-    const result = await UserRepository.updateUser(username, user.Password);
+    const result = await UserRepository.updateUser(
+      username.toLowerCase(),
+      hashedPassword
+    );
 
-    if (result.affectedRows == 0) {
+    if (result == 0) {
       return { status: 404, message: "User not found" };
     }
     return { status: 200, message: "User updated" };

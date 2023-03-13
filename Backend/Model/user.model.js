@@ -8,12 +8,13 @@ const user = sequelize.define(
     id: {
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV4,
-      primaryKey: true
+      primaryKey: true,
+      
     },
 
     username: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull:false,
       unique: true,
       validate:{
           notNull:{msg:'Please enter your username'}
@@ -34,7 +35,8 @@ const user = sequelize.define(
     },
     password: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
+      isAlphanumeric:{msg:'Username must be Alphanumeric'}
     }
   },
   {
@@ -42,19 +44,14 @@ const user = sequelize.define(
   }
 );
 
-// async function SyncTable(){
 
-// await user.sequelize.sync({ force: true });
+ async function test(){
 
-// console.log("All models were synchronized successfully.");
+  await sequelize.sync();
+  console.log("All models were synchronized successfully.");
 
-// }
+ }
 
-// (async () => {
-//   await sequelize.sync({ force: true });
-//   // Code here
-// })();
-
+test();
 
 module.exports = user;
-//user===sequelie.models

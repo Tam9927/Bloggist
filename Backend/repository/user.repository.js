@@ -56,11 +56,14 @@ async function deleteUser(username) {
 }
 
 async function updateUser(username, password) {
+  // console.log(username)
+  // console.log(password)
   const result = await user.update(
-    { password: updatedPassword },
-    { where: { username: username } }
+    { password },
+    { where: { username,
+     }, }
   );
-  console.log(result);
+  //console.log(result);
   return result;
 }
 
