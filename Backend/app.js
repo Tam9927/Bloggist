@@ -29,7 +29,7 @@ app.use('*', (req, res) => {
       message: 'Page not found',
       error: {
         statusCode: 404,
-        message: 'You reached a route that is not defined on this server',
+        message: 'This Route is not Valid',
       },
     });
 });

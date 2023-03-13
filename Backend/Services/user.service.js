@@ -1,54 +1,48 @@
 const UserRepository = require("../repository/user.repository");
-const userUtils = require("../utils/Validation");
-const userDuplicate = require("../utils/Hashing");
+const userUtils = require("../utils/validation");
+const userDuplicate = require("../utils/hashing");
 const validator = require("email-validator");
 const crypto = require("crypto");
 const bcrypt = require("bcrypt");
 const uuid = require("uuid");
 
-function isAlphaNumeric(str) {
-  const alphanumericRegex = /^[a-zA-Z0-9]+$/;
-  return alphanumericRegex.test(str);
-}
+// function isAlphaNumeric(str) {
+//   const alphanumericRegex = /^[a-zA-Z0-9]+$/;
+//   return alphanumericRegex.test(str);
+// }
 
-async function FindAllUsers() {
-
-   try{ console.log('h')
-     const data = await UserRepository.getAllUsers();
-      if (data.length == 0) {
-        return { status: 200, message: "Users table is empty!" };
-     }
-    return { status: 200, message: data };
-   } catch {
-     return { status: 500, message: "Internal server error!" };
-   }
-  
-}
-
-async function FindUser(username) {
+async function findAllUsers() {
   try {
-    const result = await UserRepository.getUser(
-      username.toLowerCase()
-    );
-    if (result.length == 0) {
-      return { status: 404, message: "User not found" };
+    const data = await UserRepository.getAllUsers();
+    if (data.length == 0) {
+      return { status: 200, message: "Users table is empty!" };
     }
-    return { status: 200, message: "User Found", result };
-  } 
-  catch {
-    return { status: 404, message: "Some Error" };
+    return { status: 200, message: data };
+  } catch {
+    return { status: 500, message: "Internal server error!" };
   }
 }
 
-async function FindEmail(email) {
-  
-    const duplicateEmail = await UserRepository.getEmail(email);
-    if(duplicateEmail.length>0){
-      return {status:200, message:"User Found"};
+async function findUserName(username) {
+  try {
+    const result = await UserRepository.getUserName(username.toLowerCase());
+    if (result.length == 0) {
+      return { status: 404, message: "User not found" };
     }
+    return { status: 200, message: result };
+  } catch {
+    return { status: 400, message: "Internal Error" };
+  }
+}
+
+async function findByEmail(email) {
   
-    return {status:404, message:'User not found'};
-  
+  const Email = await UserRepository.getUserByEmail(email);
+  if (Email.length > 0) {
+    return { status: 200, message: "User Found" };
+  }
+
+  return { status: 404, message: "User not found" };
 }
 
 async function createUser(user) {
@@ -61,18 +55,17 @@ async function createUser(user) {
     return { status: 400, message: userValid.message };
   }
 
-  const usernameDuplicate = await FindUser(user.username);
+  const usernameDuplicate = await findUserName(user.username);
   if (usernameDuplicate.status == 200) {
-    return { status: 400, message: "Username already exists!" };
+    return { status: 400, message: "Username already used!" };
   }
 
-  const emailDuplicate = await FindEmail(user.email);
+  const emailDuplicate = await findByEmail(user.email);
   if (emailDuplicate.status == 200) {
     return { status: 400, message: "Email is already in use!" };
   }
 
   try {
-    
     const id = crypto.randomUUID();
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(user.password, salt);
@@ -99,7 +92,7 @@ async function deleteUser(username) {
 
     return { status: 200, message: "User removed" };
   } catch {
-    return { status: 404, message: "Error" };
+    return { status: 400, message: "An Error Occured" };
   }
 }
 
@@ -119,9 +112,9 @@ async function updateUser(username, user) {
 }
 
 module.exports = {
-  FindAllUsers,
-  FindUser,
-  FindEmail,
+  findAllUsers,
+  findUserName,
+  findByEmail,
   deleteUser,
   createUser,
   updateUser,
