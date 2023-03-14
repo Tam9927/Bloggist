@@ -1,5 +1,8 @@
-const express = require("express");
-const UserService = require("../Services/user.service");
+const express = require('express');
+const UserService = require('../Services/user.service');
+
+
+
 
 async function getAllUsers(req, res) {
   const data = await UserService.findAllUsers();

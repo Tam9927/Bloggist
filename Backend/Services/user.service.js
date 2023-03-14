@@ -1,10 +1,10 @@
-const UserRepository = require("../repository/user.repository");
-const userUtils = require("../utils/validation");
-const hashPassword = require("../utils/hashing");
-const validator = require("email-validator");
-const crypto = require("crypto");
-const bcrypt = require("bcrypt");
-const uuid = require("uuid");
+const UserRepository = require('../repository/user.repository');
+const userUtils = require('../utils/validation');
+const hashPassword = require('../utils/hashing');
+const validator = require('email-validator');
+const crypto = require('crypto');
+const bcrypt = require('bcrypt');
+const uuid = require('uuid');
 
 
 async function findAllUsers() {
@@ -14,7 +14,8 @@ async function findAllUsers() {
       return { status: 200, message: "Users table is empty!" };
     }
     return { status: 200, message: data };
-  } catch {
+  } 
+  catch {
     return { status: 500, message: "Internal server error!" };
   }
 }

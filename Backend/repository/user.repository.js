@@ -5,7 +5,8 @@ const controller = require("../Controller/user.controller");
 const UserDTO = require("../DTO/user.dto");
 
 async function getAllUsers() {
-  const result = await user.findAll();
+  try{
+    const result = await user.findAll();
 
   const allUsers = [];
 
@@ -17,8 +18,15 @@ async function getAllUsers() {
   return allUsers;
 }
 
+catch (err) {
+  throw console.error(err);
+}
+
+}
+
 async function getUserName(username) {
-  const result = await user.findAll({
+  try{
+    const result = await user.findAll({
     where: {
       username,
     },
@@ -27,8 +35,14 @@ async function getUserName(username) {
   return result;
 }
 
+catch (err) {
+  throw console.error(err);
+}
+
+}
+
 async function getUserByEmail(email) {
-  const result = await user.findAll({
+  try{const result = await user.findAll({
     where: {
       email,
     },
@@ -37,34 +51,56 @@ async function getUserByEmail(email) {
   return result;
 }
 
+catch (err) {
+  throw console.error(err);
+}
+
+}
+
 async function createUser(id, email, password, username) {
-  const result = await user.create({ id, email, password, username });
+  try{
+    const result = await user.create({ id, email, password, username });
 
   console.log("User created successfully");
   return result;
+  }
+  catch (err) {
+    throw console.error(err);
+  }
+
 }
 
 async function deleteUser(username) {
-  const result = await user.destroy({
+  try{
+    const result = await user.destroy({
     where: {
       username,
     },
   });
 
-  console.log(result);
   return result;
+}
+catch (err) {
+    throw console.error(err);
+  }
+
 }
 
 async function updateUser(username, password) {
-  // console.log(username)
-  // console.log(password)
-  const result = await user.update(
+  try{
+    const result = await user.update(
     { password },
     { where: { username,
      }, }
   );
-  //console.log(result);
+
   return result;
+    }
+    
+    catch (err) {
+      throw console.error(err);
+    }
+
 }
 
 module.exports = {
