@@ -4,8 +4,9 @@ const UserRegisterDTO = require("../DTO/user.register.dto");
 async function register(user) {
   const userToRegister = new UserRegisterDTO(user);
   try {
-    const result = await User.create(userToRegister);
+    let result = await User.create(userToRegister);
     console.log("User created successfully");
+    result = new UserRegisterDTO(result);
     return result;
   } catch (err) {
     throw console.error(err);

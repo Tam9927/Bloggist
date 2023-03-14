@@ -1,11 +1,9 @@
-const UserRepository = require('../repository/user.repository');
-const userUtils = require('../utils/validation');
-const hashPassword = require('../utils/hashing');
-const validator = require('email-validator');
-const crypto = require('crypto');
-const bcrypt = require('bcrypt');
-const uuid = require('uuid');
-
+const UserRepository = require("../repository/user.repository");
+const userUtils = require("../utils/user.utils");
+const validator = require("email-validator");
+const crypto = require("crypto");
+const bcrypt = require("bcrypt");
+const uuid = require("uuid");
 
 async function findAllUsers() {
   try {
@@ -14,8 +12,7 @@ async function findAllUsers() {
       return { status: 200, message: "Users table is empty!" };
     }
     return { status: 200, message: data };
-  } 
-  catch {
+  } catch {
     return { status: 500, message: "Internal server error!" };
   }
 }
@@ -95,8 +92,7 @@ async function deleteUser(username) {
 
 async function updateUser(username, user) {
   try {
-    
-    const hashedPassword = await hashPassword.hashingPassword(user.password)
+    const hashedPassword = await hashPassword.hashingPassword(user.password);
 
     const result = await UserRepository.updateUser(
       username.toLowerCase(),

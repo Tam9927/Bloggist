@@ -1,12 +1,13 @@
 const express = require("express");
 const database = require("../Configs/db.config");
-const user = require("../Model/user.model");
+const User = require("../Model/user.model");
 const controller = require("../Controller/user.controller");
 const UserDTO = require("../DTO/user.dto");
+const UserRegisterDTO = require('../DTO/user.register.dto')
 
 async function getAllUsers() {
   try{
-    const result = await user.findAll();
+    const result = await User.findAll();
 
   const allUsers = [];
 
@@ -26,7 +27,7 @@ catch (err) {
 
 async function getUserName(username) {
   try{
-    const result = await user.findAll({
+    const result = await User.findAll({
     where: {
       username,
     },
@@ -42,7 +43,7 @@ catch (err) {
 }
 
 async function getUserByEmail(email) {
-  try{const result = await user.findAll({
+  try{const result = await User.findAll({
     where: {
       email,
     },
@@ -57,22 +58,22 @@ catch (err) {
 
 }
 
-async function createUser(id, email, password, username) {
-  try{
-    const result = await user.create({ id, email, password, username });
+// async function createUser(id, email, password, username) {
+//   try{
+//     const result = await user.create({ id, email, password, username });
 
-  console.log("User created successfully");
-  return result;
-  }
-  catch (err) {
-    throw console.error(err);
-  }
+//   console.log("User created successfully");
+//   return result;
+//   }
+//   catch (err) {
+//     throw console.error(err);
+//   }
 
-}
+// }
 
 async function deleteUser(username) {
   try{
-    const result = await user.destroy({
+    const result = await User.destroy({
     where: {
       username,
     },
@@ -88,7 +89,7 @@ catch (err) {
 
 async function updateUser(username, password) {
   try{
-    const result = await user.update(
+    const result = await User.update(
     { password },
     { where: { username,
      }, }
@@ -96,18 +97,30 @@ async function updateUser(username, password) {
 
   return result;
     }
-    
+
     catch (err) {
       throw console.error(err);
     }
 
 }
 
+async function register(user) {
+  const userToRegister = new UserRegisterDTO(user);
+  try {
+    const result = await User.create(userToRegister);
+    console.log("User created successfully");
+    return result;
+  } catch (err) {
+    throw console.error(err);
+  }
+}
+
 module.exports = {
   getAllUsers,
   getUserName,
   getUserByEmail,
-  createUser,
+  //createUser,
   deleteUser,
   updateUser,
+  register
 };

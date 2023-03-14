@@ -1,31 +1,26 @@
-//json.sign
-const jwt = require('jsonwebtoken');
-const authService = require('../Services/auth.service');
-require('dotenv').config();
+require("dotenv").config();
+const authService = require("../Services/auth.service");
+const userUtils = require("../utils/user.utils");
+const jwt = require("jsonwebtoken");
 
 async function registerUser(req, res) {
   try {
     const data = await authService.register(req.body);
+
     if (data) {
-      let accesstoken = jwt.sign(
-        { username: data.username },
-        process.env.ACCESS_TOKEN_SECRET,
-        {
-          algorithm: "HS256",
-          expiresIn: process.env.ACCESS_TOKEN_LIFE,
-        }
-      );
-
-      res.cookie("jwt", accesstoken, { secure: true, httpOnly: true });
-
-      res.status(200).send(data);
-        console.log(data);
-
+      res
+        .status(200)
+        .cookie("jwt", userUtils.generateToken(req.params.username), {
+          httpOnly: true,
+        })
+        .json({
+          success: true,
+        });
     } else {
-      res.status(400).send("Please try again");
+      res.status(data.status).send(data.message);
     }
-  }
-  catch (err) {
+  } catch (err) {
+    console.log(err);
     res.status(400).send("An error occured");
   }
 }
@@ -33,21 +28,18 @@ async function registerUser(req, res) {
 async function loginUser(req, res) {
   try {
     const data = await authService.login(req.body);
-
+    //console.log(data);
     if (data) {
-      console.log(data);
-      let accesstoken = jwt.sign(
-        { username: data.username },
-        process.env.ACCESS_TOKEN_SECRET,
-        {
-          algorithm: "HS256",
-          expiresIn: process.env.ACCESS_TOKEN_LIFE,
-        }
-      );
+      res
+        .status(200)
+        .cookie("jwt", userUtils.generateToken(req.params.username), {
+          httpOnly: true,
+        })
+        .json({
+          success: true,
+        });
 
-      res.cookie("jwt", accesstoken, { secure: true, httpOnly: true });
-
-      res.status(200).send("User is logged in");
+      console.log(userUtils.generateToken(req.params.username));
     } else {
       res.status(400).send("Incorrect username or password");
     }
@@ -56,5 +48,4 @@ async function loginUser(req, res) {
   }
 }
 
-module.exports = {registerUser,loginUser}
-
+module.exports = { registerUser, loginUser };

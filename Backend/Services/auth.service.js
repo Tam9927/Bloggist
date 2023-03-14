@@ -1,6 +1,6 @@
-const userUtils = require('../utils/validation');
-const authRepository = require('../repository/auth.repository');
-const bcrypt = require('bcrypt');
+const userUtils = require("../utils/user.utils");
+const authRepository = require("../repository/auth.repository");
+const bcrypt = require("bcrypt");
 
 async function register(user) {
   const userValid = userUtils.userValidator(
@@ -14,6 +14,11 @@ async function register(user) {
   }
 
   try {
+    //const id = crypto.randomUUID();
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(user.password, salt);
+    user.password = hashedPassword;
+
     const result = await authRepository.register(user);
     return result;
   } catch (err) {
@@ -26,11 +31,19 @@ async function login(user) {
     const userExists = await authRepository.checkUserExists(
       user.username.toLowerCase()
     );
+
+    // console.log(user.password);
+    // console.log(userExists.password);
+
     if (userExists) {
       const validPass = await bcrypt.compare(
         user.password,
         userExists.password
       );
+      console.log(user.password);
+      console.log(userExists.password);
+
+      console.log(validPass);
       if (!validPass) {
         return false;
       }

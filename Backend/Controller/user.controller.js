@@ -1,8 +1,6 @@
-const express = require('express');
-const UserService = require('../Services/user.service');
-
-
-
+const express = require("express");
+const UserService = require("../Services/user.service");
+require("dotenv").config();
 
 async function getAllUsers(req, res) {
   const data = await UserService.findAllUsers();
@@ -19,7 +17,6 @@ async function getUser(req, res) {
 }
 
 async function createUser(req, res) {
-
   const data = await UserService.createUser(req.body);
   res.status(data.status).send(data.message);
 }
