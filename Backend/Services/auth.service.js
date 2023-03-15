@@ -14,7 +14,7 @@ async function register(user) {
     return { status: 400, message: userValid.message };
   }
 
-  const usernameDuplicate = await UserService.findUserName(user.username);
+  const usernameDuplicate = await UserService.findUserByName(user.username);
   if (usernameDuplicate.status == 200) {
     return { status: 400, message: "Username already used!" };
   }
