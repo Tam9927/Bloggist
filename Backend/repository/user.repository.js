@@ -62,7 +62,6 @@ async function register(user) {
   }
 }
 
-//REPO FUNCTION EKTAI
 async function getUserByName(username) {
   try {
     const result = await User.findOne({ where: { username } });

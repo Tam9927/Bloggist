@@ -29,7 +29,6 @@ async function registerUser(req, res) {
 async function loginUser(req, res) {
   try {
     const data = await authService.loginUser(req.body);
-    console.log(data);
     if (data) {
       const accesstoken = userUtils.generateToken(req.params.username);
       res
@@ -38,7 +37,7 @@ async function loginUser(req, res) {
           httpOnly: true,
         })
         .json({
-          success: true,
+          success:"logged in",
         });
     } else {
       res.status(401).send("Incorrect username or password");
