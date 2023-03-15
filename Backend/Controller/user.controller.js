@@ -12,7 +12,7 @@ async function getUser(req, res) {
     return res.status(400).send({ message: "Invalid request parameter!" });
   }
 
-  const data = await UserService.findUserName(req.params.username);
+  const data = await UserService.findUserByName(req.params.username);
   res.status(data.status).send(data.message);
 }
 

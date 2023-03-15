@@ -35,6 +35,20 @@ function generateToken(username) {
   return accesstoken;
 }
 
+function removeToken(res){
+
+    res.status(200)
+    .cookie('jwt', null, {
+        expiresIn: new Date(Date.now())
+    }, 
+    {httpOnly: true})
+    .json({
+        success: true,
+        message: "Logged Out"
+    });
+
+}
+
 function checkUsernameValid(username) {
   const usernameValidCheck = /[^A-Za-z0-9]/;
   if (usernameValidCheck.test(username)) {
@@ -64,4 +78,6 @@ module.exports = {
   checkPasswordValid,
   checkEmailValid,
   generateToken,
+  removeToken
+
 };

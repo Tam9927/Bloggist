@@ -1,6 +1,6 @@
 const userUtils = require("../utils/user.utils");
-const authRepository = require("../repository/auth.repository");
-const UserRepository = require('../repository/user.repository')
+const UserRepository = require("../repository/user.repository");
+const UserService = require("../Services/user.service");
 const bcrypt = require("bcrypt");
 
 async function register(user) {
@@ -14,34 +14,37 @@ async function register(user) {
     return { status: 400, message: userValid.message };
   }
 
+  const usernameDuplicate = await UserService.findUserName(user.username);
+  if (usernameDuplicate.status == 200) {
+    return { status: 400, message: "Username already used!" };
+  }
+
+  const emailDuplicate = await UserService.findByEmail(user.email);
+  if (emailDuplicate.status == 200) {
+    return { status: 400, message: "Email is already in use!" };
+  }
+
   try {
-    //const id = crypto.randomUUID();
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(user.password, salt);
     user.password = hashedPassword;
 
-    const result = await UserRepository.register(user);
+    const result = await UserService.registerUser(user);
     return result;
   } catch (err) {
     throw err;
   }
 }
 
-async function login(user) {
+async function loginUser(user) {
   try {
-    const userExists = await UserRepository.getUserName(
-      user.username.toLowerCase()
-    );
+    const name = user.username.toLowerCase();
+    const userExists = await UserService.loginUser(name);
+    const password = userExists.message.password;
 
-    if (userExists) {
-      const validPass = await bcrypt.compare(
-        user.password,
-        userExists.password
-      );
-      console.log(user.password);
-      console.log(userExists.password);
+    if (password) {
+      const validPass = await bcrypt.compare(user.password, password);
 
-      console.log(validPass);
       if (!validPass) {
         return false;
       }
@@ -54,4 +57,4 @@ async function login(user) {
   }
 }
 
-module.exports = { register, login };
+module.exports = { register, loginUser };

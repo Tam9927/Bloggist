@@ -8,9 +8,10 @@ async function registerUser(req, res) {
     const data = await authService.register(req.body);
 
     if (data) {
+      const accesstoken = userUtils.generateToken(req.params.username);
       res
         .status(200)
-        .cookie("jwt", userUtils.generateToken(req.params.username), {
+        .cookie("jwt", accesstoken, {
           httpOnly: true,
         })
         .json({
@@ -27,25 +28,32 @@ async function registerUser(req, res) {
 
 async function loginUser(req, res) {
   try {
-    const data = await authService.login(req.body);
-    //console.log(data);
+    const data = await authService.loginUser(req.body);
+    console.log(data);
     if (data) {
+      const accesstoken = userUtils.generateToken(req.params.username);
       res
         .status(200)
-        .cookie("jwt", userUtils.generateToken(req.params.username), {
+        .cookie("jwt", accesstoken, {
           httpOnly: true,
         })
         .json({
           success: true,
         });
-
-      console.log(userUtils.generateToken(req.params.username));
     } else {
-      res.status(400).send("Incorrect username or password");
+      res.status(401).send("Incorrect username or password");
     }
   } catch (err) {
-    res.status(400).send("An error occured");
+    res.status(401).send("An error occured");
   }
 }
 
-module.exports = { registerUser, loginUser };
+async function logoutUser(req, res) {
+  try {
+    userUtils.removeToken(res);
+  } catch (err) {
+    res.status(404).send("No user was logged in");
+  }
+}
+
+module.exports = { registerUser, loginUser, logoutUser };

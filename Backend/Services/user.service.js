@@ -1,5 +1,6 @@
 const UserRepository = require("../repository/user.repository");
 const userUtils = require("../utils/user.utils");
+const UserDTO = require('../DTO/user.dto')
 const validator = require("email-validator");
 const crypto = require("crypto");
 const bcrypt = require("bcrypt");
@@ -11,19 +12,28 @@ async function findAllUsers() {
     if (data.length == 0) {
       return { status: 200, message: "Users table is empty!" };
     }
-    return { status: 200, message: data };
+
+    const allUsers = [];
+    data.forEach((element) => {
+      allUsers.push(new UserDTO(element));
+    });
+
+    return { status: 200, message: allUsers };
   } catch {
     return { status: 500, message: "Internal server error!" };
   }
 }
 
-async function findUserName(username) {
+async function findUserByName(username) {
   try {
-    const result = await UserRepository.getUserName(username.toLowerCase());
+    
+    const result = await UserRepository.getUserByName(username.toLowerCase());
     if (result.length == 0) {
       return { status: 404, message: "User not found" };
     }
-    return { status: 200, message: result };
+
+    const user = new UserDTO(result)
+    return { status: 200, message: user };
   } catch {
     return { status: 400, message: "Internal Error" };
   }
@@ -38,39 +48,11 @@ async function findByEmail(email) {
   return { status: 404, message: "User not found" };
 }
 
-async function createUser(user) {
-  const userValid = userUtils.userValidator(
-    user.username,
-    user.email,
-    user.password
-  );
-  if (!userValid.valid) {
-    return { status: 400, message: userValid.message };
-  }
-
-  const usernameDuplicate = await findUserName(user.username);
-  if (usernameDuplicate.status == 200) {
-    return { status: 400, message: "Username already used!" };
-  }
-
-  const emailDuplicate = await findByEmail(user.email);
-  if (emailDuplicate.status == 200) {
-    return { status: 400, message: "Email is already in use!" };
-  }
-
+async function registerUser(user) {
+  
   try {
-    const id = crypto.randomUUID();
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(user.password, salt);
-
-    const data = await UserRepository.createUser(
-      id,
-      user.email,
-      hashedPassword,
-      user.username.toLowerCase()
-    );
-    console.log(data);
-    return { status: 201, message: "User created successfully" };
+    const data = await UserRepository.register(user);
+    return data;
   } catch {
     return { status: 400, message: "Please check your credentials again" };
   }
@@ -110,11 +92,26 @@ async function updateUser(username, user) {
   }
 }
 
+async function loginUser(username){
+
+  try {
+    const result = await UserRepository.getUserByName(username.toLowerCase());
+    if (result.length == 0) {
+      return { status: 404, message: "User not found" };
+    }
+    return { status: 200, message: result };
+  } catch {
+    return { status: 400, message: "Internal Error" };
+  }
+
+}
+
 module.exports = {
   findAllUsers,
-  findUserName,
+  findUserByName,
   findByEmail,
   deleteUser,
-  createUser,
   updateUser,
+  registerUser,
+  loginUser
 };
