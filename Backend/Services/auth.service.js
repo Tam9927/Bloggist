@@ -1,5 +1,6 @@
 const userUtils = require("../utils/user.utils");
 const authRepository = require("../repository/auth.repository");
+const UserRepository = require('../repository/user.repository')
 const bcrypt = require("bcrypt");
 
 async function register(user) {
@@ -19,7 +20,7 @@ async function register(user) {
     const hashedPassword = await bcrypt.hash(user.password, salt);
     user.password = hashedPassword;
 
-    const result = await authRepository.register(user);
+    const result = await UserRepository.register(user);
     return result;
   } catch (err) {
     throw err;
@@ -28,12 +29,9 @@ async function register(user) {
 
 async function login(user) {
   try {
-    const userExists = await authRepository.checkUserExists(
+    const userExists = await UserRepository.getUserName(
       user.username.toLowerCase()
     );
-
-    // console.log(user.password);
-    // console.log(userExists.password);
 
     if (userExists) {
       const validPass = await bcrypt.compare(

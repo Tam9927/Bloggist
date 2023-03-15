@@ -92,7 +92,9 @@ async function deleteUser(username) {
 
 async function updateUser(username, user) {
   try {
-    const hashedPassword = await hashPassword.hashingPassword(user.password);
+
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(user.password, salt);
 
     const result = await UserRepository.updateUser(
       username.toLowerCase(),

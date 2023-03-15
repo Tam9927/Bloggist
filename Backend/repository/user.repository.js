@@ -25,23 +25,6 @@ catch (err) {
 
 }
 
-async function getUserName(username) {
-  try{
-    const result = await User.findAll({
-    where: {
-      username,
-    },
-  });
-
-  return result;
-}
-
-catch (err) {
-  throw console.error(err);
-}
-
-}
-
 async function getUserByEmail(email) {
   try{const result = await User.findAll({
     where: {
@@ -58,18 +41,6 @@ catch (err) {
 
 }
 
-// async function createUser(id, email, password, username) {
-//   try{
-//     const result = await user.create({ id, email, password, username });
-
-//   console.log("User created successfully");
-//   return result;
-//   }
-//   catch (err) {
-//     throw console.error(err);
-//   }
-
-// }
 
 async function deleteUser(username) {
   try{
@@ -115,12 +86,21 @@ async function register(user) {
   }
 }
 
+async function getUserName(username) {
+  try {
+    const result = await User.findOne({ where: { username } });
+    return result;
+  } catch (err) {
+    console.log(err.stack);
+    throw err;
+  }
+}
+
 module.exports = {
   getAllUsers,
   getUserName,
   getUserByEmail,
-  //createUser,
   deleteUser,
   updateUser,
-  register
+  register,
 };
