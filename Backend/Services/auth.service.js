@@ -2,6 +2,7 @@ const userUtils = require("../utils/user.utils");
 const UserRepository = require("../repository/user.repository");
 const UserService = require("../Services/user.service");
 const bcrypt = require("bcrypt");
+require("dotenv").config();
 
 async function register(user) {
   const userValid = userUtils.userValidator(
@@ -14,9 +15,9 @@ async function register(user) {
     return { status: 400, message: userValid.message };
   }
 
-  const usernameDuplicate = await UserService.findUserByName(user.username);
+  const usernameDuplicate = await UserService.findUserByUserName(user.username);
   if (usernameDuplicate.status == 200) {
-    return { status: 400, message: "Username already used!" };
+    return { status: 400, message: "Username already used" };
   }
 
   const emailDuplicate = await UserService.findByEmail(user.email);
@@ -25,7 +26,8 @@ async function register(user) {
   }
 
   try {
-    const salt = await bcrypt.genSalt(10);
+    const saltRounds = parseInt(process.env.SALTROUND);
+    const salt = await bcrypt.genSalt(saltRounds);
     const hashedPassword = await bcrypt.hash(user.password, salt);
     user.password = hashedPassword;
 

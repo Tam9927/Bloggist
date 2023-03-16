@@ -6,8 +6,8 @@ const jwt = require("jsonwebtoken");
 async function registerUser(req, res) {
   try {
     const data = await authService.register(req.body);
-
-    if (data) {
+    const status = data.status;
+    if (status != 400) {
       const accesstoken = userUtils.generateToken(req.params.username);
       res
         .status(200)
@@ -37,7 +37,7 @@ async function loginUser(req, res) {
           httpOnly: true,
         })
         .json({
-          success:"logged in",
+          success: "logged in",
         });
     } else {
       res.status(401).send("Incorrect username or password");

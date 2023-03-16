@@ -5,6 +5,7 @@ const validator = require("email-validator");
 const crypto = require("crypto");
 const bcrypt = require("bcrypt");
 const uuid = require("uuid");
+require("dotenv").config();
 
 async function findAllUsers() {
   try {
@@ -24,7 +25,7 @@ async function findAllUsers() {
   }
 }
 
-async function findUserByName(username) {
+async function findUserByUserName(username) {
   try {
     
     const result = await UserRepository.getUserByName(username.toLowerCase());
@@ -40,9 +41,9 @@ async function findUserByName(username) {
 }
 
 async function findByEmail(email) {
-  const Email = await UserRepository.getUserByEmail(email);
-  if (Email.length > 0) {
-    return { status: 200, message: "User Found" };
+  const user = await UserRepository.getUserByEmail(email);
+  if (user.length > 0) {
+    return { status: 200, message: user.email };
   }
 
   return { status: 404, message: "User not found" };
@@ -74,8 +75,8 @@ async function deleteUser(username) {
 
 async function updateUser(username, user) {
   try {
-
-    const salt = await bcrypt.genSalt(10);
+    const saltRounds = parseInt(process.env.SALTROUND)
+    const salt = await bcrypt.genSalt(saltRounds);
     const hashedPassword = await bcrypt.hash(user.password, salt);
 
     const result = await UserRepository.updateUser(
@@ -108,7 +109,7 @@ async function loginUser(username){
 
 module.exports = {
   findAllUsers,
-  findUserByName,
+  findUserByUserName,
   findByEmail,
   deleteUser,
   updateUser,
