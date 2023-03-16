@@ -1,7 +1,6 @@
 const express = require("express");
 const database = require("../Configs/db.config");
 const User = require("../Model/user.model");
-const controller = require("../Controller/user.controller");
 const UserRegisterDTO = require("../DTO/user.register.dto");
 
 async function getAllUsers() {

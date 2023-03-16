@@ -1,4 +1,6 @@
 const Blog = require('../Model/blog.model');
+const express = require("express");
+const database = require("../Configs/db.config");
 
 async function getAllBlogs(){
   try {
@@ -10,9 +12,9 @@ async function getAllBlogs(){
   }
 };
 
-async function getBlogById(){
+async function getBlogById(blogId){
   try {
-    const result = await Blog.findOne({ where: { id: blogId } });
+    const result = await Blog.findOne({ where: {blogId} });
     return result;
   } catch (err) {
     console.log(err.stack);
@@ -45,9 +47,9 @@ async function updateBlog() {
   }
 };
 
-async function deleteBlog() {
+async function deleteBlog(blogId) {
   try {
-    const result = Blog.destroy({ where: { id: blogId } });
+    const result = Blog.destroy({ where: {blogId } });
     return result;
   } catch (err) {
     console.log(err.stack);
@@ -74,9 +76,7 @@ module.exports = {
     createBlog,
     getBlogById,
     updateBlog,
-    deleteBlog
-
-
-
+    deleteBlog,
+    getBlogbyAuthorId
 
 };

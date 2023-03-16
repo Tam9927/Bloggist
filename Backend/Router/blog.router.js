@@ -9,7 +9,7 @@ router
   .post(BlogController.createBlog);
 
 router
-  .route("/:blogname")
+  .route("/:blogId")
   .get(BlogController.getBlogById)
   .put(BlogController.updateBlog)
   .delete(BlogController.deleteBlog);

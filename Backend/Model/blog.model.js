@@ -6,7 +6,7 @@ const { sequelize } = require("../Configs/db.config");
 const blog = sequelize.define(
   "blog",
   {
-    id: {
+    blogId: {
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV4,
       primaryKey: true,

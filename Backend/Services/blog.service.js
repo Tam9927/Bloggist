@@ -1,53 +1,86 @@
-const BlogRepository = require('../repository/blog.repository')
+const BlogRepository = require("../repository/blog.repository");
+
+async function getAllBlogs() {
+  try {
+    const data = await BlogRepository.getAllBlogs();
+    if (data.length == 0) {
+      return { status: 200, message: "Blogs table is empty!" };
+    }
+        return data;
 
 
-async function getAllBlogs(){
-
-
-
+  } catch {
+    return { status: 500, message: "Internal server error!" };
+  }
 }
 
+async function createBlog(blog) {
+  if (!blog.title || !blog.description) {
+    return { status: 400, message: "Title and Description needed" };
+  }
 
+  try {
+    const result = await BlogRepository.createBlog(blog);
+    return result;
+  } catch {
+    return { status: 404, message: "Please check your credentials again" };
+  }
+}
 
-async function createBlog(){
+async function editBlog() {}
 
-
+async function getBlogById(blogId) {
+  try {
+    const result = await BlogRepository.getBlogById(blogId);
     
+    if (result.length == 0) {
+      return { status: 404, message: "Blog not found" };
+    }
+
+    return { status: 200, message: result };
+  } catch {
+    return { status: 400, message: "Internal Error" };
+  }
 }
 
-async function editBlog(){
+async function updateBlog() {
+  try {
+    const result = await BlogRepository.updateBlog(
+      Blogname.toLowerCase(),
+      hashedPassword
+    );
 
+    if (result == 0) {
+      return { status: 404, message: "Blog not found" };
+    }
+    return { status: 200, message: "Blog updated" };
+  } catch {
+    return { status: 400, message: "Update failed" };
+  }
+}
 
+async function deleteBlog(blogId) {
+  
+    try {
+        const result = await BlogRepository.deleteBlog(blogId);
     
-}
-
-async function getBlogById(){
-
-
+        if (!result) {
+          return { status: 404, message: "User not found" };
+        }
     
-}
-
-async function updateBlog(){
-
-
-    
-}
-
-async function deleteBlog(){
-
-
-
-
-
+        return { status: 200, message: "Blog removed" };
+      } catch {
+        return { status: 400, message: "An Error Occured" };
+      }
+ 
+  
 }
 
 module.exports = {
-
-    getAllBlogs,
-    createBlog,
-    editBlog,
-    getBlogById,
-    updateBlog,
-    deleteBlog
-
+  getAllBlogs,
+  createBlog,
+  editBlog,
+  getBlogById,
+  updateBlog,
+  deleteBlog,
 };
