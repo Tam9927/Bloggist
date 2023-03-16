@@ -25,7 +25,8 @@ async function register(user) {
   }
 
   try {
-    const salt = await bcrypt.genSalt(10);
+    const saltrounds = parseInt(process.env.SALTROUND);
+    const salt = await bcrypt.genSalt(saltrounds);
     const hashedPassword = await bcrypt.hash(user.password, salt);
     user.password = hashedPassword;
 

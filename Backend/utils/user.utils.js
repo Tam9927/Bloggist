@@ -29,7 +29,7 @@ function userValidator(username, email, password) {
 
 function generateToken(username) {
   const accesstoken = jwt.sign({ username }, process.env.ACCESS_TOKEN_SECRET, {
-    algorithm: "HS256",
+    algorithm: process.env.JWT_ALGO,
     expiresIn: process.env.ACCESS_TOKEN_LIFE,
   });
   return accesstoken;
@@ -37,15 +37,12 @@ function generateToken(username) {
 
 function removeToken(res){
 
-    res.status(200)
-    .cookie('jwt', null, {
-        expiresIn: new Date(Date.now())
-    }, 
-    {httpOnly: true})
-    .json({
-        success: true,
-        message: "Logged Out"
-    });
+  res.status(200)
+  .clearCookie('jwt')
+  .json({
+      success: true,
+      message: "Logged Out"
+  });
 
 }
 
