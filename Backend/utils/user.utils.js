@@ -42,7 +42,7 @@ function removeToken(res){
   .json({
       success: true,
       message: "Logged Out"
-  });
+  });  
 
 }
 
