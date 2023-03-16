@@ -10,6 +10,7 @@ const cookieParser = require('cookie-parser');
 
 db.connectToDB();
 
+
 app.use(express.json());
 app.use(cookieParser());
 app.use(bodyParser());
