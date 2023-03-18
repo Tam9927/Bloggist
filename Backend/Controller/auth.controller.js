@@ -1,13 +1,18 @@
+"use strict"
+
 require("dotenv").config();
 const authService = require("../Services/auth.service");
 const userUtils = require("../utils/user.utils");
 const jwt = require("jsonwebtoken");
 
+
 async function registerUser(req, res) {
-  try {
+  try { 
+
     const data = await authService.register(req.body);
     const status = data.status;
     if (status != 400) {
+      console.log(data.message);
       const accesstoken = userUtils.generateToken(req.params.username);
       res
         .status(200)
@@ -22,7 +27,7 @@ async function registerUser(req, res) {
     }
   } catch (err) {
     console.log(err);
-    res.status(400).send("An error occured");
+    res.status(500).send("An error occurred");
   }
 }
 
@@ -44,7 +49,7 @@ async function loginUser(req, res) {
       res.status(401).send("Incorrect username or password");
     }
   } catch (err) {
-    res.status(401).send("An error occured");
+    res.status(401).send("An error occurred");
   }
 }
 

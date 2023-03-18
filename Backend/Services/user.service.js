@@ -1,3 +1,5 @@
+"use strict"
+
 const UserRepository = require("../repository/user.repository");
 const userUtils = require("../utils/user.utils");
 const UserDTO = require('../DTO/user.dto')
@@ -10,7 +12,7 @@ require("dotenv").config();
 async function findAllUsers() {
   try {
     const data = await UserRepository.getAllUsers();
-    if (data.length == 0) {
+    if (!data.length) {
       return { status: 200, message: "Users table is empty!" };
     }
 
@@ -29,7 +31,7 @@ async function findUserByUserName(username) {
   try {
     
     const result = await UserRepository.getUserByName(username.toLowerCase());
-    if (result.length == 0) {
+    if (!result.length) {
       return { status: 404, message: "User not found" };
     }
 
@@ -40,7 +42,7 @@ async function findUserByUserName(username) {
   }
 }
 
-async function findByEmail(email) {
+async function findUserByEmail(email) {
   const user = await UserRepository.getUserByEmail(email);
   if (user.length > 0) {
     return { status: 200, message: user.email };
@@ -84,7 +86,7 @@ async function updateUser(username, user) {
       hashedPassword
     );
 
-    if (result == 0) {
+    if (!result) {
       return { status: 404, message: "User not found" };
     }
     return { status: 200, message: "User updated" };
@@ -97,7 +99,7 @@ async function loginUser(username){
 
   try {
     const result = await UserRepository.getUserByName(username.toLowerCase());
-    if (result.length == 0) {
+    if (!result.length) {
       return { status: 404, message: "User not found" };
     }
     return { status: 200, message: result };
@@ -110,7 +112,7 @@ async function loginUser(username){
 module.exports = {
   findAllUsers,
   findUserByUserName,
-  findByEmail,
+  findUserByEmail,
   deleteUser,
   updateUser,
   registerUser,

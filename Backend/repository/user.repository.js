@@ -1,8 +1,11 @@
+"use strict"
+
 const express = require("express");
 const database = require("../Configs/db.config");
 const User = require("../Model/user.model");
 const controller = require("../Controller/user.controller");
 const UserRegisterDTO = require("../DTO/user.register.dto");
+
 
 async function getAllUsers() {
   try {
@@ -62,7 +65,7 @@ async function register(user) {
   }
 }
 
-async function getUserByName(username) {
+async function getUserByUserName(username) {
   try {
     const result = await User.findOne({ where: { username } });
     return result.dataValues;
@@ -75,7 +78,7 @@ async function getUserByName(username) {
 
 module.exports = {
   getAllUsers,
-  getUserByName,
+  getUserByUserName,
   getUserByEmail,
   deleteUser,
   updateUser,

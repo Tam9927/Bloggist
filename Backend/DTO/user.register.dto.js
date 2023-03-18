@@ -1,3 +1,5 @@
+"use strict"
+
 class UserRegisterDTO {
   constructor(user) {
     (this.fullName = user.fullName), (this.username = user.username);

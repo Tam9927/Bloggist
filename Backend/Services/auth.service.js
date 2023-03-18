@@ -1,3 +1,5 @@
+"use strict"
+
 const userUtils = require("../utils/user.utils");
 const UserRepository = require("../repository/user.repository");
 const UserService = require("../Services/user.service");
@@ -20,7 +22,7 @@ async function register(user) {
     return { status: 400, message: "Username already used" };
   }
 
-  const emailDuplicate = await UserService.findByEmail(user.email);
+  const emailDuplicate = await UserService.findUserByEmail(user.email);
   if (emailDuplicate.status == 200) {
     return { status: 400, message: "Email is already in use!" };
   }

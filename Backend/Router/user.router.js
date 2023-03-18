@@ -1,3 +1,5 @@
+"use strict"
+
 const express = require("express");
 const UserController = require("../Controller/user.controller");
 
@@ -10,7 +12,7 @@ router
 
 router
   .route("/:username")
-  .get(UserController.getUser)
+  .get(UserController.getUserByUsername)
   .put(UserController.updateUser)
   .delete(UserController.deleteUser);
 
