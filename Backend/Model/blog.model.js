@@ -20,11 +20,12 @@ const blog = sequelize.define(
     },
 
     description: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING, 
     },
 
     authorId: {
       type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV4,
       notNull: true,
       notEmpty: true,
     },

@@ -33,7 +33,7 @@ async function createBlog(req,res){
 async function editBlog(req,res){
 
     try {
-        const blog = await BlogService.editBlog(req.params.blogId);
+        const blog = await BlogService.editBlog(req.params.blogId,req.body.title,req.body.description);
         res.status(200).json(blog);
     } catch (err) {
         res.status(err.status).json(err.message);
@@ -56,16 +56,11 @@ async function getBlogById(req,res){
 async function updateBlog(req,res){
 
     try {
-        const editedBlog = await BlogService.editBlog(req.params.blogId, req.body);
-        if(editedBlog[0] == 1){
-            res.status(200).send('Blog edited successfully');
-        }
-        else {
-            res.status(400).send('Blog could not be edited. Please try again');
-        }
-        } catch (err) {
-            res.status(err.status).json(err.message);
-        }
+        const data = await BlogService.updateBlog(req.params.blogId, req.body);
+        res.status(data.status).send(data.message);
+      } catch (err) {
+        res.status(err.status).send(err.message);
+      }
 
     
 }
@@ -73,13 +68,15 @@ async function updateBlog(req,res){
 async function deleteBlog(req,res){
 
 try{
-    const deleteBlog = await BlogService.deleteBlog(req.params.blogId, req.body.authorId);
-    if(deleteBlog){
-        res.status(200).send('Blog deleted');
-    }
-    else {
-        res.status(404).send('Blog not found');
-    }
+    const deleteBlog = await BlogService.deleteBlog(req.params.blogId);
+    // if(deleteBlog){
+    //     res.status(200).send(deleteBlog.message);
+    // }
+    // else {
+    //     res.status(404).send('Blog not found');
+    // }
+    res.status(200).send("deleted")
+
     } catch (err) {
         res.status(err.status).json(err.message);
     }

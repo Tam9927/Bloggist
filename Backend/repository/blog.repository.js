@@ -33,11 +33,11 @@ async function getBlogbyAuthorId (){
     }
   };
 
-async function updateBlog() {
+async function updateBlog(blogId,updatedTitle,description) {
   try {
     const result = await Blog.update(
       { title: updatedTitle, description: updatedDescription },
-      { where: { id: Id } }
+      { where: { id: blogId } }
     );
     console.log(result);
     return result;
@@ -49,7 +49,11 @@ async function updateBlog() {
 
 async function deleteBlog(blogId) {
   try {
-    const result = Blog.destroy({ where: {blogId } });
+    const result = Blog.destroy( 
+      
+      { where: { blogId } }
+      
+      )
     return result;
   } catch (err) {
     console.log(err.stack);

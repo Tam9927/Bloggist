@@ -29,9 +29,9 @@ async function createBlog(blog) {
 
 async function editBlog() {}
 
-async function getBlogById(blogId) {
+async function getBlogById(blogId,title,description) {
   try {
-    const result = await BlogRepository.getBlogById(blogId);
+    const result = await BlogRepository.getBlogById(blogId,title,description);
     
     if (result.length == 0) {
       return { status: 404, message: "Blog not found" };
@@ -43,11 +43,10 @@ async function getBlogById(blogId) {
   }
 }
 
-async function updateBlog() {
+async function updateBlog(blogId,) {
   try {
     const result = await BlogRepository.updateBlog(
-      Blogname.toLowerCase(),
-      hashedPassword
+      blogId,blog
     );
 
     if (result == 0) {
@@ -67,8 +66,9 @@ async function deleteBlog(blogId) {
         if (!result) {
           return { status: 404, message: "User not found" };
         }
+
     
-        return { status: 200, message: "Blog removed" };
+        return { status: 200, message: "Blog removed"};
       } catch {
         return { status: 400, message: "An Error Occured" };
       }
