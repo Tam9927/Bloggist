@@ -28,6 +28,7 @@ function userValidator(username, email, password) {
 }
 
 function generateToken(username) {
+  
   const accesstoken = jwt.sign({ username }, process.env.ACCESS_TOKEN_SECRET, {
     algorithm: process.env.JWT_ALGO,
     expiresIn: process.env.ACCESS_TOKEN_LIFE,

@@ -2,6 +2,7 @@ require("dotenv").config();
 const { validate } = require("email-validator");
 const { DataTypes } = require("sequelize");
 const { sequelize } = require("../Configs/db.config");
+const user = require("./user.model");
 
 const blog = sequelize.define(
   "blog",
@@ -20,7 +21,7 @@ const blog = sequelize.define(
     },
 
     description: {
-      type: DataTypes.STRING, 
+      type: DataTypes.STRING,
     },
 
     authorId: {
@@ -30,15 +31,24 @@ const blog = sequelize.define(
       notEmpty: true,
     },
   },
+
   {
     tableName: "blogs",
   }
 );
 
+user.hasMany(blog, {
+  foreignKey: "authorid",
+});
+
+blog.belongsTo(user, {
+  foreignKey: "authorId",
+});
+
 async function test() {
-  await sequelize.sync();
+  await blog.sync();
   console.log("Blog synchronized successfully.");
-} 
+}
 
 test();
 

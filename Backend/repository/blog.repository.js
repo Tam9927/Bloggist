@@ -12,7 +12,7 @@ async function getAllBlogs(){
   }
 };
 
-async function getBlogById(blogId){
+async function getBlogByBlogId(blogId){
   try {
     const result = await Blog.findOne({ where: {blogId} });
     return result;
@@ -25,7 +25,7 @@ async function getBlogById(blogId){
 
 async function getBlogbyAuthorId (){
     try {
-      const result = await Blog.findOne({ where: { authorId: authorId } });
+      const result = await Blog.findByPk(authorId);
       return result;
     } catch (err) {
       console.log(err.stack);
@@ -33,13 +33,13 @@ async function getBlogbyAuthorId (){
     }
   };
 
-async function updateBlog(blogId,updatedTitle,description) {
+async function updateBlog(blogId,updatedBlog) {
   try {
     const result = await Blog.update(
-      { title: updatedTitle, description: updatedDescription },
+      { title: updatedBlog.title, 
+        description: updateddBlog.description },
       { where: { id: blogId } }
     );
-    console.log(result);
     return result;
   } catch (err) {
     console.log(err.stack);
@@ -78,7 +78,7 @@ module.exports = {
 
     getAllBlogs,
     createBlog,
-    getBlogById,
+    getBlogByBlogId,
     updateBlog,
     deleteBlog,
     getBlogbyAuthorId

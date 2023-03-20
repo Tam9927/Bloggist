@@ -1,17 +1,17 @@
 const express = require("express");
 const BlogController = require("../Controller/Blog.controller");
-
+const authMiddleware = require('../Middleware/auth.middleware')
 const router = express.Router();
 
 router
   .route("/")
   .get(BlogController.getAllBlogs)
-  .post(BlogController.createBlog);
+  .post(authMiddleware,BlogController.createBlog);
 
 router
   .route("/:blogId")
   .get(BlogController.getBlogById)
-  .put(BlogController.updateBlog)
-  .delete(BlogController.deleteBlog);
+  .put(authMiddleware,BlogController.updateBlog)
+  .delete(authMiddleware,BlogController.deleteBlog);
 
 module.exports = router;

@@ -30,22 +30,11 @@ async function createBlog(req,res){
 
 }
 
-async function editBlog(req,res){
+
+async function getBlogByBlogId(req,res){
 
     try {
-        const blog = await BlogService.editBlog(req.params.blogId,req.body.title,req.body.description);
-        res.status(200).json(blog);
-    } catch (err) {
-        res.status(err.status).json(err.message);
-    }
-
-    
-}
-
-async function getBlogById(req,res){
-
-    try {
-        const blog = await BlogService.getBlogById(req.params.blogId);
+        const blog = await BlogService.getBlogByBlogId(req.params.blogId);
         res.status(200).json(blog);
     } catch (err) {
         res.status(err.status).send(err.message);
@@ -89,8 +78,7 @@ module.exports = {
 
     getAllBlogs,
     createBlog,
-    editBlog,
-    getBlogById,
+    getBlogByBlogId,
     updateBlog,
     deleteBlog
 

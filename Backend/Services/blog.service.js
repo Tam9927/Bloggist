@@ -3,7 +3,7 @@ const BlogRepository = require("../repository/blog.repository");
 async function getAllBlogs() {
   try {
     const data = await BlogRepository.getAllBlogs();
-    if (data.length == 0) {
+    if (!data.length) {
       return { status: 200, message: "Blogs table is empty!" };
     }
         return data;
@@ -27,11 +27,10 @@ async function createBlog(blog) {
   }
 }
 
-async function editBlog() {}
 
-async function getBlogById(blogId,title,description) {
+async function getBlogByBlogId(blogId,title,description) {
   try {
-    const result = await BlogRepository.getBlogById(blogId,title,description);
+    const result = await BlogRepository.getBlogByBlogId(blogId,title,description);
     
     if (result.length == 0) {
       return { status: 404, message: "Blog not found" };
@@ -43,7 +42,7 @@ async function getBlogById(blogId,title,description) {
   }
 }
 
-async function updateBlog(blogId,) {
+async function updateBlog(blogId,authorname) {
   try {
     const result = await BlogRepository.updateBlog(
       blogId,blog
@@ -79,8 +78,7 @@ async function deleteBlog(blogId) {
 module.exports = {
   getAllBlogs,
   createBlog,
-  editBlog,
-  getBlogById,
+  getBlogByBlogId,
   updateBlog,
   deleteBlog,
 };
