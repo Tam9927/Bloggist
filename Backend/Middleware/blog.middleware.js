@@ -5,8 +5,8 @@ async function blogMiddleware(req, res, next) {
   try {
     const blogExists = await blogService.getBlogByBlogId(req.params.blogId);
     const authorExists = await userService.findUserByUserName(req.username);
-    // console.log(authorExists.message.Id)
-    // console.log(blogExists.message.authorId)
+    
+    console.log(blogExists)
 
     if (!blogExists) {
       return res.status(404).send("Blog not found");

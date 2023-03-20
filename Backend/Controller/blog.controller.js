@@ -50,9 +50,9 @@ async function updateBlog(req, res) {
 
 async function deleteBlog(req, res) {
   try {
-    const deleteBlog = await BlogService.deleteBlog(req.params.blogId);
+    const deleteBlog = await BlogService.deleteBlog(req.params.blogId,req.username);
     if(deleteBlog){
-        res.status(200).send(deleteBlog.message);
+        res.status(200).send("Deleted Successfully");
     }
     else {
         res.status(404).send('Blog not found');

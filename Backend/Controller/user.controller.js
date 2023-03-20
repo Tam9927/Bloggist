@@ -24,9 +24,9 @@ async function getUser(req, res) {
   }
 }
 
-async function createUser(req, res) {
+async function registerUser (req, res) {
   try {
-    const data = await UserService.createUser(req.body);
+    const data = await UserService.registerUser (req.body);
     res.status(data.status).send(data.message);
   } catch (err) {
     res.status(err.status).send(err.message);
@@ -57,7 +57,7 @@ async function deleteUser(req, res) {
 module.exports = {
   getAllUsers,
   getUser,
-  createUser,
+  registerUser ,
   deleteUser,
   updateUser,
 };

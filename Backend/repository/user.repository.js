@@ -71,15 +71,7 @@ async function getUserByName(username) {
   }
 }
 
-async function getUserById(username) {
-  try {
-    const result = await User.findOne({ where: { username } });
-    return result.dataValues;
-  } catch (err) {
-    console.log(err.stack);
-    throw err;
-  }
-}
+
 
 module.exports = {
   getAllUsers,
