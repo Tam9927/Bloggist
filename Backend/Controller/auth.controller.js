@@ -11,9 +11,9 @@ async function registerUser(req, res) {
 
     const data = await authService.register(req.body);
     const status = data.status;
+    
     if (status != 400) {
-      console.log(data.message);
-      const accesstoken = userUtils.generateToken(req.params.username);
+      const accesstoken = userUtils.generateToken(req.body.username);
       res
         .status(200)
         .cookie("jwt", accesstoken, {
@@ -36,7 +36,7 @@ async function loginUser(req, res) {
     const data = await authService.loginUser(req.body);
     const status = data.status;
     if (status!=400) {
-      const accesstoken = userUtils.generateToken(req.params.username);
+      const accesstoken = userUtils.generateToken(req.body.username);
       res
         .status(200)
         .cookie("jwt", accesstoken, {
@@ -45,7 +45,8 @@ async function loginUser(req, res) {
         .json({
           success: "logged in",
         });
-    } 
+    }
+    
       res.status(401).send("Incorrect username or password");
     
   } catch (err) {
