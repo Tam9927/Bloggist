@@ -22,9 +22,9 @@ async function registerUser(req, res) {
         .json({
           success: true,
         });
-    } else {
+    } 
       res.status(data.status).send(data.message);
-    }
+    
   } catch (err) {
     console.log(err);
     res.status(500).send("An error occurred");
@@ -45,9 +45,9 @@ async function loginUser(req, res) {
         .json({
           success: "logged in",
         });
-    } else {
+    } 
       res.status(401).send("Incorrect username or password");
-    }
+    
   } catch (err) {
     res.status(401).send("An error occurred");
   }
