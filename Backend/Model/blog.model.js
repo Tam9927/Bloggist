@@ -1,7 +1,7 @@
 require("dotenv").config();
 const { validate } = require("email-validator");
 const { DataTypes } = require("sequelize");
-const { sequelize } = require("../Configs/db.config");
+const { sequelize } = require("../configs/db.config");
 const user = require("./user.model");
 
 const blog = sequelize.define(
@@ -22,13 +22,6 @@ const blog = sequelize.define(
 
     description: {
       type: DataTypes.STRING,
-    },
-
-    authorId: {
-      type: DataTypes.UUID,
-      defaultValue: DataTypes.UUIDV4,
-      notNull: true,
-      notEmpty: true,
     },
   },
 

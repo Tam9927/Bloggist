@@ -14,12 +14,11 @@ const authMiddleware = async (req, res, next) => {
         }
         req.username = decoded.username;
         next();
-        });
+        
+      });
 
-    
-    
   } catch (err) {
-    console.log(err.message);
+
     return res.status(401).send("Invalid JWT token");
   }
 };

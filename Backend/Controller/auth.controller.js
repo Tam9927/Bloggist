@@ -1,5 +1,5 @@
 require("dotenv").config();
-const authService = require("../Services/auth.service");
+const authService = require("../services/auth.service");
 const userUtils = require("../utils/user.utils");
 const jwt = require("jsonwebtoken");
 
@@ -9,7 +9,7 @@ async function registerUser(req, res) {
 
     const status = data.status;
     if (status != 400) {
-      const accesstoken = userUtils.generateToken(req.params.username);
+      const accesstoken = userUtils.generateToken(req.body.username);
       res
         .status(200)
         .cookie("jwt", accesstoken, {
@@ -32,7 +32,7 @@ async function loginUser(req, res) {
     const data = await authService.loginUser(req.body);
     const status = data.status;
     if (status != 400) {
-      const accesstoken = userUtils.generateToken(req.params.username);
+      const accesstoken = userUtils.generateToken(req.body.username);
       res
         .status(200)
         .cookie("jwt", accesstoken, {

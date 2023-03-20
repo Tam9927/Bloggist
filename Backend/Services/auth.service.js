@@ -1,6 +1,6 @@
 const userUtils = require("../utils/user.utils");
 const UserRepository = require("../repository/user.repository");
-const UserService = require("../Services/user.service");
+const UserService = require("./user.service");
 const bcrypt = require("bcrypt");
 
 async function register(user) {
@@ -14,7 +14,7 @@ async function register(user) {
     return { status: 400, message: userValid.message };
   }
 
-  const usernameDuplicate = await UserService.findUserByName(user.username);
+  const usernameDuplicate = await UserService.findUserByUserName(user.username);
   if (usernameDuplicate.status == 200) {
     return { status: 400, message: "Username already used!" };
   }

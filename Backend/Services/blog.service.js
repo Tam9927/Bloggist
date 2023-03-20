@@ -1,3 +1,4 @@
+const authMiddleware = require("../Middleware/auth.middleware");
 const BlogRepository = require("../repository/blog.repository");
 const UserService = require("./user.service");
 
@@ -13,15 +14,15 @@ async function getAllBlogs() {
   }
 }
 
-async function createBlog(blog, username) {
+async function createBlog(blog,username) {
   if (!blog.title || !blog.description) {
     return { status: 400, message: "Title and Description needed" };
   }
 
   try {
-    const authorExists = await UserService.getUserByUsername(username);
+    const authorExists = await UserService.findUserByUserName(username);
     if (authorExists) {
-      blog.authorId = authorExists.id;
+      blog.authorId = authorExists.message.Id;
       const result = await BlogRepository.createBlog(blog);
       return result;
     }
@@ -50,19 +51,15 @@ async function getBlogByBlogId(blogId, title, description) {
   }
 }
 
-async function updateBlog(blogId, authorname) {
+async function updateBlog(blogId, blog) {
   try {
-    const blogExists = BlogRepository.getBlogByBlogId(blogId);
-    const authorExists = UserService.getUserByUsername(authorname);
-
-    if (blogExists && authorExists && blogExists.authorId == authorExists.id) {
-      const result = await BlogRepository.updateBlog(blogExists.Id);
-    }
+    
+      const result = await BlogRepository.updateBlog(blogId,blog);
 
     if (result == 0) {
       return { status: 404, message: "Blog not found" };
     }
-    return { status: 200, message: "Blog updated" };
+    return { status: 200, message: result };
   } catch {
     return { status: 400, message: "Update failed" };
   }

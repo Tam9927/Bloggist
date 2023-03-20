@@ -1,5 +1,5 @@
 const express = require("express");
-const UserService = require("../Services/user.service");
+const UserService = require("../services/user.service");
 require("dotenv").config();
 
 async function getAllUsers(req, res) {
@@ -17,7 +17,7 @@ async function getUser(req, res) {
       return res.status(400).send({ message: "Invalid request parameter!" });
     }
 
-    const data = await UserService.findUserByName(req.params.username);
+    const data = await UserService.findUserByUserName(req.params.username);
     res.status(data.status).send(data.message);
   } catch (err) {
     res.status(err.status).send(err.message);

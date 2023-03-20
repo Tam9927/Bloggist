@@ -1,6 +1,7 @@
 const express = require("express");
-const BlogController = require("../Controller/Blog.controller");
-const authMiddleware = require('../Middleware/auth.middleware')
+const BlogController = require("../controller/blog.controller");
+const authMiddleware = require("../Middleware/auth.middleware");
+const blogMiddleware = require("../Middleware/blog.middleware");
 const router = express.Router();
 
 router
@@ -10,8 +11,8 @@ router
 
 router
   .route("/:blogId")
-  .get(BlogController.getBlogById)
-  .put(authMiddleware,BlogController.updateBlog)
-  .delete(authMiddleware,BlogController.deleteBlog);
+  .get(BlogController.getBlogByBlogId)
+  .put(authMiddleware, blogMiddleware, BlogController.updateBlog) 
+  .delete(authMiddleware, blogMiddleware, BlogController.deleteBlog);
 
 module.exports = router;

@@ -1,56 +1,52 @@
 const { validate } = require("email-validator");
-const  {DataTypes}  = require("sequelize");
-const {sequelize} = require("../Configs/db.config");
+const { DataTypes } = require("sequelize");
+const { sequelize } = require("../configs/db.config");
 
 const user = sequelize.define(
   "user",
   {
-    id: {
+    Id: {
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV4,
       primaryKey: true,
-      
     },
 
     username: {
       type: DataTypes.STRING,
-      allowNull:false,
+      allowNull: false,
       unique: true,
-      validate:{
-          notNull:{msg:'Please enter your username'}
-          },
-          isAlphanumeric:{msg:'Username must be Alphanumeric'}
+      validate: {
+        notNull: { msg: "Please enter your username" },
       },
+      isAlphanumeric: { msg: "Username must be Alphanumeric" },
+    },
 
     email: {
       type: DataTypes.STRING,
       allowNull: false,
       unique: true,
-      validate:{
-        notNull:{msg:'Please enter your email'}
-        },
-         isEmail:{
-           msg: 'Email address is not valid!'
-       }
+      validate: {
+        notNull: { msg: "Please enter your email" },
+      },
+      isEmail: {
+        msg: "Email address is not valid!",
+      },
     },
     password: {
       type: DataTypes.STRING,
       allowNull: false,
-      isAlphanumeric:{msg:'Username must be Alphanumeric'}
-    }
+      isAlphanumeric: { msg: "Username must be Alphanumeric" },
+    },
   },
   {
     tableName: "users",
   }
 );
 
-
- async function test(){
-
+async function test() {
   await sequelize.sync();
   console.log("User were synchronized successfully.");
- 
- }
+}
 
 test();
 

@@ -1,6 +1,6 @@
 const UserRepository = require("../repository/user.repository");
 const userUtils = require("../utils/user.utils");
-const UserDTO = require('../DTO/user.dto')
+const UserDTO = require("../dto/user.dto");
 const validator = require("email-validator");
 const crypto = require("crypto");
 const bcrypt = require("bcrypt");
@@ -24,15 +24,14 @@ async function findAllUsers() {
   }
 }
 
-async function findUserByName(username) {
+async function findUserByUserName(username) {
   try {
-    
     const result = await UserRepository.getUserByName(username.toLowerCase());
     if (result.length == 0) {
       return { status: 404, message: "User not found" };
     }
 
-    const user = new UserDTO(result)
+    const user = new UserDTO(result);
     return { status: 200, message: user };
   } catch {
     return { status: 400, message: "Internal Error" };
@@ -49,7 +48,6 @@ async function findByEmail(email) {
 }
 
 async function registerUser(user) {
-  
   try {
     const data = await UserRepository.register(user);
     return data;
@@ -74,7 +72,6 @@ async function deleteUser(username) {
 
 async function updateUser(username, user) {
   try {
-
     const saltrounds = parseInt(process.env.SALTROUND);
     const salt = await bcrypt.genSalt(saltrounds);
     const hashedPassword = await bcrypt.hash(user.password, salt);
@@ -93,8 +90,7 @@ async function updateUser(username, user) {
   }
 }
 
-async function loginUser(username){
-
+async function loginUser(username) {
   try {
     const result = await UserRepository.getUserByName(username.toLowerCase());
     if (result.length == 0) {
@@ -104,15 +100,14 @@ async function loginUser(username){
   } catch {
     return { status: 400, message: "Internal Error" };
   }
-
 }
 
 module.exports = {
   findAllUsers,
-  findUserByName,
+  findUserByUserName,
   findByEmail,
   deleteUser,
   updateUser,
   registerUser,
-  loginUser
+  loginUser,
 };

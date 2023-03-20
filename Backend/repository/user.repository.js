@@ -1,12 +1,12 @@
 const express = require("express");
-const database = require("../Configs/db.config");
-const User = require("../Model/user.model");
-const UserRegisterDTO = require("../DTO/user.register.dto");
+const database = require("../configs/db.config");
+const User = require("../model/user.model");
+const UserRegisterDTO = require("../dto/user.register.dto");
 
 async function getAllUsers() {
   try {
     const result = await User.findAll();
-    
+
     return result;
   } catch (err) {
     throw console.error(err);
@@ -69,7 +69,16 @@ async function getUserByName(username) {
     console.log(err.stack);
     throw err;
   }
+}
 
+async function getUserById(username) {
+  try {
+    const result = await User.findOne({ where: { username } });
+    return result.dataValues;
+  } catch (err) {
+    console.log(err.stack);
+    throw err;
+  }
 }
 
 module.exports = {
