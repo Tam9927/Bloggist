@@ -6,7 +6,7 @@ const UserService = require("./user.service");
 async function getAllBlogs() {
   try {
     const data = await BlogRepository.getAllBlogs();
-    if (!data.length) {
+    if (data.length==0) {
       return { status: 200, message: "Blogs table is empty!" };
     }
     return data;
@@ -70,7 +70,7 @@ async function deleteBlog(blogId) {
   try {
     const result = await BlogRepository.deleteBlog(blogId);
 
-    if (!result) {
+    if (result==0) {
       return { status: 404, message: "User not found" };
     }
 
