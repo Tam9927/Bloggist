@@ -1,3 +1,4 @@
+"use strict"
 const User = require("../model/user.model");
 const UserRegisterDTO = require("../dto/user.register.dto");
 

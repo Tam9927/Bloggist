@@ -1,3 +1,4 @@
+"use strict"
 const express = require("express");
 const UserService = require("../services/user.service");
 require("dotenv").config();
