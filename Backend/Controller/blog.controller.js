@@ -1,5 +1,6 @@
 const express = require("express");
 const BlogService = require("../services/blog.service");
+const contentNegotiation = require('../utils/content-negotiation');
 require("dotenv").config();
 
 async function getAllBlogs(req, res) {
@@ -8,7 +9,12 @@ async function getAllBlogs(req, res) {
      if(!blogs){
          res.status(200).send("Blog list empty!");
      }
-    res.status(200).send(blogs);
+    
+    contentNegotiation.sendResponse(req,res,200,blogs);
+     
+    //res.status(200).send(blogs);
+
+
   } catch (err) {
     res.status(err.status).send(err.message);
   }
