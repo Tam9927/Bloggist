@@ -1,3 +1,4 @@
+'use strict'
 const UserRepository = require("../repository/user.repository");
 const userUtils = require("../utils/user.utils");
 const UserDTO = require("../dto/user.dto");

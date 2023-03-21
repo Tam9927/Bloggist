@@ -1,3 +1,4 @@
+'use strict'
 const express = require("express");
 const database = require("../configs/db.config");
 const User = require("../model/user.model");

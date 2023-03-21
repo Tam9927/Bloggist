@@ -1,3 +1,4 @@
+'use strict'
 const express = require("express");
 const BlogController = require("../controller/blog.controller");
 const authMiddleware = require("../Middleware/auth.middleware");

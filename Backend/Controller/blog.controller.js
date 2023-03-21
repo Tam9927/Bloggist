@@ -5,10 +5,9 @@ require("dotenv").config();
 async function getAllBlogs(req, res) {
   try {
     const blogs = await BlogService.getAllBlogs();
-    console.log(blogs);
-    // if(!blogs){
-    //     res.status(200).send("Blog list empty!");
-    // }
+     if(!blogs){
+         res.status(200).send("Blog list empty!");
+     }
     res.status(200).send(blogs);
   } catch (err) {
     res.status(err.status).send(err.message);

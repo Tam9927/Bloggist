@@ -1,3 +1,4 @@
+"use strict";
 const mysql = require("mysql");
 const dotenv = require("dotenv");
 const { Sequelize } = require("sequelize");
