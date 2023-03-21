@@ -32,7 +32,8 @@ async function loginUser(req, res) {
   try {
     const data = await authService.loginUser(req.body);
     const status = data.status;
-    if (status != 400) {
+
+    if (status===200) {
       const accesstoken = userUtils.generateToken(req.body.username);
       res
         .status(200)
@@ -42,9 +43,10 @@ async function loginUser(req, res) {
         .json({
           success: "logged in",
         });
-    } else {
-      res.status(401).send("Incorrect username or password");
-    }
+    } 
+      else{
+        res.status(data.status).send(data.message);
+      }
   } catch (err) {
     res.status(401).send("An error occured");
   }

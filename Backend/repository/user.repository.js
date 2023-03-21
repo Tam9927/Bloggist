@@ -65,7 +65,7 @@ async function register(user) {
 async function getUserByName(username) {
   try {
     const result = await User.findOne({ where: { username } });
-    return result.dataValues;
+    return result;
   } catch (err) {
     console.log(err.stack);
     throw err;
