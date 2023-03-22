@@ -9,7 +9,8 @@ async function getAllBlogs() {
     if (!data) {
       return { status: 200, message: "Blogs table is empty!" };
     }
-    return data;
+    return { status: 200, message: data };
+
   } catch {
     return { status: 500, message: "Internal server error!" };
   }
@@ -25,7 +26,7 @@ async function createBlog(blog,username) {
     if (authorExists) {
       blog.authorId = authorExists.message.Id;
       const result = await BlogRepository.createBlog(blog);
-      return result;
+      return { status: 404, message: result };
     }
 
     return { status: 404, message: "Author Does not exist" };
