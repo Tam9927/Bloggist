@@ -94,12 +94,12 @@ async function updateUser(username, user) {
 async function loginUser(username) {
   try {
     const result = await UserRepository.getUserByName(username.toLowerCase());
-    if (result.length == 0) {
+    if (!result) {
       return { status: 404, message: "User not found" };
     }
     return { status: 200, message: result };
   } catch {
-    return { status: 400, message: "Internal Error" };
+    return { status: 400, message: "Internal Error" }; 
   }
 }
 
