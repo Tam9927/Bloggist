@@ -2,7 +2,7 @@
 require("dotenv").config();
 const authService = require("../services/auth.service");
 const userUtils = require("../utils/user.utils");
-const jwt = require("jsonwebtoken");
+const contentNegotiation = require("../utils/content-negotiation");
 
 async function registerUser(req, res) {
   try {
@@ -11,14 +11,12 @@ async function registerUser(req, res) {
     const status = data.status;
     if (status != 400) {
       const accesstoken = userUtils.generateToken(req.body.username);
-      res
-        .status(200)
-        .cookie("jwt", accesstoken, {
-          httpOnly: true,
-        })
-        .json({
-          success: true,
-        });
+      res.cookie("jwt", accesstoken, { httpOnly: true });
+
+      contentNegotiation.sendResponse(req, res, 200, {
+        success: true,
+        user,
+      });
     } else {
       res.status(data.status).send(data.message);
     }
@@ -31,22 +29,21 @@ async function registerUser(req, res) {
 async function loginUser(req, res) {
   try {
     const data = await authService.loginUser(req.body);
+    console.log(data)
     const status = data.status;
     if (status != 400) {
       const accesstoken = userUtils.generateToken(req.body.username);
-      res
-        .status(200)
-        .cookie("jwt", accesstoken, {
-          httpOnly: true,
-        })
-        .json({
-          success: "logged in",
-        });
+      res.cookie("jwt", accesstoken, { httpOnly: true });
+
+      contentNegotiation.sendResponse(req, res, 200, {
+        success: true,
+        data,
+      });
     } else {
       res.status(401).send("Incorrect username or password");
     }
   } catch (err) {
-    res.status(401).send("An error occured");
+    res.status(401).send(err.message);
   }
 }
 

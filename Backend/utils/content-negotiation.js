@@ -1,51 +1,49 @@
 "use strict";
-const js2xmlparser = require("js2xmlparser");
-const json2html = require("json-to-html");
 
+const json2xml = require('xml-js');
+const json2html = require('json-to-html');
+const json2plain = require('json-to-plain-text');
+const { json } = require('body-parser');
 
-function sendJsonResponse (res, status, data) {
-    return res.status(status).json(data);
+function sendJsonResponse(req, res, status, data){
+    const jsonData = { 'data' : data };
+    this.sendFinalResponse(req, res, status, jsonData);
 }
 
-function sendXmlResponse (res, status, data) {
-    //res.setHeader('Content-Type', 'application/xml');
-    return res.status(status).send(js2xmlparser.parse(data));
+function sendXmlResponse (req, res, status, data){
+    var options = {compact: true, ignoreComment: true, spaces: 4};
+    var xmlData = json2xml.json2xml(JSON.stringify(data), options);
+    this.sendFinalResponse(req, res, status, xmlData);
 }
 
-function sendHtmlResponse ( res, status, data) {
-    //res.setHeader('Content-Type', 'text/html');
-    let template = {'<>':'div'};
-    console.log(json2html.render(data));
-    return res.status(status).send(json2html.render(data));
+function sendPlainResponse(req, res, status, data){
+    var plainData = json2plain.toPlainText(JSON.parse(JSON.stringify(data)));
+    this.sendFinalResponse(req, res, status, plainData);
 }
 
-function sendTextResponse(res,status,data) {
+function sendHtmlResponse(req, res, status, data){
+    var htmlData = json2html(JSON.parse(JSON.stringify(data)));
+    this.sendFinalResponse(req, res, status, htmlData);
+}
 
-const text = JSON.stringify(data);
-
-return res.status(status).send(text);
-
-
+function sendFinalResponse(req, res, status, data){
+    res.status(status).send(data);
 }
 
 
-function sendResponse (req,res, status, data) {
-    if(req.headers.accept == 'application/xml'){
-        this.sendXmlResponse(res, status, data);
+function sendResponse(req, res, status, data){
+    if(req.headers.accept ==='application/xml' || req.headers.accept === 'text/xml'){
+        return this.sendXmlResponse(req, res, status, data);
     }
-    else if(req.headers.accept == 'text/html'){
-        this.sendHtmlResponse(res, status, data);
+    if(req.headers.accept === 'text/html'){
+        return this.sendHtmlResponse(req, res, status, data);
     }
-
-    else if(req.headers.accept == 'text/text'){
-
-        this.sendTextResponse(res,status,data);
+    if(req.headers.accept === 'text/plain'){
+        return this.sendPlainResponse(req, res, status, data);
     }
-
-        this.sendJsonResponse(res, status, data);
-    
- 
+    return this.sendJsonResponse(req, res, status, data);
 }
+
 
 
 
@@ -56,6 +54,7 @@ module.exports =  {
     sendJsonResponse,
     sendHtmlResponse,
     sendResponse,
-    sendTextResponse
+    sendPlainResponse,
+    sendFinalResponse
 
 }

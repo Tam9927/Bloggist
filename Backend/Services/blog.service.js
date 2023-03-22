@@ -6,7 +6,7 @@ const UserService = require("./user.service");
 async function getAllBlogs() {
   try {
     const data = await BlogRepository.getAllBlogs();
-    if (!data.length) {
+    if (!data) {
       return { status: 200, message: "Blogs table is empty!" };
     }
     return data;
@@ -41,8 +41,9 @@ async function getBlogByBlogId(blogId, title, description) {
       title,
       description
     );
+    
 
-    if (result.length == 0) {
+    if (!result) {
       return { status: 404, message: "Blog not found" };
     }
 
@@ -57,7 +58,7 @@ async function updateBlog(blogId, blog) {
     
       const result = await BlogRepository.updateBlog(blogId,blog);
 
-    if (result == 0) {
+    if (!result) {
       return { status: 404, message: "Blog not found" };
     }
     return { status: 200, message: result };
