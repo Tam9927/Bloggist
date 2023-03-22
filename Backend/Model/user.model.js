@@ -47,9 +47,9 @@ const user = sequelize.define(
 );
 
 async function test() {
-  await sequelize.sync();
-  console.log("User were synchronized successfully.");
-}
+  await user.sync();
+  console.log("User synchronized successfully.");
+} 
 
 test();
 
