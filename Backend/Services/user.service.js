@@ -52,7 +52,7 @@ async function findUserByEmail(email) {
 
 async function registerUser(user) {
   try {
-    const data = await UserRepository.register(user);
+    const data = await UserRepository.register(user); 
     return { status: 200, message: data };
   } catch {
     return { status: 400, message: "Please check your credentials again" };
