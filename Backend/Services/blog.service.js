@@ -3,9 +3,9 @@ const authMiddleware = require("../Middleware/auth.middleware");
 const BlogRepository = require("../repository/blog.repository");
 const UserService = require("./user.service");
 
-async function getAllBlogs() {
+async function getAllBlogs(pageNumber,pageSize) {
   try {
-    const data = await BlogRepository.getAllBlogs();
+    const data = await BlogRepository.getAllBlogs(pageNumber,pageSize);
     if (!data) {
       return { status: 200, message: "Blogs table is empty!" };
     }

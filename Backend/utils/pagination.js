@@ -1,26 +1,19 @@
-function paginate() {
-  const { page, size } = req.query;
+function paginate(req) {
+  
+  let pageNumber = parseInt(req.query.page);
+  let pageSize = parseInt(req.query.size);
 
-  if (size < 0 && size >= 3) {
-    size = 3;
+
+  if (!Number.isNaN(pageSize)&& pageSize > 0 && pageSize <= 5) {
+     pageSize=pageSize;
+  } 
+
+  if ( !Number.isNaN(pageNumber) && pageNumber < 0) {
+    pageNumber = 1;
   }
 
-  if (page < 0) {
-    page = 1;
-  }
+return [pageNumber,pageSize];
 
-  const startIndex = parseInt((page - 1) * size);
-
-  const endIndex = parseInt(page * size);
-
-  const results = {};
-
-  if (endIndex < 3) {
-    results.next = {
-      page: page + 1,
-      size: size,
-    };
-  }
 }
 
 module.exports = paginate;

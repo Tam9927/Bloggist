@@ -1,12 +1,20 @@
+"use strict";
 const express = require("express");
 const BlogService = require("../services/blog.service");
 const contentNegotiation = require("../utils/content-negotiation");
+const paginator = require("../utils/pagination");
 require("dotenv").config();
 
 async function getAllBlogs(req, res) {
   try {
+    let pagination = paginator(req);
+    const pageNumber = pagination[0];
+    const pageSize = pagination[1];
 
-    const blogs = await BlogService.getAllBlogs();
+    console.log(pageNumber, pageSize);
+
+    const blogs = await BlogService.getAllBlogs(pageNumber, pageSize);
+
     if (!blogs) {
       res.status(200).send("Blog list empty!");
     }

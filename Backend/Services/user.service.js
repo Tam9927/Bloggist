@@ -7,9 +7,9 @@ const crypto = require("crypto");
 const bcrypt = require("bcrypt");
 const uuid = require("uuid");
 
-async function findAllUsers() {
+async function findAllUsers(pageNumber,pageSize) {
   try {
-    const data = await UserRepository.getAllUsers();
+    const data = await UserRepository.getAllUsers(pageNumber,pageSize);
     if (data.length == 0) {
       return { status: 200, message: "Users table is empty!" };
     }

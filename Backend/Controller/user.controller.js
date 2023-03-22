@@ -2,11 +2,16 @@
 const express = require("express");
 const UserService = require("../services/user.service");
 const contentNegotiation = require("../utils/content-negotiation");
+const paginator = require("../utils/pagination");
 require("dotenv").config();
 
 async function getAllUsers(req, res) {
   try {
-    const data = await UserService.findAllUsers();
+    let pagination = paginator(req);
+    const pageNumber = pagination[0];
+    const pageSize = pagination[1];
+
+    const data = await UserService.findAllUsers(pageNumber, pageSize);
     contentNegotiation.sendResponse(req, res, 200, data.message);
   } catch (err) {
     res.status(err.status).send(err.message);
