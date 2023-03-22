@@ -1,6 +1,8 @@
 "use strict"
 require("dotenv").config();
 const express = require('express');
+"use strict"
+
 const app = express();
 const router = require('./Router/index');
 const db = require('./Configs/db.config');

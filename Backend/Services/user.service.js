@@ -1,4 +1,5 @@
 "use strict"
+
 const UserRepository = require("../repository/user.repository");
 const userUtils = require("../utils/user.utils");
 const UserDTO = require("../dto/user.dto");
@@ -6,11 +7,12 @@ const validator = require("email-validator");
 const crypto = require("crypto");
 const bcrypt = require("bcrypt");
 const uuid = require("uuid");
+require("dotenv").config();
 
 async function findAllUsers() {
   try {
     const data = await UserRepository.getAllUsers();
-    if (data.length == 0) {
+    if (!data.length) {
       return { status: 200, message: "Users table is empty!" };
     }
 
@@ -28,7 +30,7 @@ async function findAllUsers() {
 async function findUserByUserName(username) {
   try {
     const result = await UserRepository.getUserByName(username.toLowerCase());
-    if (result.length == 0) {
+    if (!result.length) {
       return { status: 404, message: "User not found" };
     }
 
@@ -39,10 +41,10 @@ async function findUserByUserName(username) {
   }
 }
 
-async function findByEmail(email) {
-  const Email = await UserRepository.getUserByEmail(email);
-  if (Email.length > 0) {
-    return { status: 200, message: "User Found" };
+async function findUserByEmail(email) {
+  const user = await UserRepository.getUserByEmail(email);
+  if (user.length > 0) {
+    return { status: 200, message: user.email };
   }
 
   return { status: 404, message: "User not found" };
@@ -51,7 +53,7 @@ async function findByEmail(email) {
 async function registerUser(user) {
   try {
     const data = await UserRepository.register(user);
-    return data;
+    return { status: 200, message: data };
   } catch {
     return { status: 400, message: "Please check your credentials again" };
   }
@@ -75,6 +77,7 @@ async function updateUser(username, user) {
   try {
     const saltrounds = parseInt(process.env.SALTROUND);
     const salt = await bcrypt.genSalt(saltrounds);
+ 
     const hashedPassword = await bcrypt.hash(user.password, salt);
 
     const result = await UserRepository.updateUser(
@@ -82,7 +85,7 @@ async function updateUser(username, user) {
       hashedPassword
     );
 
-    if (result == 0) {
+    if (!result) {
       return { status: 404, message: "User not found" };
     }
     return { status: 200, message: "User updated" };
@@ -93,20 +96,21 @@ async function updateUser(username, user) {
 
 async function loginUser(username) {
   try {
-    const result = await UserRepository.getUserByName(username.toLowerCase());
+
+    const result = await UserRepository.getUserByUserName(username.toLowerCase());
     if (!result) {
-      return { status: 404, message: "User not found" }
+      return { status: 404, message: "Please Check username or Password" };
     }
     return { status: 200, message: result };
   } catch {
-    return { status: 400, message: "login failed" }
+    return { status: 400, message: "An Error Occurred" };
   }
 }
 
 module.exports = {
   findAllUsers,
   findUserByUserName,
-  findByEmail,
+  findUserByEmail,
   deleteUser,
   updateUser,
   registerUser,

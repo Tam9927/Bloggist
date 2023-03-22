@@ -1,8 +1,9 @@
 "use strict"
+
 const userUtils = require("../utils/user.utils");
-const UserRepository = require("../repository/user.repository");
 const UserService = require("./user.service");
 const bcrypt = require("bcrypt");
+require("dotenv").config();
 
 async function register(user) {
   const userValid = userUtils.userValidator(
@@ -17,22 +18,24 @@ async function register(user) {
 
   const usernameDuplicate = await UserService.findUserByUserName(user.username);
   if (usernameDuplicate.status == 200) {
-    return { status: 400, message: "Username already used!" };
+    return { status: 400, message: "Username already used" };
   }
 
-  const emailDuplicate = await UserService.findByEmail(user.email);
+  const emailDuplicate = await UserService.findUserByEmail(user.email);
   if (emailDuplicate.status == 200) {
     return { status: 400, message: "Email is already in use!" };
   }
 
   try {
-    const saltrounds = parseInt(process.env.SALTROUND);
-    const salt = await bcrypt.genSalt(saltrounds);
+
+    const saltRounds = parseInt(process.env.SALTROUND);
+    const salt = await bcrypt.genSalt(saltRounds);
+
     const hashedPassword = await bcrypt.hash(user.password, salt);
     user.password = hashedPassword;
 
     const result = await UserService.registerUser(user);
-    return result;
+    return { status: 200, message: result.message };
   } catch (err) {
     throw err;
   }
@@ -53,6 +56,7 @@ async function loginUser(user) {
       return {status:userExists.status,message:userExists.message};
     } else {
       return {status:userExists.status,message:userExists.message};
+
     }
   } catch (err) {
     throw err;
