@@ -23,7 +23,7 @@ async function registerUser(req, res) {
           success: true,
         });
     } 
-      res.status(data.status).send(data.message);
+      res.status(status).send("Duplicate Credentials");
     
   } catch (err) {
     console.log(err);
@@ -35,7 +35,7 @@ async function loginUser(req, res) {
   try {
     const data = await authService.loginUser(req.body);
     const status = data.status;
-    if (status!=400) {
+    if (status==200) {
       const accesstoken = userUtils.generateToken(req.body.username);
       res
         .status(200)
@@ -47,10 +47,10 @@ async function loginUser(req, res) {
         });
     }
     
-      res.status(401).send("Incorrect username or password");
+      res.status(status).send(data.message);
     
   } catch (err) {
-    res.status(401).send("An error occurred");
+    res.status(400).send("An error occurred");
   }
 }
 

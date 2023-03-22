@@ -55,7 +55,7 @@ async function registerUser(user) {
   
   try {
     const data = await UserRepository.register(user);
-    return data;
+    return { status: 200, message: data };
   } catch {
     return { status: 400, message: "Please check your credentials again" };
   }
@@ -98,13 +98,13 @@ async function updateUser(username, user) {
 async function loginUser(username){
 
   try {
-    const result = await UserRepository.getUserByName(username.toLowerCase());
-    if (!result.length) {
-      return { status: 404, message: "User not found" };
+    const result = await UserRepository.getUserByUserName(username.toLowerCase());
+    if (!result) {
+      return { status: 404, message: "Please Check username or Password" };
     }
     return { status: 200, message: result };
   } catch {
-    return { status: 400, message: "Internal Error" };
+    return { status: 400, message: "An Error Occurred" };
   }
 
 }

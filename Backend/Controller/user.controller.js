@@ -19,11 +19,6 @@ async function getUserByUsername(req, res) {
   res.status(data.status).send(data.message);
 }
 
-async function createUser(req, res) {
-  const data = await UserService.createUser(req.body);
-  res.status(data.status).send(data.message);
-}
-
 async function updateUser(req, res) {
   const data = await UserService.updateUser(req.params.username, req.body);
   res.status(data.status).send(data.message);
@@ -40,7 +35,6 @@ async function deleteUser(req, res) {
 module.exports = {
   getAllUsers,
   getUserByUsername,
-  createUser,
   deleteUser,
   updateUser,
 };

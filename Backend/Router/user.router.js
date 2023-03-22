@@ -8,7 +8,6 @@ const router = express.Router();
 router
   .route("/")
   .get(UserController.getAllUsers)
-  .post(UserController.createUser);
 
 router
   .route("/:username")
