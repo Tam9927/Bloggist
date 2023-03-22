@@ -38,13 +38,13 @@ async function getBlogByBlogId(req, res) {
 async function updateBlog(req, res) {
   try {
     const data = await BlogService.updateBlog(req.params.blogId, req.body);
-    if (data.message[0] == 1) {
+    if (data) {
       contentNegotiation.sendResponse(
         req,
         res,
         200,
-        "Updated Blog"
-      );
+        data.message
+      ); 
     } else {
       res.status(400).json("Blog could not be edited. Please try again");
     }
@@ -60,7 +60,7 @@ async function deleteBlog(req, res) {
       req.username
     );
     if (deleteBlog) {
-     contentNegotiation.sendResponse(req, res, 200, "deleted Blog");
+     contentNegotiation.sendResponse(req, res, 200, deleteBlog.message);
     } else {
       res.status(404).send("Blog not found");
     }

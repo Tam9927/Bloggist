@@ -30,7 +30,7 @@ async function loginUser(req, res) {
     const data = await authService.loginUser(req.body);
     console.log(data)
     const status = data.status;
-    if (status != 400) {
+    if (status == 200) {
       const accesstoken = userUtils.generateToken(req.body.username);
       res.cookie("jwt", accesstoken, { httpOnly: true });
 
@@ -38,7 +38,7 @@ async function loginUser(req, res) {
         success: true,
       });
     } else {
-      res.status(401).send("Incorrect username or password");
+      res.status(status).send(data.message);
     }
   } catch (err) {
     res.status(401).send(err.message);

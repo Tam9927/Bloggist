@@ -62,7 +62,7 @@ async function updateBlog(blogId, blog) {
     if (!result) {
       return { status: 404, message: "Blog not found" };
     }
-    return { status: 200, message: result };
+    return { status: 200, message: "Blog Updated" };
   } catch {
     return { status: 400, message: "Update failed" };
   }

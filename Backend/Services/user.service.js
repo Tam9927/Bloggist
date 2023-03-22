@@ -10,7 +10,7 @@ const uuid = require("uuid");
 async function findAllUsers() {
   try {
     const data = await UserRepository.getAllUsers();
-    if (data.length == 0) {
+    if (!data) {
       return { status: 200, message: "Users table is empty!" };
     }
 
@@ -28,7 +28,7 @@ async function findAllUsers() {
 async function findUserByUserName(username) {
   try {
     const result = await UserRepository.getUserByName(username.toLowerCase());
-    if (result.length == 0) {
+    if (!result) {
       return { status: 404, message: "User not found" };
     }
 
@@ -41,7 +41,7 @@ async function findUserByUserName(username) {
 
 async function findByEmail(email) {
   const Email = await UserRepository.getUserByEmail(email);
-  if (Email.length > 0) {
+  if (Email) {
     return { status: 200, message: "User Found" };
   }
 
@@ -51,7 +51,7 @@ async function findByEmail(email) {
 async function registerUser(user) {
   try {
     const data = await UserRepository.register(user);
-    return data;
+    return { status: 200, message: data };
   } catch {
     return { status: 400, message: "Please check your credentials again" };
   }
@@ -94,8 +94,8 @@ async function updateUser(username, user) {
 async function loginUser(username) {
   try {
     const result = await UserRepository.getUserByName(username.toLowerCase());
-    if (result.length == 0) {
-      return { status: 404, message: "User not found" };
+    if (!result) {
+      return { status: 404, message: "Check username or password" };
     }
     return { status: 200, message: result };
   } catch {
