@@ -48,11 +48,11 @@ async function loginUser(user) {
       const validPass = await bcrypt.compare(user.password, password);
 
       if (!validPass) {
-        return false;
+        return {status:userExists.status,message:userExists.message};
       }
-      return userExists;
+      return {status:userExists.status,message:userExists.message};
     } else {
-      return false;
+      return {status:userExists.status,message:userExists.message};
     }
   } catch (err) {
     throw err;

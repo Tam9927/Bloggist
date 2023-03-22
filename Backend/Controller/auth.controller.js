@@ -15,7 +15,6 @@ async function registerUser(req, res) {
 
       contentNegotiation.sendResponse(req, res, 200, {
         success: true,
-        user,
       });
     } else {
       res.status(data.status).send(data.message);
@@ -37,7 +36,6 @@ async function loginUser(req, res) {
 
       contentNegotiation.sendResponse(req, res, 200, {
         success: true,
-        data,
       });
     } else {
       res.status(401).send("Incorrect username or password");
