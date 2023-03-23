@@ -7,11 +7,7 @@ require("dotenv").config();
 
 async function getAllBlogs(req, res) {
   try {
-    let pagination = paginator(req);
-    const pageNumber = pagination[0];
-    const pageSize = pagination[1];
-
-    console.log(pageNumber, pageSize);
+    const [pageNumber,pageSize]= paginator(req);
 
     const blogs = await BlogService.getAllBlogs(pageNumber, pageSize);
 
