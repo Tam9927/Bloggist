@@ -8,8 +8,7 @@ async function registerUser(req, res) {
   try {
     const data = await authService.register(req.body);
 
-    const status = data.status;
-    if (status != 400) {
+    if (data.status != 400) {
       const accesstoken = userUtils.generateToken(req.body.username);
       res.cookie("jwt", accesstoken, { httpOnly: true });
 
@@ -17,7 +16,7 @@ async function registerUser(req, res) {
         success: true,
       });
     } else {
-      res.status(data.status).send(data.message);
+      res.status(data.status).send("Duplicate Credentials");
     }
   } catch (err) {
     console.log(err);
