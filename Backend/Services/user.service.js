@@ -29,15 +29,15 @@ async function findAllUsers() {
 
 async function findUserByUserName(username) {
   try {
-    const result = await UserRepository.getUserByName(username.toLowerCase());
-    if (!result.length) {
+    const result = await UserRepository.getUserByUserName(username.toLowerCase());
+    if (!result) {
       return { status: 404, message: "User not found" };
     }
 
     const user = new UserDTO(result);
     return { status: 200, message: user };
   } catch {
-    return { status: 400, message: "Internal Error" };
+    return { status: 400, message: "Error" };
   }
 }
 

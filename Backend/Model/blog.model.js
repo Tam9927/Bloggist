@@ -24,11 +24,24 @@ const blog = sequelize.define(
     description: {
       type: DataTypes.STRING,
     },
+  
+  
+    authorid: {
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV4,
+      noUpdate: true,
+      allowNull: false,
+      validate: {
+        notEmpty: true,
+      },
+    },
   },
 
+ 
   {
     tableName: "blogs",
   }
+  
 );
 
 user.hasMany(blog, {
@@ -36,7 +49,7 @@ user.hasMany(blog, {
 });
 
 blog.belongsTo(user, {
-  foreignKey: "authorId",
+  foreignKey: "authorId", 
 });
 
 async function test() {
