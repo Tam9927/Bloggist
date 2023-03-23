@@ -40,7 +40,7 @@ blog.belongsTo(user, {
 });
 
 async function test() {
-  await blog.sync();
+  await sequelize.sync();
   console.log("Blog synchronized successfully.");
 }
 

@@ -32,7 +32,7 @@ async function register(user) {
     user.password = hashedPassword;
 
     const result = await UserService.registerUser(user);
-    return result;
+    return { status: 200, message: result }
   } catch (err) {
     throw err;
   }
