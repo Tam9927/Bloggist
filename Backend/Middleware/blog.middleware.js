@@ -1,14 +1,3 @@
-<<<<<<< Updated upstream
-const blogService = require("../services/blog.service");
-const userService = require("../services/user.service");
-
-async function blogMiddleware(req, res, next) {
-  try {
-    const blogExists = await blogService.getBlogByBlogId(req.params.blogId);
-    const authorExists = await userService.findUserByUserName(req.username);
-    
-    const status=blogExists.status
-=======
 const blogService = require('../services/blog.service');
 const userService = require('../services/user.service');
 
@@ -16,7 +5,6 @@ async function blogMiddleware(req, res, next) {
     try {
         const blogExists = await blogService.getBlogByBlogId(req.params.blogId);
         const authorExists = await userService.findUserByUserName(req.username);
->>>>>>> Stashed changes
 
         const { status } = blogExists;
 

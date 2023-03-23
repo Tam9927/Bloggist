@@ -1,11 +1,5 @@
-<<<<<<< Updated upstream
-'use strict'
-const User = require("../model/user.model");
-const UserRegisterDTO = require("../dto/user.register.dto");
-=======
 const User = require('../model/user.model');
 const UserRegisterDTO = require('../dto/user.register.dto');
->>>>>>> Stashed changes
 
 async function register(user) {
     const userToRegister = new UserRegisterDTO(user);

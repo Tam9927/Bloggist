@@ -1,10 +1,6 @@
-<<<<<<< Updated upstream
-const jwt = require("jsonwebtoken");
-=======
 
 
 const jwt = require('jsonwebtoken');
->>>>>>> Stashed changes
 
 const authMiddleware = async (req, res, next) => {
     try {
@@ -22,7 +18,7 @@ const authMiddleware = async (req, res, next) => {
                     return res.status(400).send('Session expired');
                 }
                 req.username = decoded.username;
-                next();
+                next();}
 
         );
     } catch (err) {

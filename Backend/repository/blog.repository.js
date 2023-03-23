@@ -1,20 +1,3 @@
-<<<<<<< Updated upstream
-"use strict";
-const Blog = require("../model/blog.model");
-const express = require("express");
-const database = require("../configs/db.config");
-const paginate = require("../utils/pagination");
-
-async function getAllBlogs(pageNumber, pageSize) {
-  try {
-    const offset = (pageNumber - 1) * pageSize;
-    const result = await Blog.findAll({ limit: pageSize, offset });
-    return result;
-  } catch (err) {
-    console.log(err.stack);
-    throw err;
-  }
-=======
 const express = require('express');
 const Blog = require('../model/blog.model');
 const database = require('../configs/db.config');
@@ -27,7 +10,6 @@ async function getAllBlogs() {
         console.log(err.stack);
         throw err;
     }
->>>>>>> Stashed changes
 }
 
 async function getBlogByBlogId(blogId) {

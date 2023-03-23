@@ -1,7 +1,3 @@
-<<<<<<< Updated upstream
-'use strict'
-=======
->>>>>>> Stashed changes
 class UserRegisterDTO {
     constructor(user) {
         (this.fullName = user.fullName), (this.username = user.username);

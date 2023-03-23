@@ -1,16 +1,8 @@
-<<<<<<< Updated upstream
-'use strict'
-const express = require("express");
-const BlogController = require("../controller/blog.controller");
-const authMiddleware = require("../Middleware/auth.middleware");
-const blogMiddleware = require("../Middleware/blog.middleware");
-=======
 const express = require('express');
 const BlogController = require('../controller/blog.controller');
 const authMiddleware = require('../Middleware/auth.middleware');
 const blogMiddleware = require('../Middleware/blog.middleware');
 
->>>>>>> Stashed changes
 const router = express.Router();
 
 router.route('/').get(BlogController.getAllBlogs).post(authMiddleware, BlogController.createBlog);

@@ -1,13 +1,6 @@
-<<<<<<< Updated upstream
-'use strict'
-const { validate } = require("email-validator");
-const { DataTypes } = require("sequelize");
-const { sequelize } = require("../configs/db.config");
-=======
 const { validate } = require('email-validator');
 const { DataTypes } = require('sequelize');
 const { sequelize } = require('../configs/db.config');
->>>>>>> Stashed changes
 
 const user = sequelize.define(
     'user',
@@ -51,13 +44,8 @@ const user = sequelize.define(
 );
 
 async function test() {
-<<<<<<< Updated upstream
-  await sequelize.sync();
-  console.log("User were synchronized successfully.");
-=======
     await sequelize.sync();
     console.log('User synchronized successfully.');
->>>>>>> Stashed changes
 }
 
 test();

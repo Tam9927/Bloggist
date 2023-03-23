@@ -1,17 +1,8 @@
-<<<<<<< Updated upstream
-'use strict'
-require("dotenv").config();
-const { validate } = require("email-validator");
-const { DataTypes } = require("sequelize");
-const { sequelize } = require("../configs/db.config");
-const user = require("./user.model");
-=======
 require('dotenv').config();
 const { validate } = require('email-validator');
 const { DataTypes } = require('sequelize');
 const { sequelize } = require('../configs/db.config');
 const user = require('./user.model');
->>>>>>> Stashed changes
 
 const blog = sequelize.define(
     'blog',
@@ -47,18 +38,6 @@ const blog = sequelize.define(
     {
         tableName: 'blogs',
     },
-<<<<<<< Updated upstream
-
-    description: {
-      type: DataTypes.STRING,
-    },
-  },
-
-  {
-    tableName: "blogs",
-  }
-=======
->>>>>>> Stashed changes
 );
 
 user.hasMany(blog, {
@@ -66,21 +45,12 @@ user.hasMany(blog, {
 });
 
 blog.belongsTo(user, {
-<<<<<<< Updated upstream
-  foreignKey: "authorId",
-});
-
-async function test() {
-  await sequelize.sync();
-  console.log("Blog synchronized successfully.");
-=======
     foreignKey: 'authorId',
 });
 
 async function test() {
     await blog.sync();
     console.log('Blog synchronized successfully.');
->>>>>>> Stashed changes
 }
 
 test();

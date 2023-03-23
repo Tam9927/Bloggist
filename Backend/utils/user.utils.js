@@ -1,11 +1,5 @@
-<<<<<<< Updated upstream
-'use strict'
-const validator = require("email-validator");
-const jwt = require("jsonwebtoken");
-=======
 const validator = require('email-validator');
 const jwt = require('jsonwebtoken');
->>>>>>> Stashed changes
 
 function userValidator(username, email, password) {
     if (!username || !email || !password) {
@@ -34,25 +28,6 @@ function userValidator(username, email, password) {
 }
 
 function generateToken(username) {
-<<<<<<< Updated upstream
-  
-  const accesstoken = jwt.sign({ username }, process.env.ACCESS_TOKEN_SECRET, {
-    algorithm: process.env.JWT_ALGO,
-    expiresIn: process.env.ACCESS_TOKEN_LIFE,
-  });
-  return accesstoken;
-}
-
-function removeToken(res){
-
-  res.status(200)
-  .clearCookie('jwt')
-  .json({
-      success: true,
-      message: "Logged Out"
-  });
-
-=======
     const accesstoken = jwt.sign({ username }, process.env.ACCESS_TOKEN_SECRET, {
         algorithm: process.env.JWT_ALGO,
         expiresIn: process.env.ACCESS_TOKEN_LIFE,
@@ -66,7 +41,6 @@ function removeToken(res) {
         success: true,
         message: 'Logged Out',
     });
->>>>>>> Stashed changes
 }
 
 function checkUsernameValid(username) {

@@ -1,15 +1,3 @@
-<<<<<<< Updated upstream
-"use strict"
-
-require("dotenv").config();
-const express = require("express");
-const app = express();
-const router = require("./Router/index");
-const db = require("./Configs/db.config");
-const PORT = process.env.PORT || 4000;
-const bodyParser = require("body-parser");
-const cookieParser = require("cookie-parser");
-=======
 require('dotenv').config();
 const express = require('express');
 
@@ -22,7 +10,6 @@ const db = require('./Configs/db.config');
 const PORT = process.env.PORT || 4000;
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
->>>>>>> Stashed changes
 
 db.connectToDB();
 
