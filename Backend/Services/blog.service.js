@@ -5,9 +5,12 @@ const UserService = require("./user.service");
 
 async function getAllBlogs(pageNumber,pageSize) {
   try {
-    const data = await BlogRepository.getAllBlogs(pageNumber,pageSize);
-    if (!data) {
-      return { status: 200, message: "Blogs table is empty!" };
+    const offset = (pageNumber-1)*pageSize;
+    const limit = pageSize;
+
+    const data = await BlogRepository.getAllBlogs(offset,limit);
+    if (!data.length) {
+      return { status: 200, message: data };
     }
     return data;
   } catch {

@@ -7,20 +7,15 @@ require("dotenv").config();
 
 async function getAllBlogs(req, res) {
   try {
-    let pagination = paginator(req);
-    const pageNumber = pagination[0];
-    const pageSize = pagination[1];
 
+    const [pageNumber,pageSize] = paginator(req);
     console.log(pageNumber, pageSize);
 
-    const blogs = await BlogService.getAllBlogs(pageNumber, pageSize);
-
-    if (!blogs) {
-      res.status(200).send("Blog list empty!");
-    }
+    const blogs = await BlogService.getAllBlogs(pageNumber, pageSize); 
+    
     const status = 200;
 
-    contentNegotiation.sendResponse(req, res, 200, blogs);
+    contentNegotiation.sendResponse(req, res, 200,blogs);
   } catch (err) {
     res.status(401).send(err.message);
   }
@@ -31,7 +26,7 @@ async function createBlog(req, res) {
     const createdBlog = await BlogService.createBlog(req.body, req.username);
     contentNegotiation.sendResponse(req, res, 201, createdBlog);
   } catch (err) {
-    res.status(400).send(err.message);
+    res.status(400).send(err.message); 
   }
 }
 

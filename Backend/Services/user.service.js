@@ -10,7 +10,7 @@ const uuid = require("uuid");
 async function findAllUsers(pageNumber,pageSize) {
   try {
     const data = await UserRepository.getAllUsers(pageNumber,pageSize);
-    if (data.length == 0) {
+    if (!data.length) {
       return { status: 200, message: "Users table is empty!" };
     }
 

@@ -4,10 +4,10 @@ const express = require("express");
 const database = require("../configs/db.config");
 const paginate = require("../utils/pagination");
 
-async function getAllBlogs(pageNumber, pageSize) {
+async function getAllBlogs(offset,limit) {
   try {
-    const offset = (pageNumber - 1) * pageSize;
-    const result = await Blog.findAll({ limit: pageSize, offset });
+    
+    const result = await Blog.findAll({ offset,limit });
     return result;
   } catch (err) {
     console.log(err.stack);

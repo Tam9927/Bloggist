@@ -16,9 +16,9 @@ async function registerUser(req, res) {
       contentNegotiation.sendResponse(req, res, 200, {
         success: true,
       });
-    } else {
+    } 
       res.status(data.status).send(data.message);
-    }
+    
   } catch (err) {
     console.log(err);
     res.status(400).send("An error occured");
@@ -28,7 +28,7 @@ async function registerUser(req, res) {
 async function loginUser(req, res) {
   try {
     const data = await authService.loginUser(req.body);
-    console.log(data)
+    console.log(data);
     const status = data.status;
     if (status != 400) {
       const accesstoken = userUtils.generateToken(req.body.username);
@@ -37,9 +37,9 @@ async function loginUser(req, res) {
       contentNegotiation.sendResponse(req, res, 200, {
         success: true,
       });
-    } else {
+    } 
       res.status(401).send("Incorrect username or password");
-    }
+    
   } catch (err) {
     res.status(401).send(err.message);
   }
