@@ -24,7 +24,8 @@ async function registerUser(req, res) {
           success: true,
         });
     } 
-      res.status(data.status).send("Duplicate Credentials"); 
+      
+res.status(data.status).send("Duplicate Credentials"); 
     
   } catch (err) {
     console.log(err);
@@ -35,8 +36,8 @@ async function registerUser(req, res) {
 async function loginUser(req, res) {
   try {
     const data = await authService.loginUser(req.body);
-    const status = data.status;
-
+    const status = data?.status;
+    const message = data?.message;
     if (status==200) {
 
       const accesstoken = userUtils.generateToken(req.body.username); 
@@ -46,16 +47,17 @@ async function loginUser(req, res) {
           httpOnly: true,
         })
         .json({
-          success: "logged in",
+          success: "logged in", 
         });
 
     }
     
-      res.status(status).send("User Not Found");
-    
+    else{
+      res.status(status).send(message);
+    }
 
   } catch (err) {
-    res.status(400).send("An error occurred");
+    res.status(500).send(err.message); 
   }
 }
 

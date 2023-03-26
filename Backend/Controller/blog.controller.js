@@ -6,7 +6,6 @@ require("dotenv").config();
 async function getAllBlogs(req, res) {
   try {
     const blogs = await BlogService.getAllBlogs();
-    console.log(blogs);
      if(!blogs){
          res.status(200).send("Blog list empty!");
     }
@@ -37,7 +36,7 @@ async function getBlogByBlogId(req, res) {
 async function updateBlog(req, res) {
   try {
     const data = await BlogService.updateBlog(req.params.blogId, req.body);
-    console.log(data)
+    
     if(data.message[0] == 1){
         res.status(200).json('Blog edited successfully');
     }

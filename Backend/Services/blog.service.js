@@ -6,7 +6,7 @@ const UserService = require("./user.service");
 async function getAllBlogs() {
   try {
     const data = await BlogRepository.getAllBlogs();
-    if (data.length==0) {
+    if (!data.length) {
       return { status: 200, message: "Blogs table is empty!" };
     }
     return data;
@@ -28,21 +28,19 @@ async function createBlog(blog,username) {
       return result;
     }
 
-    return { status: 404, message: "Author Does not exist" };
+    return { status: 400, message: "Bad Request: Author Does not exist" };
   } catch {
-    return { status: 404, message: "Please check your credentials again" };
+    return { status: 500, message: "Internal Error" };
   }
 }
 
-async function getBlogByBlogId(blogId, title, description) {
+async function getBlogByBlogId(blogId) {
   try {
     const result = await BlogRepository.getBlogByBlogId(
-      blogId,
-      title,
-      description
+      blogId
     );
 
-    if (result.length == 0) {
+    if (!result.length) {
       return { status: 404, message: "Blog not found" };
     }
 
@@ -57,7 +55,7 @@ async function updateBlog(blogId, blog) {
     
       const result = await BlogRepository.updateBlog(blogId,blog);
 
-    if (result == 0) {
+    if (!result) {
       return { status: 404, message: "Blog not found" };
     }
     return { status: 200, message: result };
@@ -70,8 +68,8 @@ async function deleteBlog(blogId) {
   try {
     const result = await BlogRepository.deleteBlog(blogId);
 
-    if (result==0) {
-      return { status: 404, message: "User not found" };
+    if (!result) {
+      return { status: 404, message: "Could Not Delete Blog" };
     }
 
     return { status: 200, message: "Blog removed" };

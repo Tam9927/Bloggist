@@ -69,7 +69,6 @@ async function getUserByUserName(username) {
     const result = await User.findOne({ where: { username } });
     return result;
   } catch (err) {
-    console.log(err.stack);
     throw err;
   }
 }

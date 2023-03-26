@@ -26,7 +26,7 @@ const blog = sequelize.define(
     },
   
   
-    authorid: {
+    authorId: {
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV4,
       noUpdate: true,
