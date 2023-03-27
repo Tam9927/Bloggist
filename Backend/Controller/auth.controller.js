@@ -11,6 +11,7 @@ async function registerUser(req, res) {
 
     const data = await authService.register(req.body);
     const status = data?.status;
+    const message = data?.message;
     
     if (status != 400) {
       const accesstoken = userUtils.generateToken(req.body.username);
@@ -23,8 +24,9 @@ async function registerUser(req, res) {
           success: true,
         });
     } 
-      res.status(status).send("Duplicate Credentials");
-    
+      else{
+        res.status(status).send(message);
+      }
   } catch (err) {
     console.log(err);
     res.status(500).send("An error occurred");
@@ -48,8 +50,9 @@ async function loginUser(req, res) {
         });
     }
     
-      res.status(status).send(message);
-    
+      else{
+        res.status(status).send(message);
+      }
   } catch (err) {
     res.status(400).send("An error occurred");
   }

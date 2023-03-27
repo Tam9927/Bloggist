@@ -30,8 +30,8 @@ async function findAllUsers() {
 async function findUserByUserName(username) {
   try {
     
-    const result = await UserRepository.getUserByName(username.toLowerCase());
-    if (!result.length) {
+    const result = await UserRepository.getUserByUserName(username.toLowerCase());
+    if (!result) {
       return { status: 404, message: "User not found" };
     }
 
