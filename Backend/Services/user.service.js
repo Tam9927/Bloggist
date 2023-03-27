@@ -10,7 +10,7 @@ const uuid = require("uuid");
 async function findAllUsers() {
   try {
     const data = await UserRepository.getAllUsers();
-    if (!data) {
+    if (!data.length) {
       return { status: 200, message: "Users table is empty!" };
     }
 
@@ -20,8 +20,8 @@ async function findAllUsers() {
     });
 
     return { status: 200, message: allUsers };
-  } catch {
-    return { status: 500, message: "Internal server error!" };
+  } catch(err){
+    return { status: 500, message: console.error(err) };
   }
 }
 
@@ -34,8 +34,8 @@ async function findUserByUserName(username) {
 
     const user = new UserDTO(result);
     return { status: 200, message: user };
-  } catch {
-    return { status: 400, message: "Internal Error" };
+  } catch(err){
+    return { status: 500, message: console.err(err)  };
   }
 }
 
@@ -52,8 +52,8 @@ async function registerUser(user) {
   try {
     const data = await UserRepository.register(user);
     return { status: 200, message: data };
-  } catch {
-    return { status: 400, message: "Please check your credentials again" };
+  } catch(err) {
+    return { status: 500, message: console.err(err) };
   }
 }
 
@@ -66,8 +66,8 @@ async function deleteUser(username) {
     }
 
     return { status: 200, message: "User removed" };
-  } catch {
-    return { status: 400, message: "An Error Occured" };
+  } catch(err) {
+    return { status: 500, message: console.err(err) };
   }
 }
 
@@ -86,8 +86,8 @@ async function updateUser(username, user) {
       return { status: 404, message: "User not found" };
     }
     return { status: 200, message: "User updated" };
-  } catch {
-    return { status: 400, message: "Update failed" };
+  } catch(err) {
+    return { status: 500, message: console.err(err) };
   }
 }
 
@@ -98,7 +98,7 @@ async function loginUser(username) {
       return { status: 404, message: "Check username or password" };
     }
     return { status: 200, message: result };
-  } catch {
+  } catch(err) {
     return { status: 400, message: "Internal Error" };
   }
 }

@@ -34,7 +34,7 @@ async function register(user) {
     const result = await UserService.registerUser(user);
     return { status: 200, message: result.message };
   } catch (err) {
-    throw err;
+    console.err(err)
   }
 }
 
@@ -48,14 +48,14 @@ async function loginUser(user) {
       const validPass = await bcrypt.compare(user.password, password);
 
       if (!validPass) {
-        return {status:userExists.status,message:userExists.message};
+        return {status:400,message:"User Not Found"};
       }
       return {status:userExists.status,message:userExists.message};
     } else {
-      return {status:userExists.status,message:userExists.message};
+      return {status:500,message:console.error("Incorrect Username Or Password")};
     }
   } catch (err) {
-    throw err;
+    console.err(err)
   }
 }
 
