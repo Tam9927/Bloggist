@@ -25,7 +25,7 @@ async function registerUser(req, res) {
         });
     } 
       
-res.status(status).send("Duplicate Credentials"); 
+res.status(status).send(message); 
     
   } catch (err) {
     console.log(err);

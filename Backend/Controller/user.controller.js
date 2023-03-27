@@ -8,6 +8,9 @@ require("dotenv").config();
 async function getAllUsers(req, res) {
   try {
     const data = await UserService.findAllUsers();
+    if(!data.length){
+        res.status(200).send("Blog list empty!");
+   }
     res.status(data.status).send(data.message);
   } catch (err) {
     res.status(err.status).send(err.message);

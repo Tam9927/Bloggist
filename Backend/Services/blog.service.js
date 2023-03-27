@@ -10,8 +10,8 @@ async function getAllBlogs() {
       return { status: 200, message: "Blogs table is empty!" };
     }
     return data;
-  } catch {
-    return { status: 500, message: "Internal server error!" };
+  } catch(err) {
+    return { status: 500, message: err };
   }
 }
 
@@ -29,8 +29,8 @@ async function createBlog(blog,username) {
     }
 
     return { status: 400, message: "Bad Request: Author Does not exist" };
-  } catch {
-    return { status: 500, message: "Internal Error" };
+  } catch(err) {
+    return { status: 500, message: err };
   }
 }
 
@@ -45,8 +45,8 @@ async function getBlogByBlogId(blogId) {
     }
 
     return { status: 200, message: result };
-  } catch {
-    return { status: 400, message: "Internal Error" };
+  } catch(err) {
+    return { status: 500, message: err };
   }
 }
 
@@ -59,8 +59,8 @@ async function updateBlog(blogId, blog) {
       return { status: 404, message: "Blog not found" };
     }
     return { status: 200, message: result };
-  } catch {
-    return { status: 500, message: console.error("Unauthorized Blog Id") };
+  } catch(err) {
+    return { status: 500, message: err };
   }
 }
 
@@ -73,8 +73,8 @@ async function deleteBlog(blogId) {
     }
 
     return { status: 200, message: "Blog removed" };
-  } catch {
-    return { status: 500, message: console.error("Unauthorized Blog Access") };
+  } catch(err) {
+    return { status: 500, message: err };
   }
 }
 
