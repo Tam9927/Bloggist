@@ -13,7 +13,8 @@ async function getAllUsers() {
     
     return result;
   } catch (err) {
-    throw console.error(err);
+    console.log(err.stack);
+    throw err;
   }
 }
 
@@ -27,7 +28,8 @@ async function getUserByEmail(email) {
 
     return result;
   } catch (err) {
-    throw console.error(err);
+    console.log(err.stack);
+    throw err;
   }
 }
 
@@ -41,7 +43,8 @@ async function deleteUser(username) {
 
     return result;
   } catch (err) {
-    throw console.error(err);
+    console.log(err.stack);
+    throw err;
   }
 }
 
@@ -51,7 +54,8 @@ async function updateUser(username, password) {
 
     return result;
   } catch (err) {
-    throw console.error(err);
+    console.log(err.stack);
+    throw err;
   }
 }
 
@@ -61,7 +65,8 @@ async function register(user) {
     const result = await User.create(userToRegister);
     return result;
   } catch (err) {
-    throw console.error(err);
+    console.log(err.stack);
+    throw err;
   }
 }
 
