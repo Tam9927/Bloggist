@@ -17,12 +17,12 @@ async function register(user) {
   }
 
   const usernameDuplicate = await UserService.findUserByUserName(user.username);
-  if (usernameDuplicate.status == 200) {
+  if (usernameDuplicate.status === 200) {
     return { status: 400, message: "Username already used" };
   }
 
   const emailDuplicate = await UserService.findUserByEmail(user.email);
-  if (emailDuplicate.status == 200) {
+  if (emailDuplicate.status === 200) {
     return { status: 400, message: "Email is already in use!" };
   }
 

@@ -40,7 +40,7 @@ async function getBlogByBlogId(blogId) {
       blogId
     );
 
-    if (!result.length) {
+    if (!result) {
       return { status: 404, message: "Blog not found" };
     }
 
