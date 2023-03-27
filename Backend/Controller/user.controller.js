@@ -15,7 +15,7 @@ async function getUserByUsername(req, res) {
     return res.status(400).send({ message: "Invalid request parameter!" });
   }
 
-  const data = await UserService.findUserByUserName(req.body.username);
+  const data = await UserService.findUserByUserName(req.params.username);
   res.status(data.status).send(data.message);
 }
 
