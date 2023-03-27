@@ -35,7 +35,7 @@ async function findUserByUserName(username) {
     const user = new UserDTO(result);
     return { status: 200, message: user };
   } catch(err){
-    return { status: 500, message: console.err(err)  };
+    return { status: 500, message: console.error(err)  };
   }
 }
 
@@ -53,7 +53,7 @@ async function registerUser(user) {
     const data = await UserRepository.register(user);
     return { status: 200, message: data };
   } catch(err) {
-    return { status: 500, message: console.err(err) };
+    return { status: 500, message: console.error(err) };
   }
 }
 
@@ -67,7 +67,7 @@ async function deleteUser(username) {
 
     return { status: 200, message: "User removed" };
   } catch(err) {
-    return { status: 500, message: console.err(err) };
+    return { status: 500, message: console.error(err) };
   }
 }
 
@@ -87,7 +87,7 @@ async function updateUser(username, user) {
     }
     return { status: 200, message: "User updated" };
   } catch(err) {
-    return { status: 500, message: console.err(err) };
+    return { status: 500, message: console.error(err) };
   }
 }
 
@@ -99,7 +99,7 @@ async function loginUser(username) {
     }
     return { status: 200, message: result };
   } catch(err) {
-    return { status: 400, message: "Internal Error" };
+    return { status: 400, message: console.error(err) };
   }
 }
 
