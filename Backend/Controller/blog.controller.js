@@ -1,24 +1,32 @@
 require('express');
 const BlogService = require('../services/blog.service');
 require('dotenv').config();
+const contentNegotiation = require('../utils/content-negotiation');
+const paginator = require('../utils/pagination');
 
 async function getAllBlogs(req, res) {
     try {
-        const blogs = await BlogService.getAllBlogs();
-        console.log(blogs);
-        if (!blogs) {
-            res.status(200).send('Blog list empty!');
-        }
-        res.status(200).send(blogs);
+        const [pageNumber, pageSize] = paginator(req);
+
+        const blogs = await BlogService.getAllBlogs(pageNumber, pageSize);
+
+        const status = 200;
+
+        contentNegotiation.sendResponse(
+            req,
+            res,
+            status,
+            blogs.message.length ? blogs.message : 'Blog list is empty',
+        );
     } catch (err) {
-        res.status(err.status).send(err.message);
+        res.status(401).send(err.message);
     }
 }
 
 async function createBlog(req, res) {
     try {
         const createdBlog = await BlogService.createBlog(req.body, req.username);
-        res.status(200).send(createdBlog);
+        contentNegotiation.sendResponse(req, res, 201, createdBlog);
     } catch (err) {
         res.status(err.status).send(err.message);
     }
@@ -27,7 +35,7 @@ async function createBlog(req, res) {
 async function getBlogByBlogId(req, res) {
     try {
         const blog = await BlogService.getBlogByBlogId(req.params.blogId);
-        res.status(200).json(blog);
+        contentNegotiation.sendResponse(req, res, 201, blog);
     } catch (err) {
         res.status(err.status).send(err.message);
     }
@@ -36,9 +44,9 @@ async function getBlogByBlogId(req, res) {
 async function updateBlog(req, res) {
     try {
         const data = await BlogService.updateBlog(req.params.blogId, req.body);
-        console.log(data);
+
         if (data.message[0] === 1) {
-            res.status(200).json('Blog edited successfully');
+            contentNegotiation.sendResponse(req, res, 200, 'Blog edited successfully');
         } else {
             res.status(400).json('Blog could not be edited. Please try again');
         }
@@ -51,7 +59,7 @@ async function deleteBlog(req, res) {
     try {
         const deletedBlog = await BlogService.deleteBlog(req.params.blogId, req.username);
         if (deletedBlog) {
-            res.status(200).send('Deleted Successfully');
+            contentNegotiation.sendResponse(req, res, 200, 'Blog deleted');
         } else {
             res.status(404).send('Blog not found');
         }

@@ -2,22 +2,23 @@ require('dotenv').config();
 require('jsonwebtoken');
 const authService = require('../services/auth.service');
 const userUtils = require('../utils/user.utils');
+const contentNegotiation = require('../utils/content-negotiation');
 
 async function registerUser(req, res) {
     try {
         const data = await authService.register(req.body);
+        const status = data?.status;
+        const message = data?.message;
 
         if (data.status !== 400) {
             const accesstoken = userUtils.generateToken(req.body.username);
-            res.status(200)
-                .cookie('jwt', accesstoken, {
-                    httpOnly: true,
-                })
-                .json({
-                    success: true,
-                });
+            res.cookie('jwt', accesstoken, { httpOnly: true });
+
+            contentNegotiation.sendResponse(req, res, 200, {
+                success: true,
+            });
         }
-        res.status(data.status).send('Duplicate Credentials');
+        res.status(status).send(message);
     } catch (err) {
         console.log(err);
         res.status(500).send('An error occurred');
@@ -27,20 +28,19 @@ async function registerUser(req, res) {
 async function loginUser(req, res) {
     try {
         const data = await authService.loginUser(req.body);
-        const { status } = data;
+        const status = data?.status;
+        const message = data?.message;
 
         if (status === 200) {
             const accesstoken = userUtils.generateToken(req.body.username);
-            res.status(200)
-                .cookie('jwt', accesstoken, {
-                    httpOnly: true,
-                })
-                .json({
-                    success: 'logged in',
-                });
-        }
+            res.cookie('jwt', accesstoken, { httpOnly: true });
 
-        res.status(status).send('User Not Found');
+            contentNegotiation.sendResponse(req, res, 200, {
+                success: true,
+            });
+
+            res.status(status).send(message);
+        }
     } catch (err) {
         res.status(400).send('An error occurred');
     }
