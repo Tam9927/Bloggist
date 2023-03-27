@@ -14,7 +14,7 @@ async function getAllBlogs(pageNumber,pageSize) {
     }
     return data;
   } catch(err) {
-    return { status: 500, message: console.error(err) };
+    return { status: 500, message: err };
   }
 }
 
@@ -33,7 +33,7 @@ async function createBlog(blog,username) {
 
     return { status: 404, message: "Author Does not exist" };
   } catch(err) {
-    return { status: 500, message: console.error(err) };
+    return { status: 500, message: err };
   }
 }
 
@@ -52,7 +52,7 @@ async function getBlogByBlogId(blogId, title, description) {
 
     return { status: 200, message: result };
   } catch(err) {
-    return { status: 500, message: console.error(err) };
+    return { status: 500, message: err };
   }
 }
 
@@ -66,7 +66,7 @@ async function updateBlog(blogId, blog) {
     }
     return { status: 200, message: result };
   } catch(err) {
-    return { status: 500, message: console.error(err) };
+    return { status: 500, message: err };
   }
 }
 
@@ -80,7 +80,7 @@ async function deleteBlog(blogId) {
 
     return { status: 200, message: "Blog removed" };
   } catch(err) {
-    return { status: 500, message: console.error(err) };
+    return { status: 500, message: err };
   }
 }
 

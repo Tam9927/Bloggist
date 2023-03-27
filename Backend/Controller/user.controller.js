@@ -7,9 +7,7 @@ require("dotenv").config();
 
 async function getAllUsers(req, res) {
   try {
-    let pagination = paginator(req);
-    const pageNumber = pagination[0];
-    const pageSize = pagination[1];
+    const [pageNumber,pageSize] = paginator(req);
 
     const data = await UserService.findAllUsers(pageNumber, pageSize);
     contentNegotiation.sendResponse(req, res

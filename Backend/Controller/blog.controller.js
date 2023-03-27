@@ -41,7 +41,7 @@ async function getBlogByBlogId(req, res) {
 async function updateBlog(req, res) {
   try {
     const data = await BlogService.updateBlog(req.params.blogId, req.body);
-    if (data.message[0] == 1) {
+    if (data.message[0] === 1) {
       contentNegotiation.sendResponse(
         req,
         res,
