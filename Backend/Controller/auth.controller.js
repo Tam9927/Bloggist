@@ -5,8 +5,6 @@ const authService = require("../services/auth.service");
 const userUtils = require("../utils/user.utils");
 const jwt = require("jsonwebtoken"); 
 
-
-
 async function registerUser(req, res) {
   try { 
 

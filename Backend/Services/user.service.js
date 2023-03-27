@@ -1,5 +1,4 @@
 "use strict"
-
 const UserRepository = require("../repository/user.repository");
 const userUtils = require("../utils/user.utils");
 const UserDTO = require("../dto/user.dto");
@@ -37,7 +36,7 @@ async function findUserByUserName(username) {
     const user = new UserDTO(result);
     return { status: 200, message: user };
   } catch {
-    return { status: 400, message: "Error" };
+    return { status: 500, message: console.error };
   }
 }
 

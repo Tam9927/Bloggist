@@ -60,7 +60,7 @@ async function updateBlog(blogId, blog) {
     }
     return { status: 200, message: result };
   } catch {
-    return { status: 500, message: console.error };
+    return { status: 500, message: console.error("Unauthorized Blog Id") };
   }
 }
 
@@ -74,7 +74,7 @@ async function deleteBlog(blogId) {
 
     return { status: 200, message: "Blog removed" };
   } catch {
-    return { status: 500, message: console.error };
+    return { status: 500, message: console.error("Unauthorized Blog Access") };
   }
 }
 
