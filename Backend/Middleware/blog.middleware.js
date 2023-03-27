@@ -8,7 +8,7 @@ async function blogMiddleware(req, res, next) {
     
     const status=blogExists.status
 
-    if (status!=200) {
+    if (status!==200) {
       return res.status(404).send("Blog not found");
     }
     if (!authorExists) {

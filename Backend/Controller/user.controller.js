@@ -12,7 +12,8 @@ async function getAllUsers(req, res) {
     const pageSize = pagination[1];
 
     const data = await UserService.findAllUsers(pageNumber, pageSize);
-    contentNegotiation.sendResponse(req, res, 200, data.message);
+    contentNegotiation.sendResponse(req, res
+        , 200, data.message);
   } catch (err) {
     res.status(err.status).send(err.message);
   }

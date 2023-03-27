@@ -9,13 +9,12 @@ async function getAllBlogs(req, res) {
   try {
 
     const [pageNumber,pageSize] = paginator(req);
-    console.log(pageNumber, pageSize);
 
     const blogs = await BlogService.getAllBlogs(pageNumber, pageSize); 
     
     const status = 200;
 
-    contentNegotiation.sendResponse(req, res, 200,blogs);
+    contentNegotiation.sendResponse(req, res, 200, blogs.message.length ? blogs.message : "Blog list is empty");
   } catch (err) {
     res.status(401).send(err.message);
   }
