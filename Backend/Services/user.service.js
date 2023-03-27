@@ -36,7 +36,7 @@ async function findUserByUserName(username) {
     const user = new UserDTO(result);
     return { status: 200, message: user };
   } catch {
-    return { status: 500, message: console.error };
+    return { status: 500, message: console.error("A server Error") };
   }
 }
 
@@ -102,7 +102,7 @@ async function loginUser(username) {
     }
     return { status: 200, message: result };
   } catch {
-    return { status: 400, message: "An Error Occurred" };
+    return { status: 500, message: "An Error Occurred" };
   }
 }
 
