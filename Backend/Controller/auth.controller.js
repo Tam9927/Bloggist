@@ -10,6 +10,7 @@ async function registerUser(req, res) {
 
     const data = await authService.register(req.body);
     const status = data?.status;
+    const message = data?.message;
 
 
     if (status != 400) {
@@ -24,7 +25,7 @@ async function registerUser(req, res) {
         });
     } 
       
-res.status(data.status).send("Duplicate Credentials"); 
+res.status(status).send("Duplicate Credentials"); 
     
   } catch (err) {
     console.log(err);
