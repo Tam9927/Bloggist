@@ -52,7 +52,7 @@ async function loginUser(user) {
       }
       return {status:userExists.status,message:userExists.message};
     } else {
-      return {status:500,message:console.error("Incorrect Username Or Password")};
+      return {status:500,message:"Incorrect Username Or Password"};
     }
   } catch (err) {
     console.err(err)
