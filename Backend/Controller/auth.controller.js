@@ -11,9 +11,10 @@ async function registerUser(req, res) {
   try { 
 
     const data = await authService.register(req.body);
-    
+    const status = data?.status;
 
-    if (data.status != 400) {
+
+    if (status != 400) {
       const accesstoken = userUtils.generateToken(req.body.username); 
       res
         .status(200)

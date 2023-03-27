@@ -25,16 +25,6 @@ const blog = sequelize.define(
       type: DataTypes.STRING,
     },
   
-  
-    authorId: {
-      type: DataTypes.UUID,
-      defaultValue: DataTypes.UUIDV4,
-      noUpdate: true,
-      allowNull: false,
-      validate: {
-        notEmpty: true,
-      },
-    },
   },
 
  
