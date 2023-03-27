@@ -1,11 +1,11 @@
-const authMiddleware = require('../Middleware/auth.middleware');
+require('../Middleware/auth.middleware');
 const BlogRepository = require('../repository/blog.repository');
 const UserService = require('./user.service');
 
 async function getAllBlogs() {
     try {
         const data = await BlogRepository.getAllBlogs();
-        if (data.length == 0) {
+        if (data.length === 0) {
             return { status: 200, message: 'Blogs table is empty!' };
         }
         return data;
@@ -22,6 +22,7 @@ async function createBlog(blog, username) {
     try {
         const authorExists = await UserService.findUserByUserName(username);
         if (authorExists) {
+            // eslint-disable-next-line no-param-reassign
             blog.authorId = authorExists.message.Id;
             const result = await BlogRepository.createBlog(blog);
             return result;
@@ -37,7 +38,7 @@ async function getBlogByBlogId(blogId, title, description) {
     try {
         const result = await BlogRepository.getBlogByBlogId(blogId, title, description);
 
-        if (result.length == 0) {
+        if (result.length === 0) {
             return { status: 404, message: 'Blog not found' };
         }
 
@@ -51,7 +52,7 @@ async function updateBlog(blogId, blog) {
     try {
         const result = await BlogRepository.updateBlog(blogId, blog);
 
-        if (result == 0) {
+        if (result === 0) {
             return { status: 404, message: 'Blog not found' };
         }
         return { status: 200, message: result };
@@ -64,7 +65,7 @@ async function deleteBlog(blogId) {
     try {
         const result = await BlogRepository.deleteBlog(blogId);
 
-        if (result == 0) {
+        if (result === 0) {
             return { status: 404, message: 'User not found' };
         }
 

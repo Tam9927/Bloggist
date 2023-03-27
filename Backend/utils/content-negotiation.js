@@ -1,7 +1,8 @@
 const json2xml = require('xml-js');
+// eslint-disable-next-line import/no-extraneous-dependencies
 const json2html = require('json-to-html');
 const json2plain = require('json-to-plain-text');
-const { json } = require('body-parser');
+require('body-parser');
 
 function sendJsonResponse(req, res, status, data) {
     const jsonData = { data };

@@ -1,8 +1,8 @@
-const validator = require('email-validator');
-const crypto = require('crypto');
+require('email-validator');
+require('crypto');
 const bcrypt = require('bcrypt');
-const uuid = require('uuid');
-const userUtils = require('../utils/user.utils');
+require('uuid');
+require('../utils/user.utils');
 const UserDTO = require('../dto/user.dto');
 const UserRepository = require('../repository/user.repository');
 require('dotenv').config();
@@ -73,7 +73,7 @@ async function deleteUser(username) {
 
 async function updateUser(username, user) {
     try {
-        const saltrounds = parseInt(process.env.SALTROUND);
+        const saltrounds = parseInt(process.env.SALTROUND, 10);
         const salt = await bcrypt.genSalt(saltrounds);
 
         const hashedPassword = await bcrypt.hash(user.password, salt);

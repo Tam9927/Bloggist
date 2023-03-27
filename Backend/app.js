@@ -1,23 +1,20 @@
 require('dotenv').config();
 const express = require('express');
 
-('use strict');
-
 const app = express();
-const router = require('./Router/index');
-const db = require('./Configs/db.config');
+const cookieParser = require('cookie-parser');
+const router = require('./router/index');
+const db = require('./configs/db.config');
 
 const PORT = process.env.PORT || 4000;
-const bodyParser = require('body-parser');
-const cookieParser = require('cookie-parser');
 
 db.connectToDB();
 
 app.use(express.json());
 app.use(cookieParser());
 
-app.use((err, req, res, next) => {
-    if (err.name == 'ValidationError') {
+app.use((err, req, res) => {
+    if (err.name === 'ValidationError') {
         const valErrors = [];
 
         valErrors.push('Server Crashed!!!');

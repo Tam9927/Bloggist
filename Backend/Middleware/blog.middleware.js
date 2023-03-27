@@ -8,19 +8,20 @@ async function blogMiddleware(req, res, next) {
 
         const { status } = blogExists;
 
-        if (status != 200) {
+        if (status !== 200) {
             return res.status(404).send('Blog not found');
         }
         if (!authorExists) {
             return res.status(404).send('Author not found');
         }
-        if (blogExists.message.authorId != authorExists.message.Id) {
+        if (blogExists.message.authorId !== authorExists.message.Id) {
             return res.status(403).send('Permission denied');
         }
         next();
     } catch (err) {
         next(err);
     }
+    return 0;
 }
 
 module.exports = blogMiddleware;

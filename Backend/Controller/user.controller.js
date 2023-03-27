@@ -1,4 +1,4 @@
-const express = require('express');
+require('express');
 const UserService = require('../services/user.service');
 require('dotenv').config();
 
@@ -18,6 +18,7 @@ async function getUserByUsername(req, res) {
 
     const data = await UserService.findUserByUserName(req.body.username);
     res.status(data.status).send(data.message);
+    return 0;
 }
 
 async function updateUser(req, res) {
@@ -39,6 +40,7 @@ async function deleteUser(req, res) {
     } catch (err) {
         res.status(err.status).send(err.message);
     }
+    return 0;
 }
 
 module.exports = {

@@ -1,6 +1,6 @@
-const express = require('express');
+require('express');
 const Blog = require('../model/blog.model');
-const database = require('../configs/db.config');
+require('../configs/db.config');
 
 async function getAllBlogs() {
     try {
@@ -22,7 +22,7 @@ async function getBlogByBlogId(blogId) {
     }
 }
 
-async function getBlogbyAuthorId() {
+async function getBlogbyAuthorId(authorId) {
     try {
         const result = await Blog.findByPk(authorId);
         return result;

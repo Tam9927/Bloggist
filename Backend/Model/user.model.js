@@ -1,4 +1,4 @@
-const { validate } = require('email-validator');
+require('email-validator');
 const { DataTypes } = require('sequelize');
 const { sequelize } = require('../configs/db.config');
 

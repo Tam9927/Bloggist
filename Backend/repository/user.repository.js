@@ -1,5 +1,5 @@
-const express = require('express');
-const database = require('../configs/db.config');
+require('express');
+require('../configs/db.config');
 const User = require('../model/user.model');
 const UserRegisterDTO = require('../dto/user.register.dto');
 

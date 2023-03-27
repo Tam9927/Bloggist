@@ -1,6 +1,28 @@
 const validator = require('email-validator');
 const jwt = require('jsonwebtoken');
 
+function checkUsernameValid(username) {
+    const usernameValidCheck = /[^A-Za-z0-9]/;
+    if (usernameValidCheck.test(username)) {
+        return false;
+    }
+    return true;
+}
+
+function checkPasswordValid(password) {
+    if (password.length < 6) {
+        return false;
+    }
+    return true;
+}
+
+function checkEmailValid(email) {
+    if (validator.validate(email)) {
+        return true;
+    }
+    return false;
+}
+
 function userValidator(username, email, password) {
     if (!username || !email || !password) {
         return { valid: false, message: 'Please enter all the fields' };
@@ -41,28 +63,6 @@ function removeToken(res) {
         success: true,
         message: 'Logged Out',
     });
-}
-
-function checkUsernameValid(username) {
-    const usernameValidCheck = /[^A-Za-z0-9]/;
-    if (usernameValidCheck.test(username)) {
-        return false;
-    }
-    return true;
-}
-
-function checkPasswordValid(password) {
-    if (password.length < 6) {
-        return false;
-    }
-    return true;
-}
-
-function checkEmailValid(email) {
-    if (validator.validate(email)) {
-        return true;
-    }
-    return false;
 }
 
 module.exports = {

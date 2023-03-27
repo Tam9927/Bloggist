@@ -1,4 +1,4 @@
-const express = require('express');
+require('express');
 const BlogService = require('../services/blog.service');
 require('dotenv').config();
 
@@ -37,7 +37,7 @@ async function updateBlog(req, res) {
     try {
         const data = await BlogService.updateBlog(req.params.blogId, req.body);
         console.log(data);
-        if (data.message[0] == 1) {
+        if (data.message[0] === 1) {
             res.status(200).json('Blog edited successfully');
         } else {
             res.status(400).json('Blog could not be edited. Please try again');
@@ -49,8 +49,8 @@ async function updateBlog(req, res) {
 
 async function deleteBlog(req, res) {
     try {
-        const deleteBlog = await BlogService.deleteBlog(req.params.blogId, req.username);
-        if (deleteBlog) {
+        const deletedBlog = await BlogService.deleteBlog(req.params.blogId, req.username);
+        if (deletedBlog) {
             res.status(200).send('Deleted Successfully');
         } else {
             res.status(404).send('Blog not found');
