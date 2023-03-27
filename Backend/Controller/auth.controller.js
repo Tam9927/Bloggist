@@ -7,7 +7,7 @@ const contentNegotiation = require("../utils/content-negotiation");
 async function registerUser(req, res) {
   try {
     const data = await authService.register(req.body);
-
+    const message = data.message
     const status = data.status;
     if (status != 400) {
       const accesstoken = userUtils.generateToken(req.body.username);
@@ -17,10 +17,13 @@ async function registerUser(req, res) {
         success: true,
       });
     } 
-      res.status(data.status).send(data.message);
+      
+    else{
+      res.status(status).send(message);
+    }
+
     
   } catch (err) {
-    console.log(err);
     res.status(400).send("An error occured");
   }
 }
@@ -28,8 +31,9 @@ async function registerUser(req, res) {
 async function loginUser(req, res) {
   try {
     const data = await authService.loginUser(req.body);
-    console.log(data);
     const status = data.status;
+    const message = data.message
+
     if (status != 400) {
       const accesstoken = userUtils.generateToken(req.body.username);
       res.cookie("jwt", accesstoken, { httpOnly: true });
@@ -38,7 +42,9 @@ async function loginUser(req, res) {
         success: true,
       });
     } 
-      res.status(401).send("Incorrect username or password");
+    else{
+      res.status(status).send(message);
+    }
     
   } catch (err) {
     res.status(401).send(err.message);
