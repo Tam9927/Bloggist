@@ -2,16 +2,17 @@
 const express = require("express");
 const UserService = require("../services/user.service");
 const contentNegotiation = require("../utils/content-negotiation");
+const paginator = require("../utils/pagination");
 require("dotenv").config();
 
 
 async function getAllUsers(req, res) {
   try {
-    const data = await UserService.findAllUsers();
-    if (!blogs.message.length) {
-        res.status(200).send("Blog list empty!");
-      }
-    contentNegotiation.sendResponse(req, res, 200, data.message);
+    const [pageNumber,pageSize] = paginator(req);
+
+    const data = await UserService.findAllUsers(pageNumber, pageSize);
+    contentNegotiation.sendResponse(req, res
+        , 200, data.message);
   } catch (err) {
     res.status(err.status).send(err.message);
   }

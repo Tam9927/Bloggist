@@ -34,7 +34,7 @@ async function register(user) {
     user.password = hashedPassword;
 
     const result = await UserService.registerUser(user);
-    return { status: 200, message: result.message };
+    return { status: 200, message: result };
   } catch (err) {
     console.err(err)
   }
@@ -51,11 +51,11 @@ async function loginUser(user) {
       const validPass = await bcrypt.compare(user.password, password);
     
       if (!validPass) {
-        return {status:400,message:"User Not Found"};
+        return {status:404,message:"User Not Found"};
       }
       return {status:userExists.status,message:userExists.message};
     } else {
-      return {status:500,message:"Incorrect Username Or Password"};
+      return {status:400,message:"Incorrect Username Or Password"};
     }
   } catch (err) {
     console.err(err)

@@ -1,11 +1,13 @@
-'use strict'
+"use strict";
 const Blog = require("../model/blog.model");
 const express = require("express");
 const database = require("../configs/db.config");
+const paginate = require("../utils/pagination");
 
-async function getAllBlogs() {
+async function getAllBlogs(offset,limit) {
   try {
-    const result = await Blog.findAll();
+    
+    const result = await Blog.findAll({ offset,limit });
     return result;
   } catch (err) {
     console.log(err.stack);

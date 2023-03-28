@@ -3,14 +3,16 @@ const authMiddleware = require("../Middleware/auth.middleware");
 const BlogRepository = require("../repository/blog.repository");
 const UserService = require("./user.service");
 
-async function getAllBlogs() {
+async function getAllBlogs(pageNumber,pageSize) {
   try {
-    const data = await BlogRepository.getAllBlogs();
-    if (!data.length) {
-      return { status: 200, message: "Blogs table is empty!" };
-    }
-    return { status: 200, message: data };
+    const offset = (pageNumber-1)*pageSize;
+    const limit = pageSize;
 
+    const data = await BlogRepository.getAllBlogs(offset,limit);
+    if (!data.length) {
+      return { status: 200, message: data };
+    }
+    return data;
   } catch(err) {
     return { status: 500, message: err };
   }
@@ -74,7 +76,7 @@ async function deleteBlog(blogId) {
       return { status: 404, message: "Could Not Delete Blog" };
     }
 
-    return { status: 200, message: "Blog removed"};
+    return { status: 200, message: "Blog removed" };
   } catch(err) {
     return { status: 500, message: err };
   }

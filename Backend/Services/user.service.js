@@ -8,9 +8,9 @@ const bcrypt = require("bcrypt");
 const uuid = require("uuid");
 require("dotenv").config();
 
-async function findAllUsers() {
+async function findAllUsers(pageNumber,pageSize) {
   try {
-    const data = await UserRepository.getAllUsers();
+    const data = await UserRepository.getAllUsers(pageNumber,pageSize);
     if (!data.length) {
       return { status: 200, message: "Users table is empty!" };
     }
@@ -21,7 +21,7 @@ async function findAllUsers() {
     });
 
     return { status: 200, message: allUsers };
-  } catch(err){
+  } catch(err) {
     return { status: 500, message: err };
   }
 }
@@ -35,8 +35,8 @@ async function findUserByUserName(username) {
 
     const user = new UserDTO(result);
     return { status: 200, message: user };
-  } catch(err){
-    return { status: 500, message: err  };
+  } catch(err) {
+    return { status: 500, message:err };
   }
 }
 
@@ -52,9 +52,9 @@ async function findUserByEmail(email) {
 async function registerUser(user) {
   try {
     const data = await UserRepository.register(user);
-    return { status: 200, message: data };
+    return data;
   } catch(err) {
-    return { status: 500, message: err };
+    return { status: 500, message:err };
   }
 }
 
@@ -68,7 +68,7 @@ async function deleteUser(username) {
 
     return { status: 200, message: "User removed" };
   } catch(err) {
-    return { status: 500, message: err };
+    return { status: 500, message: err};
   }
 }
 

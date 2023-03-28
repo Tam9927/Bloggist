@@ -1,13 +1,13 @@
-'use strict'
+"use strict";
 const express = require("express");
 const database = require("../configs/db.config");
 const User = require("../model/user.model");
 const UserRegisterDTO = require("../dto/user.register.dto");
 
-
-async function getAllUsers() {
+async function getAllUsers(pageNumber, pageSize) {
   try {
-    const result = await User.findAll();
+    const offset = (pageNumber - 1) * pageSize;
+    const result = await User.findAll({ limit: pageSize, offset });
 
     return result;
   } catch (err) {
@@ -77,8 +77,6 @@ async function getUserByUserName(username) {
     throw err;
   }
 }
-
-
 
 module.exports = {
   getAllUsers,

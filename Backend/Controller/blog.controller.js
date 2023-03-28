@@ -1,18 +1,20 @@
-"use strict"
+"use strict";
 const express = require("express");
 const BlogService = require("../services/blog.service");
 const contentNegotiation = require("../utils/content-negotiation");
+const paginator = require("../utils/pagination");
 require("dotenv").config();
 
 async function getAllBlogs(req, res) {
   try {
-    const blogs = await BlogService.getAllBlogs();
-    if (!blogs.message.length) {
-      res.status(200).send("Blog list empty!");
-    }
+
+    const [pageNumber,pageSize] = paginator(req);
+
+    const blogs = await BlogService.getAllBlogs(pageNumber, pageSize); 
+    
     const status = 200;
 
-    contentNegotiation.sendResponse(req, res, 200, blogs.message);
+    contentNegotiation.sendResponse(req, res, 200, blogs.message.length ? blogs.message : "Blog list is empty");
   } catch (err) {
     res.status(401).send(err.message);
   }
@@ -23,7 +25,7 @@ async function createBlog(req, res) {
     const createdBlog = await BlogService.createBlog(req.body, req.username);
     contentNegotiation.sendResponse(req, res, 201, createdBlog.message);
   } catch (err) {
-    res.status(400).send(err.message);
+    res.status(400).send(err.message); 
   }
 }
 
@@ -39,7 +41,7 @@ async function getBlogByBlogId(req, res) {
 async function updateBlog(req, res) {
   try {
     const data = await BlogService.updateBlog(req.params.blogId, req.body);
-    if (data) {
+    if (data.message[0]) {
       contentNegotiation.sendResponse(
         req,
         res,

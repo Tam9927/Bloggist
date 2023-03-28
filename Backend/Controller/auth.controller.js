@@ -5,10 +5,9 @@ const userUtils = require("../utils/user.utils");
 const contentNegotiation = require("../utils/content-negotiation");
 
 async function registerUser(req, res) {
-  try { 
-
+  try {
     const data = await authService.register(req.body);
-    const status = data.status;
+    const status = data.status
     const message = data.message
     if (status != 400) {
       const accesstoken = userUtils.generateToken(req.body.username);
@@ -17,9 +16,13 @@ async function registerUser(req, res) {
       contentNegotiation.sendResponse(req, res, 200, {
         success: true,
       });
-    } else {
-      res.status(data).send(message);
+    } 
+      
+    else{
+      res.status(status).send(message);
     }
+
+    
   } catch (err) {
     res.status(400).send("An error occured");
   }
@@ -37,9 +40,11 @@ async function loginUser(req, res) {
       contentNegotiation.sendResponse(req, res, 200, {
         success: true,
       });
-    } else {
+    } 
+    else{
       res.status(status).send(message);
     }
+    
   } catch (err) {
     res.status(401).send(err.message);
   }
