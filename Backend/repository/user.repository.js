@@ -12,6 +12,7 @@ async function getAllUsers() {
 
     return result;
   } catch (err) {
+    console.log(err.stack);
     throw err;
   }
 }
@@ -26,6 +27,7 @@ async function getUserByEmail(email) {
 
     return result;
   } catch (err) {
+    console.log(err.stack);
     throw err;
   }
 }
@@ -40,6 +42,7 @@ async function deleteUser(username) {
 
     return result;
   } catch (err) {
+    console.log(err.stack);
     throw err;
   }
 }
@@ -50,6 +53,7 @@ async function updateUser(username, password) {
 
     return result;
   } catch (err) {
+    console.log(err.stack);
     throw err;
   }
 }
@@ -60,6 +64,7 @@ async function register(user) {
     const result = await User.create(userToRegister);
     return result;
   } catch (err) {
+    console.log(err.stack);
     throw err;
   }
 }
@@ -69,6 +74,7 @@ async function getUserByUserName(username) {
     const result = await User.findOne({ where: { username } });
     return result;
   } catch (err) {
+    console.log(err.stack);
     throw err;
   }
 }
