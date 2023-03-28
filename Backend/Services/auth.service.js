@@ -35,7 +35,7 @@ async function register(user) {
     const result = await UserService.registerUser(user);
     return { status: 200, message: result };
   } catch (err) {
-    console.err(err);
+    throw err;
   }
 }
 
@@ -56,7 +56,7 @@ async function loginUser(user) {
       return { status: 400, message: "Incorrect Username Or Password" };
     }
   } catch (err) {
-    console.err(err);
+    throw err;
   }
 }
 
