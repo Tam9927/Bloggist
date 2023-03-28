@@ -27,7 +27,6 @@ const blog = sequelize.define(
   
   },
 
- 
   {
     tableName: "blogs",
   }

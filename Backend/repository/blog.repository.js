@@ -59,10 +59,11 @@ async function deleteBlog(blogId) {
 async function createBlog(blog) {
   try {
     const result = await Blog.create(blog);
-    console.log("Blog created successfully");
+   console.log("Blog created successfully");
     return result;
   } catch (err) {
-    throw console.error(err);
+    console.log(err.stack);
+    throw err;
   }
 }
 

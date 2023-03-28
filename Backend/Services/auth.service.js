@@ -2,7 +2,7 @@
 
 const userUtils = require("../utils/user.utils");
 
-const UserService = require("..services/user.service");
+const UserService = require("../services/user.service");
 const bcrypt = require("bcrypt");
 require("dotenv").config();
 
@@ -58,7 +58,7 @@ async function loginUser(user) {
       }
       return {status:userExists.status,message:userExists.message};
     } else {
-      
+
       return { status:400,message:"User Not found" };
 
     }
