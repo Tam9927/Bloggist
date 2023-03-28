@@ -1,23 +1,21 @@
+"use strict"
+
 const express = require("express");
 const UserService = require("../Services/user.service");
+require("dotenv").config();
+
 
 async function getAllUsers(req, res) {
   const data = await UserService.findAllUsers();
   res.status(data.status).send(data.message);
 }
 
-async function getUser(req, res) {
+async function getUserByUsername(req, res) {
   if (!req.params.username) {
     return res.status(400).send({ message: "Invalid request parameter!" });
   }
 
-  const data = await UserService.findUserName(req.params.username);
-  res.status(data.status).send(data.message);
-}
-
-async function createUser(req, res) {
-
-  const data = await UserService.createUser(req.body);
+  const data = await UserService.findUserByUserName(req.params.username);
   res.status(data.status).send(data.message);
 }
 
@@ -36,8 +34,7 @@ async function deleteUser(req, res) {
 
 module.exports = {
   getAllUsers,
-  getUser,
-  createUser,
+  getUserByUsername,
   deleteUser,
   updateUser,
 };

@@ -1,80 +1,63 @@
+"use strict"
+
 const UserRepository = require("../repository/user.repository");
-const userUtils = require("../utils/validation");
-const hashPassword = require("../utils/hashing");
+const userUtils = require("../utils/user.utils");
+const UserDTO = require('../DTO/user.dto')
 const validator = require("email-validator");
 const crypto = require("crypto");
 const bcrypt = require("bcrypt");
 const uuid = require("uuid");
-
+require("dotenv").config();
 
 async function findAllUsers() {
   try {
     const data = await UserRepository.getAllUsers();
-    if (data.length == 0) {
+    if (!data.length) {
       return { status: 200, message: "Users table is empty!" };
     }
-    return { status: 200, message: data };
-  } catch {
-    return { status: 500, message: "Internal server error!" };
+
+    const allUsers = [];
+    data.forEach((element) => {
+      allUsers.push(new UserDTO(element));
+    });
+
+    return { status: 200, message: allUsers };
+  } catch(err) {
+    return { status: 500, message: err };
   }
 }
 
-async function findUserName(username) {
+async function findUserByUserName(username) {
   try {
-    const result = await UserRepository.getUserName(username.toLowerCase());
-    if (result.length == 0) {
+    
+    const result = await UserRepository.getUserByUserName(username.toLowerCase());
+    if (!result) {
       return { status: 404, message: "User not found" };
     }
-    return { status: 200, message: result };
-  } catch {
-    return { status: 400, message: "Internal Error" };
+
+    const user = new UserDTO(result)
+    return { status: 200, message: user };
+  } catch(err) {
+    return { status: 500, message: err };
   }
 }
 
-async function findByEmail(email) {
-  const Email = await UserRepository.getUserByEmail(email);
-  if (Email.length > 0) {
-    return { status: 200, message: "User Found" };
+async function findUserByEmail(email) {
+  const user = await UserRepository.getUserByEmail(email);
+  if (user.length > 0) {
+    return { status: 200, message: user.email };
   }
 
   return { status: 404, message: "User not found" };
 }
 
-async function createUser(user) {
-  const userValid = userUtils.userValidator(
-    user.username,
-    user.email,
-    user.password
-  );
-  if (!userValid.valid) {
-    return { status: 400, message: userValid.message };
-  }
-
-  const usernameDuplicate = await findUserName(user.username);
-  if (usernameDuplicate.status == 200) {
-    return { status: 400, message: "Username already used!" };
-  }
-
-  const emailDuplicate = await findByEmail(user.email);
-  if (emailDuplicate.status == 200) {
-    return { status: 400, message: "Email is already in use!" };
-  }
-
+async function registerUser(user) {
+  
   try {
-    const id = crypto.randomUUID();
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(user.password, salt);
-
-    const data = await UserRepository.createUser(
-      id,
-      user.email,
-      hashedPassword,
-      user.username.toLowerCase()
-    );
-    console.log(data);
-    return { status: 201, message: "User created successfully" };
-  } catch {
-    return { status: 400, message: "Please check your credentials again" };
+    const data = await UserRepository.register(user);
+    return { status: 200, message: data };
+  } catch(err) {
+    return { status: 500, message: err };
   }
 }
 
@@ -87,35 +70,51 @@ async function deleteUser(username) {
     }
 
     return { status: 200, message: "User removed" };
-  } catch {
-    return { status: 400, message: "An Error Occured" };
+  } catch(err) {
+    return { status: 500, message: err };
   }
 }
 
 async function updateUser(username, user) {
   try {
-    
-    const hashedPassword = await hashPassword.hashingPassword(user.password)
+    const saltRounds = parseInt(process.env.SALTROUND)
+    const salt = await bcrypt.genSalt(saltRounds);
+    const hashedPassword = await bcrypt.hash(user.password, salt);
 
     const result = await UserRepository.updateUser(
       username.toLowerCase(),
       hashedPassword
     );
 
-    if (result == 0) {
+    if (!result) {
       return { status: 404, message: "User not found" };
     }
     return { status: 200, message: "User updated" };
-  } catch {
-    return { status: 400, message: "Update failed" };
+  } catch(err) {
+    return { status: 500, message: err };
   }
+}
+
+async function loginUser(username){
+
+  try {
+    const result = await UserRepository.getUserByUserName(username.toLowerCase());
+    if (!result) {
+      return { status: 404, message: "Please Check username or Password" };
+    }
+    return { status: 200, message: result };
+  } catch(err) {
+    return { status: 500, message: err };
+  }
+
 }
 
 module.exports = {
   findAllUsers,
-  findUserName,
-  findByEmail,
+  findUserByUserName,
+  findUserByEmail,
   deleteUser,
-  createUser,
   updateUser,
+  registerUser,
+  loginUser
 };
