@@ -1,4 +1,4 @@
-'use strict'
+"use strict";
 const userUtils = require("../utils/user.utils");
 const UserService = require("../services/user.service");
 const bcrypt = require("bcrypt");
@@ -26,7 +26,6 @@ async function register(user) {
   }
 
   try {
-
     const saltRounds = parseInt(process.env.SALTROUND);
     const salt = await bcrypt.genSalt(saltRounds);
 
@@ -36,7 +35,7 @@ async function register(user) {
     const result = await UserService.registerUser(user);
     return { status: 200, message: result };
   } catch (err) {
-    console.err(err)
+    console.err(err);
   }
 }
 
@@ -46,19 +45,18 @@ async function loginUser(user) {
     const userExists = await UserService.loginUser(name);
     const password = userExists.message.password;
 
-
     if (password) {
       const validPass = await bcrypt.compare(user.password, password);
-    
+
       if (!validPass) {
-        return {status:404,message:"User Not Found"};
+        return { status: 404, message: "User Not Found" };
       }
-      return {status:userExists.status,message:userExists.message};
+      return { status: userExists.status, message: userExists.message };
     } else {
-      return {status:400,message:"Incorrect Username Or Password"};
+      return { status: 400, message: "Incorrect Username Or Password" };
     }
   } catch (err) {
-    console.err(err)
+    console.err(err);
   }
 }
 

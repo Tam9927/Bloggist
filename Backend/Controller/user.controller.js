@@ -5,27 +5,24 @@ const contentNegotiation = require("../utils/content-negotiation");
 const paginator = require("../utils/pagination");
 require("dotenv").config();
 
-
 async function getAllUsers(req, res) {
   try {
-    const [pageNumber,pageSize] = paginator(req);
+    const [pageNumber, pageSize] = paginator(req);
 
     const data = await UserService.findAllUsers(pageNumber, pageSize);
-    contentNegotiation.sendResponse(req, res
-        , 200, data.message);
+    contentNegotiation.sendResponse(req, res, 200, data.message);
   } catch (err) {
     res.status(err.status).send(err.message);
   }
 }
 
-
 async function getUserByUsername(req, res) {
-  try{
+  try {
     if (!req.params.username) {
-    return res.status(400).send({ message: "Invalid request parameter!" });
-  }
+      return res.status(400).send({ message: "Invalid request parameter!" });
+    }
 
-  const data = await UserService.findUserByUserName(req.params.username);
+    const data = await UserService.findUserByUserName(req.params.username);
     contentNegotiation.sendResponse(req, res, 200, data.message);
   } catch (err) {
     res.status(err.status).send(err.message);

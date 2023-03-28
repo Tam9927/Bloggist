@@ -2,12 +2,10 @@
 const Blog = require("../model/blog.model");
 const express = require("express");
 const database = require("../configs/db.config");
-const paginate = require("../utils/pagination");
 
-async function getAllBlogs(offset,limit) {
+async function getAllBlogs(offset, limit) {
   try {
-    
-    const result = await Blog.findAll({ offset,limit });
+    const result = await Blog.findAll({ offset, limit });
     return result;
   } catch (err) {
     console.log(err.stack);
@@ -61,7 +59,6 @@ async function deleteBlog(blogId) {
 async function createBlog(blog) {
   try {
     const result = await Blog.create(blog);
-   console.log("Blog created successfully");
     return result;
   } catch (err) {
     console.log(err.stack);

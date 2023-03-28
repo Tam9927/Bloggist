@@ -1,4 +1,4 @@
-'use strict'
+"use strict";
 const validator = require("email-validator");
 const jwt = require("jsonwebtoken");
 
@@ -29,43 +29,33 @@ function userValidator(username, email, password) {
 }
 
 function generateToken(username) {
-
-
-  const accesstoken = jwt.sign( {username},process.env.ACCESS_TOKEN_SECRET, { 
-    algorithm:process.env.JWT_ALGO,
+  const accesstoken = jwt.sign({ username }, process.env.ACCESS_TOKEN_SECRET, {
+    algorithm: process.env.JWT_ALGO,
     expiresIn: process.env.ACCESS_TOKEN_LIFE,
   });
 
   return accesstoken;
 }
 
-function removeToken(res){
-
-  res.status(200)
-  .clearCookie('jwt')
-  .json({
-      success: true,
-      message: "Logged Out"
+function removeToken(res) {
+  res.status(200).clearCookie("jwt").json({
+    success: true,
+    message: "Logged Out",
   });
-
-
 }
 
 function checkUsernameValid(username) {
   const usernameValidCheck = /[^A-Za-z0-9]/;
 
-  usernameValidCheck.test(username)?false:true
+  usernameValidCheck.test(username) ? false : true;
 }
 
 function checkPasswordValid(password) {
-
-  (password.length<6)?false:true;
+  password.length < 6 ? false : true;
 }
 
 function checkEmailValid(email) {
-    
-  (validator.validate(email))?true:false;
-
+  validator.validate(email) ? true : false;
 }
 
 module.exports = {
@@ -74,6 +64,5 @@ module.exports = {
   checkPasswordValid,
   checkEmailValid,
   generateToken,
-  removeToken
-
+  removeToken,
 };

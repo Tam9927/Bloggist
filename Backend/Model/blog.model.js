@@ -1,4 +1,4 @@
-'use strict'
+"use strict";
 require("dotenv").config();
 const { validate } = require("email-validator");
 const { DataTypes } = require("sequelize");
@@ -24,13 +24,11 @@ const blog = sequelize.define(
     description: {
       type: DataTypes.STRING,
     },
-  
   },
 
   {
     tableName: "blogs",
   }
-  
 );
 
 user.hasMany(blog, {
@@ -38,7 +36,7 @@ user.hasMany(blog, {
 });
 
 blog.belongsTo(user, {
-  foreignKey: "authorId", 
+  foreignKey: "authorId",
 });
 
 async function test() {

@@ -4,10 +4,9 @@ const database = require("../configs/db.config");
 const User = require("../model/user.model");
 const UserRegisterDTO = require("../dto/user.register.dto");
 
-async function getAllUsers(pageNumber, pageSize) {
+async function getAllUsers(offset, limit) {
   try {
-    const offset = (pageNumber - 1) * pageSize;
-    const result = await User.findAll({ limit: pageSize, offset });
+    const result = await User.findAll({ offset, limit });
 
     return result;
   } catch (err) {
