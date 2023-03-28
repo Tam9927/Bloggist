@@ -10,8 +10,8 @@ async function registerUser(req, res) {
   try { 
 
     const data = await authService.register(req.body);
-    const status = data?.status;
-    const message = data?.message;
+    const status = data.status;
+    const message = data.message;
     
     if (status != 400) {
       const accesstoken = userUtils.generateToken(req.body.username);
@@ -36,8 +36,8 @@ async function registerUser(req, res) {
 async function loginUser(req, res) {
   try {
     const data = await authService.loginUser(req.body);
-    const status = data?.status;
-    const message=data?.message
+    const status = data.status;
+    const message=data.message
     if (status==200) {
       const accesstoken = userUtils.generateToken(req.body.username);
       res

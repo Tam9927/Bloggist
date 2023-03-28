@@ -52,25 +52,19 @@ function removeToken(res){
 
 function checkUsernameValid(username) {
   const usernameValidCheck = /[^A-Za-z0-9]/;
-  if (usernameValidCheck.test(username)) {
-    return false;
-  }
-  return true;
+
+  usernameValidCheck.test(username)?false:true
 }
 
 function checkPasswordValid(password) {
-  if (password.length < 6) {
-    return false;
-  }
-  return true;
+
+  (password.length<6)?false:true;
 }
 
 function checkEmailValid(email) {
-  if (validator.validate(email)) {
-    return true;
-  } else {
-    return false;
-  }
+    
+  (validator.validate(email))?true:false;
+
 }
 
 module.exports = {
