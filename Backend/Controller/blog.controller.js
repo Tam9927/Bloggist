@@ -37,7 +37,7 @@ async function updateBlog(req, res) {
   try {
     const data = await BlogService.updateBlog(req.params.blogId, req.body);
     
-    if(data.message[0] == 1){
+    if(data.message[0]){
         res.status(200).json('Blog edited successfully');
     }
     else {

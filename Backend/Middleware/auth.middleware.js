@@ -8,11 +8,17 @@ const authMiddleware = (req, res, next) => {
     if (!accessToken) {
       return res.status(403).send("Cannot access this route");
     }
-    const decode = jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET)
-      
-      req.username = decode.username;
-      
-      next();
+    jwt.verify(
+        accessToken,
+        process.env.ACCESS_TOKEN_SECRET,
+        (err, decoded) => {
+          if (err) {
+            return res.status(400).send("Session expired");
+          }
+          req.username = decoded.username;
+          next();
+        }
+      );
 
   } catch (err) {
 
