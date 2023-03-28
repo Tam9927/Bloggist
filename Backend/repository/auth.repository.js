@@ -10,7 +10,8 @@ async function register(user) {
     result = new UserRegisterDTO(result);
     return result;
   } catch (err) {
-    throw console.error(err);
+    console.log(err.stack);
+    throw err;
   }
 }
 
