@@ -1,7 +1,6 @@
 "use strict"
 
 const userUtils = require("../utils/user.utils");
-
 const UserService = require("../services/user.service");
 const bcrypt = require("bcrypt");
 require("dotenv").config();
