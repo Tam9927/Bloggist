@@ -3,7 +3,7 @@ const express = require("express");
 const BlogService = require("../services/blog.service");
 const contentNegotiation = require("../utils/content-negotiation");
 const paginator = require("../utils/pagination");
-require("dotenv").config(); 
+require("dotenv").config();
 
 async function getAllBlogs(req, res) {
   try {
@@ -13,12 +13,7 @@ async function getAllBlogs(req, res) {
 
     const status = 200;
 
-    contentNegotiation.sendResponse(
-      req,
-      res,
-      status,
-      blogs.message
-    );
+    contentNegotiation.sendResponse(req, res, status, blogs.message);
   } catch (err) {
     res.status(401).send(err.message);
   }
@@ -59,7 +54,6 @@ async function deleteBlog(req, res) {
   try {
     const deleteBlog = await BlogService.deleteBlog(
       req.params.blogId,
-      req.username
     );
     if (deleteBlog) {
       contentNegotiation.sendResponse(req, res, 200, deleteBlog.message);
