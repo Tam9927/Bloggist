@@ -1,8 +1,7 @@
 "use strict"
-
 const UserRepository = require("../repository/user.repository");
 const userUtils = require("../utils/user.utils");
-const UserDTO = require('../DTO/user.dto')
+const UserDTO = require("../dto/user.dto");
 const validator = require("email-validator");
 const crypto = require("crypto");
 const bcrypt = require("bcrypt");
@@ -29,13 +28,13 @@ async function findAllUsers() {
 
 async function findUserByUserName(username) {
   try {
-    
+
     const result = await UserRepository.getUserByUserName(username.toLowerCase());
     if (!result) {
       return { status: 404, message: "User not found" };
     }
 
-    const user = new UserDTO(result)
+    const user = new UserDTO(result);
     return { status: 200, message: user };
   } catch(err) {
     return { status: 500, message: err };
@@ -52,9 +51,8 @@ async function findUserByEmail(email) {
 }
 
 async function registerUser(user) {
-  
   try {
-    const data = await UserRepository.register(user);
+    const data = await UserRepository.register(user); 
     return { status: 200, message: data };
   } catch(err) {
     return { status: 500, message: err };
@@ -77,8 +75,9 @@ async function deleteUser(username) {
 
 async function updateUser(username, user) {
   try {
-    const saltRounds = parseInt(process.env.SALTROUND)
-    const salt = await bcrypt.genSalt(saltRounds);
+    const saltrounds = parseInt(process.env.SALTROUND);
+    const salt = await bcrypt.genSalt(saltrounds);
+ 
     const hashedPassword = await bcrypt.hash(user.password, salt);
 
     const result = await UserRepository.updateUser(
@@ -95,9 +94,9 @@ async function updateUser(username, user) {
   }
 }
 
-async function loginUser(username){
-
+async function loginUser(username) {
   try {
+
     const result = await UserRepository.getUserByUserName(username.toLowerCase());
     if (!result) {
       return { status: 404, message: "Please Check username or Password" };
@@ -106,7 +105,6 @@ async function loginUser(username){
   } catch(err) {
     return { status: 500, message: err };
   }
-
 }
 
 module.exports = {
@@ -116,5 +114,5 @@ module.exports = {
   deleteUser,
   updateUser,
   registerUser,
-  loginUser
+  loginUser,
 };

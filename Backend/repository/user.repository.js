@@ -1,16 +1,15 @@
 "use strict"
 
 const express = require("express");
-const database = require("../Configs/db.config");
-const User = require("../Model/user.model");
-const controller = require("../Controller/user.controller");
-const UserRegisterDTO = require("../DTO/user.register.dto");
+const database = require("../configs/db.config");
+const User = require("../model/user.model");
+const UserRegisterDTO = require("../dto/user.register.dto");
 
 
 async function getAllUsers() {
   try {
     const result = await User.findAll();
-    
+
     return result;
   } catch (err) {
     console.log(err.stack);
@@ -78,8 +77,9 @@ async function getUserByUserName(username) {
     console.log(err.stack);
     throw err;
   }
-
 }
+
+
 
 module.exports = {
   getAllUsers,

@@ -1,10 +1,9 @@
 "use strict"
 
 require("dotenv").config();
-const authService = require("../Services/auth.service");
+const authService = require("../services/auth.service");
 const userUtils = require("../utils/user.utils");
-const jwt = require("jsonwebtoken");
-
+const jwt = require("jsonwebtoken"); 
 
 async function registerUser(req, res) {
   try { 
@@ -12,12 +11,12 @@ async function registerUser(req, res) {
     const data = await authService.register(req.body);
     const status = data.status;
     const message = data.message;
-    
+
     if (status != 400) {
-      const accesstoken = userUtils.generateToken(req.body.username);
+      const accesstoken = userUtils.generateToken(req.body.username); 
       res
         .status(200)
-        .cookie("jwt", accesstoken, {
+        .cookie("jwt", accesstoken, { 
           httpOnly: true,
         })
         .json({
@@ -27,6 +26,7 @@ async function registerUser(req, res) {
       else{
         res.status(status).send(message);
       }
+
   } catch (err) {
     console.log(err);
     res.status(500).send("An error occurred");
@@ -38,23 +38,26 @@ async function loginUser(req, res) {
     const data = await authService.loginUser(req.body);
     const status = data.status;
     const message=data.message
+
     if (status==200) {
-      const accesstoken = userUtils.generateToken(req.body.username);
-      res
+
+      const accesstoken = userUtils.generateToken(req.body.username); 
+      res 
         .status(200)
         .cookie("jwt", accesstoken, {
           httpOnly: true,
         })
         .json({
-          success: "logged in",
+          success: "logged in", 
         });
-    }
+
+    }  
     
       else{
         res.status(status).send(message);
       }
   } catch (err) {
-    res.status(400).send("An error occurred");
+    res.status(500).send(err.message); 
   }
 }
 
@@ -66,4 +69,4 @@ async function logoutUser(req, res) {
   }
 }
 
-module.exports = { registerUser, loginUser, logoutUser };
+module.exports = { registerUser, loginUser, logoutUser }; 

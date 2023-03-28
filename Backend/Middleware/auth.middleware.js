@@ -2,12 +2,13 @@
 
 const jwt = require("jsonwebtoken");
 
-const authMiddleware = async (req, res, next) => {
+const authMiddleware = (req, res, next) => {
   try {
     let accessToken = req.cookies.jwt;
     if (!accessToken) {
       return res.status(403).send("Cannot access this route");
     }
+
 
     const decode = jwt.verify(
       accessToken,
@@ -20,8 +21,9 @@ const authMiddleware = async (req, res, next) => {
         next();
       }
     );
+    
   } catch (err) {
-    console.log(err.message);
+
     return res.status(401).send("Invalid JWT token");
   }
 };

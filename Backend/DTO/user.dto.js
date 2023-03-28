@@ -3,7 +3,7 @@
  class UserDTO{
      constructor(user) {
 
-         this.id = user.Id;
+         this.Id = user.Id;
          this.username = user.username;
          this.email = user.email;
          this.createdAt = user.createdAt;
