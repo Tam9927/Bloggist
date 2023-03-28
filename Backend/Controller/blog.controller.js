@@ -3,7 +3,7 @@ const express = require("express");
 const BlogService = require("../services/blog.service");
 const contentNegotiation = require("../utils/content-negotiation");
 const paginator = require("../utils/pagination");
-require("dotenv").config();
+require("dotenv").config(); 
 
 async function getAllBlogs(req, res) {
   try {
@@ -17,7 +17,7 @@ async function getAllBlogs(req, res) {
       req,
       res,
       status,
-      blogs.message.length ? blogs.message : "Blog list is empty"
+      blogs.message
     );
   } catch (err) {
     res.status(401).send(err.message);

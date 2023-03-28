@@ -10,9 +10,10 @@ async function getAllBlogs(pageNumber, pageSize) {
 
     const data = await BlogRepository.getAllBlogs(offset, limit);
     if (!data.length) {
-      return { status: 200, message: data };
+      return { status: 200, message: "Blogs table is empty!" };
     }
-    return data;
+
+    return { status: 200, message: data };
   } catch (err) {
     return { status: 500, message: err };
   }

@@ -6,7 +6,6 @@ const app = express();
 const router = require("./Router/index");
 const db = require("./Configs/db.config");
 const PORT = process.env.PORT || 4000;
-const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 
 db.connectToDB();

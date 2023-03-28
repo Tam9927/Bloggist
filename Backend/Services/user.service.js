@@ -17,7 +17,7 @@ async function findAllUsers(pageNumber, pageSize) {
     if (!data.length) {
       return { status: 200, message: "Users table is empty!" };
     }
-
+    
     const allUsers = [];
     data.forEach((element) => {
       allUsers.push(new UserDTO(element));
