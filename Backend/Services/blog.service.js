@@ -1,4 +1,4 @@
-"use strict"
+'use strict'
 const authMiddleware = require("../Middleware/auth.middleware");
 const BlogRepository = require("../repository/blog.repository");
 const UserService = require("./user.service");
@@ -9,7 +9,8 @@ async function getAllBlogs() {
     if (!data.length) {
       return { status: 200, message: "Blogs table is empty!" };
     }
-    return data;
+    return { status: 200, message: data };
+
   } catch(err) {
     return { status: 500, message: err };
   }
@@ -25,7 +26,7 @@ async function createBlog(blog,username) {
     if (authorExists) {
       blog.authorId = authorExists.message.Id;
       const result = await BlogRepository.createBlog(blog);
-      return result;
+      return { status: 404, message: result };
     }
 
     return { status: 400, message: "Bad Request: Author Does not exist" };
@@ -39,6 +40,7 @@ async function getBlogByBlogId(blogId) {
     const result = await BlogRepository.getBlogByBlogId(
       blogId
     );
+    
 
     if (!result) {
       return { status: 404, message: "Blog not found" };
@@ -58,7 +60,7 @@ async function updateBlog(blogId, blog) {
     if (!result) {
       return { status: 404, message: "Blog not found" };
     }
-    return { status: 200, message: result };
+    return { status: 200, message: "Blog Updated" };
   } catch(err) {
     return { status: 500, message: err };
   }
@@ -72,7 +74,7 @@ async function deleteBlog(blogId) {
       return { status: 404, message: "Could Not Delete Blog" };
     }
 
-    return { status: 200, message: "Blog removed" };
+    return { status: 200, message: "Blog removed"};
   } catch(err) {
     return { status: 500, message: err };
   }

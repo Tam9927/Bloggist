@@ -1,4 +1,4 @@
-"use strict"
+'use strict'
 require("dotenv").config();
 const { validate } = require("email-validator");
 const { DataTypes } = require("sequelize");

@@ -1,5 +1,4 @@
-"use strict"
-
+'use strict'
 const userUtils = require("../utils/user.utils");
 const UserService = require("../services/user.service");
 const bcrypt = require("bcrypt");
@@ -37,7 +36,7 @@ async function register(user) {
     const result = await UserService.registerUser(user);
     return { status: 200, message: result.message };
   } catch (err) {
-    throw err;
+    console.err(err)
   }
 }
 
@@ -52,17 +51,14 @@ async function loginUser(user) {
       const validPass = await bcrypt.compare(user.password, password);
     
       if (!validPass) {
-        return { status:401,message:"Username Or Password Incorrect" }
-
+        return {status:400,message:"User Not Found"};
       }
       return {status:userExists.status,message:userExists.message};
     } else {
-
-      return { status:400,message:"User Not found" };
-
+      return {status:500,message:"Incorrect Username Or Password"};
     }
   } catch (err) {
-    throw err;
+    console.err(err)
   }
 }
 

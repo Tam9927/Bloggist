@@ -1,5 +1,4 @@
-"use strict"
-
+'use strict'
 const validator = require("email-validator");
 const jwt = require("jsonwebtoken");
 

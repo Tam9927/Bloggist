@@ -1,4 +1,4 @@
-"use strict"
+'use strict'
 const Blog = require("../model/blog.model");
 const express = require("express");
 const database = require("../configs/db.config");

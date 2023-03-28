@@ -1,17 +1,17 @@
-"use strict"
-
+"use strict";
 const express = require("express");
 const UserService = require("../services/user.service");
+const contentNegotiation = require("../utils/content-negotiation");
 require("dotenv").config();
 
 
 async function getAllUsers(req, res) {
   try {
     const data = await UserService.findAllUsers();
-    if(!data.length){
+    if (!blogs.message.length) {
         res.status(200).send("Blog list empty!");
-   }
-    res.status(data.status).send(data.message);
+      }
+    contentNegotiation.sendResponse(req, res, 200, data.message);
   } catch (err) {
     res.status(err.status).send(err.message);
   }
@@ -19,18 +19,22 @@ async function getAllUsers(req, res) {
 
 
 async function getUserByUsername(req, res) {
-  if (!req.params.username) {
+  try{
+    if (!req.params.username) {
     return res.status(400).send({ message: "Invalid request parameter!" });
   }
 
   const data = await UserService.findUserByUserName(req.params.username);
-  res.status(data.status).send(data.message);
+    contentNegotiation.sendResponse(req, res, 200, data.message);
+  } catch (err) {
+    res.status(err.status).send(err.message);
+  }
 }
 
 async function updateUser(req, res) {
   try {
     const data = await UserService.updateUser(req.params.username, req.body);
-    res.status(data.status).send("User Updated");
+    contentNegotiation.sendResponse(req, res, 200, "User updated");
   } catch (err) {
     res.status(err.status).send(err.message);
   }
@@ -42,7 +46,7 @@ async function deleteUser(req, res) {
       return res.status(400).send({ message: "Invalid request parameter!" });
     }
     const data = await UserService.deleteUser(req.params.username);
-    res.status(data.status).send("User Deleted");
+    contentNegotiation.sendResponse(req, res, 200, "User deleted");
   } catch (err) {
     res.status(err.status).send(err.message);
   }

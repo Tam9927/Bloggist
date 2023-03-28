@@ -1,4 +1,4 @@
-"use strict"
+'use strict'
 const UserRepository = require("../repository/user.repository");
 const userUtils = require("../utils/user.utils");
 const UserDTO = require("../dto/user.dto");
@@ -21,14 +21,13 @@ async function findAllUsers() {
     });
 
     return { status: 200, message: allUsers };
-  } catch(err) {
+  } catch(err){
     return { status: 500, message: err };
   }
 }
 
 async function findUserByUserName(username) {
   try {
-
     const result = await UserRepository.getUserByUserName(username.toLowerCase());
     if (!result) {
       return { status: 404, message: "User not found" };
@@ -36,15 +35,15 @@ async function findUserByUserName(username) {
 
     const user = new UserDTO(result);
     return { status: 200, message: user };
-  } catch(err) {
-    return { status: 500, message: err };
+  } catch(err){
+    return { status: 500, message: err  };
   }
 }
 
 async function findUserByEmail(email) {
-  const user = await UserRepository.getUserByEmail(email);
-  if (user.length > 0) {
-    return { status: 200, message: user.email };
+  const Email = await UserRepository.getUserByEmail(email);
+  if (Email) {
+    return { status: 200, message: "User Found" };
   }
 
   return { status: 404, message: "User not found" };
@@ -52,7 +51,7 @@ async function findUserByEmail(email) {
 
 async function registerUser(user) {
   try {
-    const data = await UserRepository.register(user); 
+    const data = await UserRepository.register(user);
     return { status: 200, message: data };
   } catch(err) {
     return { status: 500, message: err };
@@ -96,14 +95,13 @@ async function updateUser(username, user) {
 
 async function loginUser(username) {
   try {
-
-    const result = await UserRepository.getUserByUserName(username.toLowerCase());
+    const result = await UserRepository.getUserByName(username.toLowerCase());
     if (!result) {
-      return { status: 404, message: "Please Check username or Password" };
+      return { status: 404, message: "Check username or password" };
     }
     return { status: 200, message: result };
   } catch(err) {
-    return { status: 500, message: err };
+    return { status: 400, message: err };
   }
 }
 
