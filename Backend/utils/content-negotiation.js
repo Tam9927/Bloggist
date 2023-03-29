@@ -5,47 +5,47 @@ const json2html = require("json-to-html");
 const json2plain = require("json-to-plain-text");
 require("body-parser");
 
-function sendJsonResponse(clientdata) {
-  var jsonData = { data: clientdata };
+function sendJsonResponse(clientData) {
+  var jsonData = { data: clientData };
   return jsonData; 
 }
 
-function sendXmlResponse(clientdata) {
+function sendXmlResponse(clientData) {
   var options = { compact: true, ignoreComment: true, spaces: 4 };
-  return xmlData = json2xml.json2xml(JSON.stringify(clientdata), options);
+  return xmlData = json2xml.json2xml(JSON.stringify(clientData), options);
 }
 
-function sendPlainResponse(clientdata) {
-  return json2plain.toPlainText(JSON.parse(JSON.stringify(clientdata)));
+function sendPlainResponse(clientData) {
+  return json2plain.toPlainText(JSON.parse(JSON.stringify(clientData)));
 }
 
-function sendHtmlResponse(clientdata) {
-  return json2html(JSON.parse(JSON.stringify(clientdata)));
+function sendHtmlResponse(clientData) {
+  return json2html(JSON.parse(JSON.stringify(clientData)));
 }
 
 function sendFinalResponse(res, status, data) {
   res.status(status).send(data);
 }
 
-function sendResponse(req, res, status, clientdata){
+function sendResponse(req, res, status, clientData){
   switch(req.headers.accept){
     case 'application/xml':
-      clientdata = this.sendXmlResponse(clientdata);
+      clientData = this.sendXmlResponse(clientData);
       break;
     case 'text/html':
-      clientdata = this.sendHtmlResponse(clientdata);
+      clientData = this.sendHtmlResponse(clientData);
       break;
     case 'text/plain':
-      clientdata = this.sendPlainResponse(clientdata);
+      clientData = this.sendPlainResponse(clientData);
       break;
       case 'text/xml':
-      clientdata = this.sendXmlResponse(clientdata);
+      clientData = this.sendXmlResponse(clientData);
       break;
      default:
-      clientdata = this.sendJsonResponse(clientdata);
+      clientData = this.sendJsonResponse(clientData);
        break;
   }
-  return this.sendFinalResponse(res, status, clientdata); 
+  return this.sendFinalResponse(res, status, clientData); 
 };
 module.exports = {
   sendXmlResponse,
