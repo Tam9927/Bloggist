@@ -32,8 +32,8 @@ async function register(user) {
     const hashedPassword = await bcrypt.hash(user.password, salt);
     user.password = hashedPassword;
 
-    const result = await UserService.registerUser(user);
-    return { status: 200, message: result };
+    const registeredUser = await UserService.registerUser(user);
+    return { status: 200, message: registeredUser };
   } catch (err) {
     throw err;
   }

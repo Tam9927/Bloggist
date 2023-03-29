@@ -13,13 +13,13 @@ async function findAllUsers(pageNumber, pageSize) {
     const offset = (pageNumber - 1) * pageSize;
     const limit = pageSize;
 
-    const data = await UserRepository.getAllUsers(offset, limit);
-    if (!data.length) {
+    const Users = await UserRepository.getAllUsers(offset, limit);
+    if (!Users.length) {
       return { status: 200, message: "Users table is empty!" };
     }
     
     const allUsers = [];
-    data.forEach((element) => {
+    Users.forEach((element) => {
       allUsers.push(new UserDTO(element));
     });
 
@@ -31,14 +31,14 @@ async function findAllUsers(pageNumber, pageSize) {
 
 async function findUserByUserName(username) {
   try {
-    const result = await UserRepository.getUserByUserName(
+    const foundUser = await UserRepository.getUserByUserName(
       username.toLowerCase()
     );
-    if (!result) {
+    if (!foundUser) {
       return { status: 404, message: "User not found" };
     }
 
-    const user = new UserDTO(result);
+    const user = new UserDTO(foundUser);
     return { status: 200, message: user };
   } catch (err) {
     return { status: 500, message: err };
@@ -47,17 +47,17 @@ async function findUserByUserName(username) {
 
 async function findUserByEmail(email) {
   const Email = await UserRepository.getUserByEmail(email);
-  if (Email) {
-    return { status: 200, message: "User Found" };
+  if (!Email.length) {
+    return { status: 404, message: "User not found" };
   }
 
-  return { status: 404, message: "User not found" };
+  return { status: 200, message: Email };
 }
 
 async function registerUser(user) {
   try {
-    const data = await UserRepository.register(user);
-    return data;
+    const registeredUser = await UserRepository.register(user);
+    return registeredUser;
   } catch (err) {
     return { status: 500, message: err };
   }
@@ -65,9 +65,9 @@ async function registerUser(user) {
 
 async function deleteUser(username) {
   try {
-    const result = await UserRepository.deleteUser(username.toLowerCase());
+    const deletedUser = await UserRepository.deleteUser(username.toLowerCase());
 
-    if (!result) {
+    if (!deletedUser) {
       return { status: 404, message: "User not found" };
     }
 
@@ -84,12 +84,12 @@ async function updateUser(username, user) {
 
     const hashedPassword = await bcrypt.hash(user.password, salt);
 
-    const result = await UserRepository.updateUser(
+    const updatedUser = await UserRepository.updateUser(
       username.toLowerCase(),
       hashedPassword
     );
 
-    if (!result) {
+    if (!updatedUser) {
       return { status: 404, message: "User not found" };
     }
     return { status: 200, message: "User updated" };
@@ -100,11 +100,11 @@ async function updateUser(username, user) {
 
 async function loginUser(username) {
   try {
-    const result = await UserRepository.getUserByName(username.toLowerCase());
-    if (!result) {
+    const userToLogin = await UserRepository.getUserByUserName(username.toLowerCase());
+    if (!userToLogin) {
       return { status: 404, message: "Check username or password" };
     }
-    return { status: 200, message: result };
+    return { status: 200, message: userToLogin };
   } catch (err) {
     return { status: 400, message: err };
   }

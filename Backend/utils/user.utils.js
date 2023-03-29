@@ -46,16 +46,20 @@ function removeToken(res) {
 
 function checkUsernameValid(username) {
   const usernameValidCheck = /[^A-Za-z0-9]/;
+  // if(usernameValidCheck.test(username)){
+  //   return false;
+  // }
+  // return true;
 
-  usernameValidCheck.test(username) ? false : true;
+  return usernameValidCheck.test(username) ? false : true;
 }
 
 function checkPasswordValid(password) {
-  password.length < 6 ? false : true;
+  return password.length < 6 ? false : true;
 }
 
 function checkEmailValid(email) {
-  validator.validate(email) ? true : false;
+ return validator.validate(email) ? true : false;
 }
 
 module.exports = {

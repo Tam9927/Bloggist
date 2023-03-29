@@ -32,16 +32,16 @@ const blog = sequelize.define(
 );
 
 user.hasMany(blog, {
-  foreignKey: "authorid", onDelete: 'cascade'
+  foreignKey: "authorId", onDelete: 'cascade'
 });
 
-blog.belongsTo(user, {
-  foreignKey: "authorId",
+blog.belongsTo(user, {as: 'author'} ,{
+  foreignKey: "authorId"
 });
 
 async function test() {
   await blog.sync();
-  console.log("Blog synchronized successfully.");
+  console.log("Blog synchronized successfully."); 
 }
 
 test();

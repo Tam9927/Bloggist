@@ -6,9 +6,9 @@ function paginate(req) {
   pageSize = parseInt(req.query.size);
 
   pageNumber = Number.isNaN(pageNumber) || pageNumber < 0 ? 1 : pageNumber;
-  pageSize = Number.isNaN(pageSize) || pageSize < 0 ? 5 : pageSize;
+  pageSize = Number.isNaN(pageSize) || pageSize < 0 ? 50 : pageSize;
 
-  return [pageNumber, pageSize];
+  return [pageNumber, pageSize]; 
 }
 
 module.exports = paginate;

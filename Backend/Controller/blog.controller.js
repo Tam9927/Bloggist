@@ -39,9 +39,9 @@ async function getBlogByBlogId(req, res) {
 
 async function updateBlog(req, res) {
   try {
-    const data = await BlogService.updateBlog(req.params.blogId, req.body);
-    if (data.message[0]) {
-      contentNegotiation.sendResponse(req, res, 200, data.message);
+    const updatedBlog = await BlogService.updateBlog(req.params.blogId, req.body);
+    if (updatedBlog.message[0]) {
+      contentNegotiation.sendResponse(req, res, 200, updatedBlog.message);
     } else {
       res.status(400).json("Blog could not be edited. Please try again");
     }
@@ -52,11 +52,11 @@ async function updateBlog(req, res) {
 
 async function deleteBlog(req, res) {
   try {
-    const deleteBlog = await BlogService.deleteBlog(
+    const deletedBlog = await BlogService.deleteBlog(
       req.params.blogId,
     );
-    if (deleteBlog) {
-      contentNegotiation.sendResponse(req, res, 200, deleteBlog.message);
+    if (deletedBlog) {
+      contentNegotiation.sendResponse(req, res, 200, deletedBlog.message);
     } else {
       res.status(404).send("Blog not found");
     }

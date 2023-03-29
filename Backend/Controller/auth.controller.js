@@ -6,9 +6,9 @@ const contentNegotiation = require("../utils/content-negotiation");
 
 async function registerUser(req, res) {
   try {
-    const data = await authService.register(req.body);
-    const status = data.status;
-    const message = data.message;
+    const registeredUser = await authService.register(req.body);
+    const status = registeredUser.status;
+    const message = registeredUser.message;
     if (status != 400) {
       const accesstoken = userUtils.generateToken(req.body.username);
       res.cookie("jwt", accesstoken, { httpOnly: true });
@@ -26,9 +26,9 @@ async function registerUser(req, res) {
 
 async function loginUser(req, res) {
   try {
-    const data = await authService.loginUser(req.body);
-    const status = data.status;
-    const message = data.message;
+    const loggedInUser = await authService.loginUser(req.body);
+    const status = loggedInUser.status;
+    const message = loggedInUser.message;
     if (status == 200) {
       const accesstoken = userUtils.generateToken(req.body.username);
       res.cookie("jwt", accesstoken, { httpOnly: true });
