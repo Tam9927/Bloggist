@@ -12,7 +12,7 @@ async function getAllUsers(req, res) {
     const data = await UserService.findAllUsers(pageNumber, pageSize);
     contentNegotiation.sendResponse(req, res, 200, data.message);
   } catch (err) {
-    res.status(err.status).send(err.message);
+    res.status(err.status).send(err.message); 
   }
 }
 
@@ -50,7 +50,7 @@ async function deleteUser(req, res) {
   }
 }
 
-module.exports = {
+module.exports = {  
   getAllUsers,
   getUserByUsername,
   deleteUser,

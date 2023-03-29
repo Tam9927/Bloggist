@@ -1,5 +1,5 @@
 "use strict";
-const authMiddleware = require("../Middleware/auth.middleware");
+const authMiddleware = require("../middleware/auth.middleware");
 const BlogRepository = require("../repository/blog.repository");
 const UserService = require("./user.service");
 

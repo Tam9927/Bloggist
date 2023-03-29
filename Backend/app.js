@@ -3,14 +3,14 @@ require("dotenv").config();
 const express = require("express");
 
 const app = express();
-const router = require("./Router/index");
-const db = require("./Configs/db.config");
+const router = require("./router/index");
+const db = require("./configs/db.config");
 const PORT = process.env.PORT || 4000;
 const cookieParser = require("cookie-parser");
 
 db.connectToDB();
 
-app.use(express.json());
+app.use(express.json()); 
 app.use(cookieParser());
 
 app.use((err, req, res, next) => {

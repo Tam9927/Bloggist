@@ -4,7 +4,7 @@ const router = express.Router();
 const userRouter = require("./user.router");
 const authRouter = require("./auth.router");
 const blogRouter = require("./blog.router");
-const authMiddleware = require("../Middleware/auth.middleware");
+const authMiddleware = require("../middleware/auth.middleware");
 
 router.use("/users", authMiddleware, userRouter);
 
