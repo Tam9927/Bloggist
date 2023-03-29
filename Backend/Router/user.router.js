@@ -1,6 +1,7 @@
 'use strict'
 const express = require("express");
 const UserController = require("../controller/user.controller");
+const authMiddleware = require("../Middleware/auth.middleware")
 
 const router = express.Router();
 
@@ -11,7 +12,7 @@ router
 router
   .route("/:username")
   .get(UserController.getUserByUsername)
-  .put(UserController.updateUser)
-  .delete(UserController.deleteUser);
+  .put(authMiddleware,UserController.updateUser)
+  .delete(authMiddleware,UserController.deleteUser);
 
 module.exports = router;
