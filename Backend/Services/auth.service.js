@@ -1,6 +1,7 @@
 "use strict";
 const userValidator = require("../utils/user.validation");
 const UserService = require("../services/user.service");
+const Hasher = require("../utils/HashingUtil")
 const bcrypt = require("bcrypt");
 require("dotenv").config();
 
@@ -26,10 +27,7 @@ async function register(user) {
   }
 
   try {
-    const saltRounds = parseInt(process.env.SALTROUND);
-    const salt = await bcrypt.genSalt(saltRounds);
-
-    const hashedPassword = await bcrypt.hash(user.password, salt);
+    const hashedPassword = await Hasher(user.password);
     user.password = hashedPassword;
 
     const registeredUser = await UserService.registerUser(user);

@@ -79,11 +79,8 @@ async function deleteUser(username) {
 
 async function updateUser(username, user) {
   try {
-    const saltrounds = parseInt(process.env.SALTROUND);
-    const salt = await bcrypt.genSalt(saltrounds);
-
-    const hashedPassword = await bcrypt.hash(user.password, salt);
-
+    
+    const hashedPassword = await Hasher(user.password);
     const updatedUser = await UserRepository.updateUser(
       username.toLowerCase(),
       hashedPassword
