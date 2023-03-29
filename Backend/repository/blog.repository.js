@@ -5,7 +5,7 @@ const database = require("../configs/db.config");
 
 async function getAllBlogs(offset, limit) {
   try {
-    const result = await Blog.findAll({ include : ["author"], offset, limit });
+    const result = await Blog.findAll({ include : ["author"] , offset, limit });
     return result;
   } catch (err) {
     console.log(err.stack);

@@ -7,7 +7,7 @@ class BlogDTO {
         this.description = blog.description;
         this.createdAt = blog.createdAt;
         this.updatedAt = blog.updatedAt;
-        this.authorName= blog.author.username
+        
     }
   }
   

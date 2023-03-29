@@ -1,11 +1,11 @@
 "use strict";
-const userUtils = require("../utils/user.utils");
+const userValidator = require("../utils/user.validation");
 const UserService = require("../services/user.service");
 const bcrypt = require("bcrypt");
 require("dotenv").config();
 
 async function register(user) {
-  const userValid = userUtils.userValidator(
+  const userValid = userValidator.userValidator(
     user.username,
     user.email,
     user.password

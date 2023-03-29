@@ -1,7 +1,7 @@
 "use strict";
 require("dotenv").config();
 const authService = require("../services/auth.service");
-const userUtils = require("../utils/user.utils");
+const userUtils = require("../utils/user.validation");
 const contentNegotiation = require("../utils/content-negotiation");
 
 async function registerUser(req, res) {

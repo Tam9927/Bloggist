@@ -14,12 +14,8 @@ async function getAllBlogs(pageNumber, pageSize) {
       return { status: 200, message: "Blogs table is empty!" };
     }
 
-    const allBlogsList = [];
-    allBlogs.forEach((element) => {
-      allBlogsList.push( new BlogDTO(element));
-    });
 
-    return { status: 200, message: allBlogsList };
+    return { status: 200, message: allBlogs };
   } catch (err) {
     return { status: 500, message: err };
   }

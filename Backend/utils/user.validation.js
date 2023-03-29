@@ -25,6 +25,13 @@ function userValidator(username, email, password) {
     };
   }
 
+  if (!checkPasswordValid(password)) {
+    return {
+      valid: false,
+      message: "Password must contain atleast 6 characters",
+    };
+  }
+
   return { valid: true, message: "Credentials are valid" };
 }
 
@@ -46,10 +53,6 @@ function removeToken(res) {
 
 function checkUsernameValid(username) {
   const usernameValidCheck = /[^A-Za-z0-9]/;
-  // if(usernameValidCheck.test(username)){
-  //   return false;
-  // }
-  // return true;
 
   return usernameValidCheck.test(username) ? false : true;
 }
@@ -59,7 +62,7 @@ function checkPasswordValid(password) {
 }
 
 function checkEmailValid(email) {
- return validator.validate(email) ? true : false;
+  return validator.validate(email) ? true : false;
 }
 
 module.exports = {

@@ -1,6 +1,6 @@
 "use strict";
 const UserRepository = require("../repository/user.repository");
-const userUtils = require("../utils/user.utils");
+const userUtils = require("../utils/user.validation");
 const UserDTO = require("../dto/user.dto");
 const validator = require("email-validator");
 const crypto = require("crypto");
