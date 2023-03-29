@@ -26,19 +26,14 @@ async function register(user) {
     return { status: 400, message: "Email is already in use!" };
   }
 
-  try {
     const hashedPassword = await Hasher(user.password);
     user.password = hashedPassword;
 
     const registeredUser = await UserService.registerUser(user);
     return { status: 200, message: registeredUser };
-  } catch (err) {
-    throw err;
-  }
 }
 
 async function loginUser(user) {
-  try {
     const name = user.username.toLowerCase();
     const userExists = await UserService.loginUser(name);
     const password = userExists.message.password;
@@ -53,9 +48,6 @@ async function loginUser(user) {
     } else {
       return { status: 400, message: "Incorrect Username Or Password" };
     }
-  } catch (err) {
-    throw err;
-  }
 }
 
 module.exports = { register, loginUser };

@@ -15,7 +15,7 @@ async function getAllBlogs(req, res) {
 
     contentNegotiation.sendResponse(req, res, status, blogs.message);
   } catch (err) {
-    res.status(401).send(err.message);
+    res.status(500).send(err.message);
   }
 }
 
@@ -24,7 +24,7 @@ async function createBlog(req, res) {
     const createdBlog = await BlogService.createBlog(req.body, req.username);
     contentNegotiation.sendResponse(req, res, 201, createdBlog.message);
   } catch (err) {
-    res.status(400).send(err.message);
+    res.status(500).send(err.message);
   }
 }
 
@@ -33,7 +33,7 @@ async function getBlogByBlogId(req, res) {
     const blog = await BlogService.getBlogByBlogId(req.params.blogId);
     contentNegotiation.sendResponse(req, res, 200, blog.message);
   } catch (err) {
-    res.status(401).send(err.message);
+    res.status(500).send(err.message);
   }
 }
 
@@ -43,7 +43,7 @@ async function updateBlog(req, res) {
     if (updatedBlog.message[0]) {
       contentNegotiation.sendResponse(req, res, 200, updatedBlog.message);
     } else {
-      res.status(400).json("Blog could not be edited. Please try again");
+      res.status(500).json("Blog could not be edited. Please try again");
     }
   } catch (err) {
     res.status(401).send(err.message);

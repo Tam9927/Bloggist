@@ -5,56 +5,32 @@ const User = require("../model/user.model");
 const UserRegisterDTO = require("../dto/user.register.dto");
 
 async function getAllUsers(offset, limit) {
-  try {
-    const result = await User.findAll({ offset, limit });
-
-    return result;
-  } catch (err) {
-    console.log(err.stack);
-    throw err;
-  }
+  const result = await User.findAll({ offset, limit });
+  return result;
 }
 
 async function getUserByEmail(email) {
-  try {
-    const result = await User.findAll({
-      where: {
-        email,
-      },
-    });
-
-
-    return result;
-  } catch (err) {
-    console.log(err.stack);
-    throw err;
-  }
+  const result = await User.findAll({
+    where: {
+      email,
+    },
+  });
+  return result;
 }
 
 async function deleteUser(username) {
-  try {
-    const result = await User.destroy({
-      where: {
-        username,
-      },
-    });
+  const result = await User.destroy({
+    where: {
+      username,
+    },
+  });
 
-    return result;
-  } catch (err) {
-    console.log(err.stack);
-    throw err;
-  }
+  return result;
 }
 
 async function updateUser(username, password) {
-  try {
-    const result = await User.update({ password }, { where: { username } });
-
-    return result;
-  } catch (err) {
-    console.log(err.stack);
-    throw err;
-  }
+  const result = await User.update({ password }, { where: { username } });
+  return result;
 }
 
 async function register(user) {
@@ -69,13 +45,8 @@ async function register(user) {
 }
 
 async function getUserByUserName(username) {
-  try {
-    const result = await User.findOne({ where: { username } });
-    return result;
-  } catch (err) {
-    console.log(err.stack);
-    throw err;
-  }
+  const result = await User.findOne({ where: { username } });
+  return result;
 }
 
 module.exports = {

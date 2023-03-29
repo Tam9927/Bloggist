@@ -4,56 +4,31 @@ const express = require("express");
 const database = require("../configs/db.config");
 
 async function getAllBlogs(offset, limit) {
-  try {
-    const result = await Blog.findAll({ include : ["author"] , offset, limit });
-    return result;
-  } catch (err) {
-    console.log(err.stack);
-    throw err;
-  }
+  const result = await Blog.findAll({ include: ["author"], offset, limit });
+  return result;
 }
 
 async function getBlogByBlogId(blogId) {
-  try {
-    const result = await Blog.findOne({ include : ["author"], where: { blogId } });
-    return result;
-  } catch (err) {
-    console.log(err.stack);
-    throw err;
-  }
+  const result = await Blog.findOne({ include: ["author"], where: { blogId } });
+  return result;
 }
 
 async function getBlogbyAuthorId() {
-  try {
-    const result = await Blog.findByPk(authorId);
-    return result;
-  } catch (err) {
-    console.log(err.stack);
-    throw err;
-  }
+  const result = await Blog.findByPk(authorId);
+  return result;
 }
 
 async function updateBlog(blogId, BlogToUpdate) {
-  try {
-    const result = await Blog.update(
-      { title: BlogToUpdate.title, description: BlogToUpdate.description },
-      { where: { blogId: blogId } }
-    );
-    return result;
-  } catch (err) {
-    console.log(err.stack);
-    throw err;
-  }
+  const result = await Blog.update(
+    { title: BlogToUpdate.title, description: BlogToUpdate.description },
+    { where: { blogId: blogId } }
+  );
+  return result;
 }
 
 async function deleteBlog(blogId) {
-  try {
-    const result = Blog.destroy({ where: { blogId } });
-    return result;
-  } catch (err) {
-    console.log(err.stack);
-    throw err;
-  }
+  const result = Blog.destroy({ where: { blogId } });
+  return result;
 }
 
 async function createBlog(blog) {

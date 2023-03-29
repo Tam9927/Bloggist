@@ -9,7 +9,6 @@ const uuid = require("uuid");
 require("dotenv").config();
 
 async function findAllUsers(pageNumber, pageSize) {
-  try {
     const offset = (pageNumber - 1) * pageSize;
     const limit = pageSize;
 
@@ -24,13 +23,9 @@ async function findAllUsers(pageNumber, pageSize) {
     });
 
     return { status: 200, message: allUsers };
-  } catch (err) {
-    return { status: 500, message: err };
-  }
 }
 
 async function findUserByUserName(username) {
-  try {
     const foundUser = await UserRepository.getUserByUserName(
       username.toLowerCase()
     );
@@ -40,9 +35,6 @@ async function findUserByUserName(username) {
 
     const user = new UserDTO(foundUser);
     return { status: 200, message: user };
-  } catch (err) {
-    return { status: 500, message: err };
-  }
 }
 
 async function findUserByEmail(email) {
@@ -55,16 +47,11 @@ async function findUserByEmail(email) {
 }
 
 async function registerUser(user) {
-  try {
     const registeredUser = await UserRepository.register(user);
     return registeredUser;
-  } catch (err) {
-    return { status: 500, message: err };
-  }
 }
 
 async function deleteUser(username) {
-  try {
     const deletedUser = await UserRepository.deleteUser(username.toLowerCase());
 
     if (!deletedUser) {
@@ -72,14 +59,10 @@ async function deleteUser(username) {
     }
 
     return { status: 200, message: "User removed" };
-  } catch (err) {
-    return { status: 500, message: err };
-  }
 }
 
 async function updateUser(username, user) {
-  try {
-    
+
     const hashedPassword = await Hasher(user.password);
     const updatedUser = await UserRepository.updateUser(
       username.toLowerCase(),
@@ -90,21 +73,14 @@ async function updateUser(username, user) {
       return { status: 404, message: "User not found" };
     }
     return { status: 200, message: "User updated" };
-  } catch (err) {
-    return { status: 500, message: err };
-  }
 }
 
 async function loginUser(username) {
-  try {
     const userToLogin = await UserRepository.getUserByUserName(username.toLowerCase());
     if (!userToLogin) {
       return { status: 404, message: "Check username or password" };
     }
     return { status: 200, message: userToLogin };
-  } catch (err) {
-    return { status: 400, message: err };
-  }
 }
 
 module.exports = {
