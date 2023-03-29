@@ -26,9 +26,9 @@ async function registerUser(req, res) {
 
 async function loginUser(req, res) {
   try {
-    const loggedInUser = await authService.loginUser(req.body);
-    const status = loggedInUser.status;
-    const message = loggedInUser.message;
+    const UserToLogin = await authService.loginUser(req.body);
+    const status = UserToLogin.status;
+    const message = UserToLogin.message;
     if (status == 200) {
       const accesstoken = userUtils.generateToken(req.body.username);
       res.cookie("jwt", accesstoken, { httpOnly: true });
