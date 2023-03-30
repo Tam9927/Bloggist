@@ -10,11 +10,7 @@ async function getAllUsers(offset, limit) {
 }
 
 async function getUserByEmail(email) {
-  const result = await User.findAll({
-    where: {
-      email,
-    },
-  });
+  const result = await User.findOne({ where: { email } });
   return result;
 }
 

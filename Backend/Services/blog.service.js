@@ -10,7 +10,9 @@ async function getAllBlogs(pageNumber, pageSize) {
 
     const allBlogs = await BlogRepository.getAllBlogs(offset, limit);
     if (!allBlogs.length) {
-      return { status: 200, message: "Blogs table is empty!" };
+      throw Object.assign(new Error("No blogs in this table!"), {
+        status: 404,
+      });
     }
 
 
@@ -28,13 +30,17 @@ async function createBlog(blog, username) {
       return { status: 201, message: createdBlog };
     }
 
-    return { status: 400, message: "Bad Request : Author Does not exist" };
+    throw Object.assign(new Error("Author Does Not Exist"), {
+      status: 404,
+    });
 }
 
 async function getBlogByBlogId(blogId) {
     const blog = await BlogRepository.getBlogByBlogId(blogId);
     if (!blog) {
-      return { status: 404, message: "Blog not found" };
+      throw Object.assign(new Error("Blog Not Found"), {
+        status: 404,
+      });
     }
     
     const Blog = new BlogDTO(blog)
@@ -46,7 +52,9 @@ async function updateBlog(blogId, blog) {
     const updatedBlog = await BlogRepository.updateBlog(blogId, blog);
 
     if (!updatedBlog) {
-      return { status: 404, message: "Blog not found" };
+      throw Object.assign(new Error("No blog with this ID in the table!"), {
+        status: 404,
+      });
     }
     return { status: 200, message: "Blog Updated Successfully" };
   
@@ -56,7 +64,9 @@ async function deleteBlog(blogId) {
     const deletedBlog = await BlogRepository.deleteBlog(blogId);
 
     if (!deletedBlog) {
-      return { status: 404, message: "Could Not Delete Blog" };
+      throw Object.assign(new Error("Blog Could Not Be Deleted"), {
+        status: 404,
+      });
     }
 
     return { status: 200, message: "Blog deleted" };

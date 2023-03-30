@@ -13,17 +13,16 @@ async function register(user) {
   );
 
   if (!userValid.valid) {
-    return { status: 400, message: userValid.message };
+    throw Object.assign(new Error(userValid.message), { status: 400 });
   }
 
-  const usernameDuplicate = await UserService.findUserByUserName(user.username);
+  const usernameDuplicate = await UserService.findDuplicateUsername(user.username);
   if (usernameDuplicate.status === 200) {
-    return { status: 400, message: "Username already used" };
+    throw Object.assign(new Error("Username is already in use!"), { status: 400 });
   }
-
-  const emailDuplicate = await UserService.findUserByEmail(user.email);
+  const emailDuplicate = await UserService.findDuplicateEmail(user.email);
   if (emailDuplicate.status === 200) {
-    return { status: 400, message: "Email is already in use!" };
+    throw Object.assign(new Error("Email is already in use!"), { status: 400 });
   }
 
     const hashedPassword = await Hasher(user.password);
@@ -38,15 +37,16 @@ async function loginUser(user) {
     const userExists = await UserService.loginUser(name);
     const password = userExists.message.password;
 
+    
     if (password) {
       const validPass = await bcrypt.compare(user.password, password);
 
       if (!validPass) {
-        return { status: 404, message: "User Not Found" };
+        throw Object.assign(new Error("User Not Found!"), { status: 400 });
       }
-      return { status: userExists.status, message: userExists.message };
+      return { status: 200, message: userExists};
     } else {
-      return { status: 400, message: "Incorrect Username Or Password" };
+      throw Object.assign(new Error("Incorrect Username Or Password"), { status: 400 });
     }
 }
 
