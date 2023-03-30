@@ -26,7 +26,7 @@ app.use((err, req, res, next) => {
   }
 });
 
-app.use("/api/", router);
+app.use("/api/v1", router);
 
 app.use("*", (req, res) => {
   res.status(404).json({

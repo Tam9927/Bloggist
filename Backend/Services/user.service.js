@@ -87,7 +87,7 @@ async function loginUser(username) {
   if (!userToLogin) {
     {  throw Object.assign(new Error("No User Found!"), { status: 400 }); };
   }
-  return { status: 200, message: userToLogin };
+  return { message: userToLogin };
 }
 
 module.exports = {

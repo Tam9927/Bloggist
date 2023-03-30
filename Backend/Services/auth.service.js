@@ -13,7 +13,7 @@ async function register(user) {
   );
 
   if (!userValid.valid) {
-    throw Object.assign(new Error(userValid.message), { status: 400 });
+    throw Object.assign(new Error(userValid.message));
   }
 
   const usernameDuplicate = await UserService.findDuplicateUsername(user.username);
@@ -29,7 +29,7 @@ async function register(user) {
     user.password = hashedPassword;
 
     const registeredUser = await UserService.registerUser(user);
-    return { status: 200, message: registeredUser };
+    return {message: registeredUser };
     
 }
 
@@ -42,7 +42,7 @@ async function loginUser(user) {
       if (!validPass) {
         throw Object.assign(new Error("Incorrect Password Entered!"), { status: 400 });
       }
-      return { status: 200, message: userExists};
+      return {message: userExists};
     }
 
 
