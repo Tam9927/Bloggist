@@ -28,9 +28,8 @@ async function createBlog(blog, username) {
   if (authorExists) {
     blog.authorId = authorExists.message.Id;
     const createdBlog = await BlogRepository.createBlog(blog);
-    return { status: 201, message: createdBlog };
+    return { status: 201, message: "Blog Created Successfully" };
   }
-
   throw Object.assign(new Error("Author Does Not Exist"), {
     status: 404,
   });

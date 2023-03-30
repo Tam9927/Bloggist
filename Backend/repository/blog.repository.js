@@ -4,7 +4,7 @@ const express = require("express");
 const database = require("../configs/db.config");
 
 async function getAllBlogs(offset, limit) {
-  const result = await Blog.findAll({ include: ["author"], offset, limit });
+  const result = await Blog.findAll({ offset, limit });
   return result;
 }
 
