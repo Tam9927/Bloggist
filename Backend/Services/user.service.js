@@ -3,8 +3,7 @@ const UserRepository = require("../repository/user.repository");
 const userUtils = require("../utils/user.validation");
 const UserDTO = require("../dto/user.dto");
 const validator = require("email-validator");
-const crypto = require("crypto");
-const bcrypt = require("bcrypt");
+const Hasher = require("../utils/hashingutil")
 const uuid = require("uuid");
 require("dotenv").config();
 
