@@ -7,9 +7,7 @@ const contentNegotiation = require("../utils/content-negotiation");
 async function registerUser(req, res) {
   try {
     const registeredUser = await authService.register(req.body);
-    const status = registeredUser.status;
-    const message = registeredUser.message;
-    if (status != 400) {
+    if (registeredUser.message) {
       const accesstoken = userUtils.generateToken(req.body.username);
       res.cookie("jwt", accesstoken, { httpOnly: true });
 
@@ -17,19 +15,18 @@ async function registerUser(req, res) {
         success: true,
       });
     } else {
-      res.status(status).send(message);
+      res.status(400).send(registeredUser.message);
     }
   } catch (err) {
-    res.status(400).send(err.message);
+    res.status(500).send(err.message);
   }
 }
 
 async function loginUser(req, res) {
   try {
     const UserToLogin = await authService.loginUser(req.body);
-    const status = UserToLogin.status;
     const message = UserToLogin.message;
-    if (status == 200) {
+    if (UserToLogin) {
       const accesstoken = userUtils.generateToken(req.body.username);
       res.cookie("jwt", accesstoken, { httpOnly: true });
 
@@ -37,10 +34,10 @@ async function loginUser(req, res) {
         success: true,
       });
     } else {
-      res.status(status).send(message);
+      res.status(400).send(message);
     }
   } catch (err) {
-    res.status(401).send(err.message);
+    res.status(500).send(err.message);
   }
 }
 

@@ -38,18 +38,12 @@ async function findUserByUserName(username) {
 
 async function findDuplicateEmail(email) {
   const Email = await UserRepository.getUserByEmail(email);
-  if (Email) {
-    return { status: 200 };
-  }
-  return { status: 400 };
+  return Email;
 }
 
 async function findDuplicateUsername(username) {
   const User = await UserRepository.getUserByUserName(username);
-  if (User) {
-    return { status: 200 };
-  }
-  return { status: 400 };
+  return User;
 }
 
 async function registerUser(user) {
@@ -85,7 +79,7 @@ async function loginUser(username) {
     username.toLowerCase()
   );
   if (!userToLogin) {
-    {  throw Object.assign(new Error("No User Found!"), { status: 400 }); };
+    {  throw Object.assign(new Error("No User Found with this username!"), { status: 400 }); };
   }
   return { message: userToLogin };
 }

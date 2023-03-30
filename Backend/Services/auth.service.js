@@ -13,15 +13,15 @@ async function register(user) {
   );
 
   if (!userValid.valid) {
-    throw Object.assign(new Error(userValid.message));
+    throw Object.assign(new Error(userValid.message),{ status: 400 });
   }
 
   const usernameDuplicate = await UserService.findDuplicateUsername(user.username);
-  if (usernameDuplicate.status === 200) {
+  if (usernameDuplicate) {
     throw Object.assign(new Error("Username is already in use!"), { status: 400 });
   }
   const emailDuplicate = await UserService.findDuplicateEmail(user.email);
-  if (emailDuplicate.status === 200) {
+  if (emailDuplicate) {
     throw Object.assign(new Error("Email is already in use!"), { status: 400 });
   }
 
@@ -29,7 +29,7 @@ async function register(user) {
     user.password = hashedPassword;
 
     const registeredUser = await UserService.registerUser(user);
-    return {message: registeredUser };
+    return {message: registeredUser};
     
 }
 
