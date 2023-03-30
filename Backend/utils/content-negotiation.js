@@ -12,7 +12,8 @@ function sendJsonResponse(clientData) {
 
 function sendXmlResponse(clientData) {
   var options = { compact: true, ignoreComment: true, spaces: 4 };
-  return xmlData = json2xml.json2xml(JSON.stringify(clientData), options);
+  var xmlData = json2xml.json2xml(JSON.stringify(clientData), options);
+  return xmlData
 }
 
 function sendPlainResponse(clientData) {
