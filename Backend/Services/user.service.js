@@ -90,7 +90,7 @@ async function loginUser(username) {
     username.toLowerCase()
   );
   if (!userToLogin) {
-    {  throw Object.assign(new Error("User Not Found!"), { status: 400 }); };
+    {  throw Object.assign(new Error("No User Found!"), { status: 400 }); };
   }
   return { status: 200, message: userToLogin };
 }

@@ -30,24 +30,20 @@ async function register(user) {
 
     const registeredUser = await UserService.registerUser(user);
     return { status: 200, message: registeredUser };
+    
 }
 
 async function loginUser(user) {
     const name = user.username.toLowerCase();
     const userExists = await UserService.loginUser(name);
     const password = userExists.message.password;
-
-    
-    if (password) {
-      const validPass = await bcrypt.compare(user.password, password);
+    const validPass = await bcrypt.compare(user.password, password);
 
       if (!validPass) {
-        throw Object.assign(new Error("User Not Found!"), { status: 400 });
+        throw Object.assign(new Error("Incorrect Password Entered!"), { status: 400 });
       }
       return { status: 200, message: userExists};
-    } else {
-      throw Object.assign(new Error("Incorrect Username Or Password"), { status: 400 });
     }
-}
+
 
 module.exports = { register, loginUser };
