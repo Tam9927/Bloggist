@@ -35,6 +35,11 @@ function userValidator(username, email, password) {
   return { valid: true, message: "Credentials are valid" };
 }
 
+
+const checkEmptyBody = (body) => {
+  return !Object.keys(body).length ? true : false;
+};
+
 function generateToken(username) {
   const accesstoken = jwt.sign({ username }, process.env.ACCESS_TOKEN_SECRET, {
     algorithm: process.env.JWT_ALGO,
@@ -72,4 +77,5 @@ module.exports = {
   checkEmailValid,
   generateToken,
   removeToken,
+  checkEmptyBody
 };

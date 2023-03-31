@@ -4,9 +4,10 @@ const authService = require("../services/auth.service");
 const userUtils = require("../utils/user.validation");
 const contentNegotiation = require("../utils/content-negotiation");
 
+
 async function registerUser(req, res) {
   try {
-    if (!req.body.username || !req.body.email || !req.body.password) {
+    if (userUtils.checkEmptyBody) {
       throw Object.assign(new Error("Please Enter All the fields"), {
         status: 400,
       });
@@ -29,8 +30,8 @@ async function registerUser(req, res) {
 
 async function loginUser(req, res) {
   try {
-    if (!req.body.username || !req.body.password) {
-      throw Object.assign(new Error("Please Enter Credentials"), {
+    if (userUtils.checkEmptyBody) {
+      throw Object.assign(new Error("Please Enter All the fields"), {
         status: 400,
       });
     }
