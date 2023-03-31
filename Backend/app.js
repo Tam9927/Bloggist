@@ -4,7 +4,7 @@ const express = require("express");
 
 const app = express();
 const router = require("./router/index");
-const db = require("./configs/db.config");
+const db = require("./configs/db.sequelize.config");
 const PORT = process.env.PORT || 4000;
 const cookieParser = require("cookie-parser");
 
@@ -26,12 +26,12 @@ app.use((err, req, res, next) => {
   }
 });
 
-app.use("/api/", router);
+app.use("/api/v1/", router);
 
 app.use("*", (req, res) => {
   res.status(404).json({
     success: "false",
-    message: "Page not found",
+    message: "Page not found", 
     error: {
       statusCode: 404,
       message: "This Route is not Valid",

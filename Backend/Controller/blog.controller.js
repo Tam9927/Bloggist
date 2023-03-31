@@ -13,7 +13,7 @@ async function getAllBlogs(req, res) {
 
     const status = 200;
 
-    contentNegotiation.sendResponse(req, res, status, blogs.message);
+    contentNegotiation.sendResponse(req, res, status, blogs.message); 
   } catch (err) {
     res.status(500).send(err.message);
   }
@@ -33,35 +33,32 @@ async function getBlogByBlogId(req, res) {
     const blog = await BlogService.getBlogByBlogId(req.params.blogId);
     contentNegotiation.sendResponse(req, res, 200, blog.message);
   } catch (err) {
-    res.status(500).send(err.message);
+    res.status(err.status).send(err.message);
   }
 }
 
 async function updateBlog(req, res) {
   try {
-    const updatedBlog = await BlogService.updateBlog(req.params.blogId, req.body);
+    const updatedBlog = await BlogService.updateBlog(
+      req.params.blogId,
+      req.body
+    );
     if (updatedBlog.message[0]) {
       contentNegotiation.sendResponse(req, res, 200, updatedBlog.message);
-    } else {
-      res.status(500).json("Blog could not be edited. Please try again");
     }
   } catch (err) {
-    res.status(401).send(err.message);
+    res.status(err.status).send(err.message);
   }
 }
 
 async function deleteBlog(req, res) {
   try {
-    const deletedBlog = await BlogService.deleteBlog(
-      req.params.blogId,
-    );
+    const deletedBlog = await BlogService.deleteBlog(req.params.blogId);
     if (deletedBlog) {
       contentNegotiation.sendResponse(req, res, 200, deletedBlog.message);
-    } else {
-      res.status(404).send("Blog not found");
     }
   } catch (err) {
-    res.status(401).json(err.message);
+    res.status(err.status).json(err.message);
   }
 }
 

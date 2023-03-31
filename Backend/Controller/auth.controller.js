@@ -6,18 +6,20 @@ const contentNegotiation = require("../utils/content-negotiation");
 
 async function registerUser(req, res) {
   try {
+    if (userUtils.checkEmptyBody(req.body)) {
+      throw Object.assign(new Error("Please Enter All the fields"), {
+        status: 400,
+      });
+    }
+
     const registeredUser = await authService.register(req.body);
-    const status = registeredUser.status;
-    const message = registeredUser.message;
-    if (status != 400) {
+    if (registeredUser.message) {
       const accesstoken = userUtils.generateToken(req.body.username);
       res.cookie("jwt", accesstoken, { httpOnly: true });
 
       contentNegotiation.sendResponse(req, res, 200, {
         success: true,
       });
-    } else {
-      res.status(status).send(message);
     }
   } catch (err) {
     res.status(400).send(err.message);
@@ -26,21 +28,22 @@ async function registerUser(req, res) {
 
 async function loginUser(req, res) {
   try {
+    if (userUtils.checkEmptyBody(req.body)) {
+      throw Object.assign(new Error("Please Enter All the fields"), {
+        status: 400,
+      });
+    }
     const UserToLogin = await authService.loginUser(req.body);
-    const status = UserToLogin.status;
-    const message = UserToLogin.message;
-    if (status == 200) {
+    if (UserToLogin.message) {
       const accesstoken = userUtils.generateToken(req.body.username);
       res.cookie("jwt", accesstoken, { httpOnly: true });
 
       contentNegotiation.sendResponse(req, res, 200, {
         success: true,
       });
-    } else {
-      res.status(status).send(message);
     }
   } catch (err) {
-    res.status(401).send(err.message);
+    res.status(err.status).send(err.message);
   }
 }
 

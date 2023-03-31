@@ -9,6 +9,6 @@ router.use("/users",userRouter);
 
 router.use("/auth", authRouter);
 
-router.use("/blogs", blogRouter);
+router.use("/blogs", blogRouter); 
 
 module.exports = router;

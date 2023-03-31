@@ -1,5 +1,4 @@
 "use strict";
-const authMiddleware = require("../middleware/auth.middleware");
 const BlogRepository = require("../repository/blog.repository");
 const UserService = require("./user.service");
 const BlogDTO = require("../dto/blog.dto");
@@ -15,10 +14,11 @@ async function getAllBlogs(pageNumber, pageSize) {
     });
   }
 
-  return { status: 200, message: allBlogs };
+  return {message: allBlogs };
 }
 
 async function createBlog(blog, username) {
+  
   if (!blog.title || !blog.description) {
     throw Object.assign(new Error("Title And Description Needed"), {
       status: 400,
@@ -28,7 +28,7 @@ async function createBlog(blog, username) {
   if (authorExists) {
     blog.authorId = authorExists.message.Id;
     const createdBlog = await BlogRepository.createBlog(blog);
-    return { status: 201, message: "Blog Created Successfully" };
+    return {message:createdBlog};
   }
   throw Object.assign(new Error("Author Does Not Exist"), {
     status: 404,
@@ -45,7 +45,7 @@ async function getBlogByBlogId(blogId) {
 
   const Blog = new BlogDTO(blog);
 
-  return { status: 200, message: Blog };
+  return {message:Blog};
 }
 
 async function updateBlog(blogId, blog) {
@@ -56,7 +56,7 @@ async function updateBlog(blogId, blog) {
       status: 404,
     });
   }
-  return { status: 200, message: "Blog Updated Successfully" };
+  return {message: "Blog Updated Successfully" };
 }
 
 async function deleteBlog(blogId) {
@@ -68,7 +68,7 @@ async function deleteBlog(blogId) {
     });
   }
 
-  return { status: 200, message: "Blog deleted" };
+  return {message: "Blog deleted" }; 
 }
 
 module.exports = {

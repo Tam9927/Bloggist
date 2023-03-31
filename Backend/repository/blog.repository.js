@@ -1,10 +1,9 @@
 "use strict";
-const Blog = require("../model/blog.model");
 const express = require("express");
-const database = require("../configs/db.config");
+const {Blog} = require("../model/index");
 
 async function getAllBlogs(offset, limit) {
-  const result = await Blog.findAll({ offset, limit });
+  const result = await Blog.findAll({ include: ["author"],offset, limit });
   return result;
 }
 
@@ -28,6 +27,7 @@ async function updateBlog(blogId, BlogToUpdate) {
 
 async function deleteBlog(blogId) {
   const result = Blog.destroy({ where: { blogId } });
+  console.log(result) 
   return result;
 }
 

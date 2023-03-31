@@ -12,7 +12,7 @@ async function getAllUsers(req, res) {
     const allUsers = await UserService.findAllUsers(pageNumber, pageSize);
     contentNegotiation.sendResponse(req, res, 200, allUsers.message);
   } catch (err) {
-    res.status(err.status).send(err.message); 
+    res.status(err.status).send(err.message);
   }
 }
 
@@ -31,7 +31,10 @@ async function getUserByUsername(req, res) {
 
 async function updateUser(req, res) {
   try {
-    const updatedUser = await UserService.updateUser(req.params.username, req.body);
+    const updatedUser = await UserService.updateUser(
+      req.params.username,
+      req.body
+    );
     contentNegotiation.sendResponse(req, res, 200, updatedUser.message);
   } catch (err) {
     res.status(err.status).send(err.message);
@@ -50,9 +53,9 @@ async function deleteUser(req, res) {
   }
 }
 
-module.exports = {  
+module.exports = {
   getAllUsers,
   getUserByUsername,
   deleteUser,
-  updateUser,
+  updateUser,  
 };

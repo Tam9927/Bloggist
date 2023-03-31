@@ -2,21 +2,25 @@
 const blogService = require("../services/blog.service");
 const userService = require("../services/user.service");
 
-async function blogMiddleware(req, res, next) {
+async function blogMiddleware(req,next) {
   try {
     const blogExists = await blogService.getBlogByBlogId(req.params.blogId);
     const authorExists = await userService.findUserByUserName(req.username);
 
-    const status = blogExists.status;
-
-    if (status !== 200) {
-      return res.status(404).send("Blog not found");
+    if (!blogExists.message) {
+      throw Object.assign(new Error("Blog Not Found"), {
+        status: 404,
+      });
     }
-    if (!authorExists) {
-      return res.status(404).send("Author not found");
+    if (!authorExists.message) {
+      throw Object.assign(new Error("Author Not Found"), {
+        status: 404,
+      });
     }
     if (blogExists.message.authorId != authorExists.message.Id) {
-      return res.status(403).send("Permission denied");
+      throw Object.assign(new Error("Permission Denied"), { 
+        status: 403,
+      }); 
     }
     next();
   } catch (err) {
