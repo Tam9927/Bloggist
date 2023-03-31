@@ -18,6 +18,7 @@ async function getAllBlogs(pageNumber, pageSize) {
 }
 
 async function createBlog(blog, username) {
+  
   if (!blog.title || !blog.description) {
     throw Object.assign(new Error("Title And Description Needed"), {
       status: 400,

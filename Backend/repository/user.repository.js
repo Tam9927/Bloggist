@@ -1,7 +1,7 @@
 "use strict";
 const express = require("express");
-const database = require("../configs/db.config");
-const User = require("../model/user.model");
+const database = require("../configs/db.sequelize.config");
+const {User} = require("../model/index");
 const UserRegisterDTO = require("../dto/user.register.dto");
 
 async function getAllUsers(offset, limit) {
@@ -20,6 +20,7 @@ async function deleteUser(username) {
       username,
     },
   });
+  console.log(result)
 
   return result;
 }

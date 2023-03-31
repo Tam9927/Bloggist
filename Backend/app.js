@@ -4,7 +4,7 @@ const express = require("express");
 
 const app = express();
 const router = require("./router/index");
-const db = require("./configs/db.config");
+const db = require("./configs/db.sequelize.config");
 const PORT = process.env.PORT || 4000;
 const cookieParser = require("cookie-parser");
 

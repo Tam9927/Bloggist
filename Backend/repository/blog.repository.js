@@ -1,7 +1,6 @@
 "use strict";
-const Blog = require("../model/blog.model");
 const express = require("express");
-const database = require("../configs/db.config");
+const {Blog} = require("../model/index");
 
 async function getAllBlogs(offset, limit) {
   const result = await Blog.findAll({ include: ["author"],offset, limit });

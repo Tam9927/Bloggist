@@ -7,11 +7,11 @@ const contentNegotiation = require("../utils/content-negotiation");
 
 async function registerUser(req, res) {
   try {
-    if (userUtils.checkEmptyBody) {
-      throw Object.assign(new Error("Please Enter All the fields"), {
-        status: 400,
-      });
-    }
+    // if (userUtils.checkEmptyBody) {
+    //   throw Object.assign(new Error("Please Enter All the fields"), {
+    //     status: 400,
+    //   });
+    // }
 
     const registeredUser = await authService.register(req.body);
     if (registeredUser.message) {
@@ -24,17 +24,17 @@ async function registerUser(req, res) {
     }
       
   } catch (err) {
-    res.status(err.status).send(err.message);
+    res.status(400).send(err.message);
   }
 }
 
 async function loginUser(req, res) {
   try {
-    if (userUtils.checkEmptyBody) {
-      throw Object.assign(new Error("Please Enter All the fields"), {
-        status: 400,
-      });
-    }
+    // if (userUtils.checkEmptyBody) {
+    //   throw Object.assign(new Error("Please Enter All the fields"), {
+    //     status: 400,
+    //   });
+    // }
     const UserToLogin = await authService.loginUser(req.body);
     const message = UserToLogin.message;
     if (UserToLogin) {
