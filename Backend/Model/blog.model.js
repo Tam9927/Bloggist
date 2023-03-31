@@ -40,18 +40,6 @@ const Blog = sequelize.define(
   }
 );
 
-// user.hasMany(blog, {
-//   foreignKey: "authorId",
-//   onDelete: "cascade",
-// });
-
-// blog.belongsTo(
-//   user,
-//   { as: "author" },
-//   {
-//     foreignKey: "authorId",
-//   }
-// );
 
 
 
