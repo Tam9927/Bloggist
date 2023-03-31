@@ -21,6 +21,10 @@ async function getAllBlogs(req, res) {
 
 async function createBlog(req, res) {
   try {
+    if (userUtils.checkEmptyBody) {
+      throw Object.assign(new Error("Please Enter All the fields"), {
+        status: 400,
+      });}
     const createdBlog = await BlogService.createBlog(req.body, req.username);
     contentNegotiation.sendResponse(req, res, 201, createdBlog.message);
   } catch (err) {
