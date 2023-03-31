@@ -3,7 +3,7 @@ const express = require("express");
 const {Blog} = require("../model/index");
 
 async function getAllBlogs(offset, limit) {
-  const result = await Blog.findAll({ include: ["author"],offset, limit });
+  const result = await Blog.findAll({ include: ["author"], offset, limit });
   return result;
 }
 
