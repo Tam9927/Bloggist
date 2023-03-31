@@ -20,7 +20,6 @@ async function deleteUser(username) {
       username,
     },
   });
-  console.log(result)
 
   return result;
 }
@@ -34,7 +33,6 @@ async function register(user) {
   const userToRegister = new UserRegisterDTO(user);
   try {
     const result = await User.create(userToRegister);
-    console.log(result)
     return result;
   } catch (err) {
     console.log(err.stack);
