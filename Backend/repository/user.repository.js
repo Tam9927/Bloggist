@@ -1,6 +1,6 @@
 "use strict";
 const express = require("express");
-const database = require("../configs/db.sequelize.config");
+const database = require("../configs/db.config");
 const {User} = require("../model/index");
 const UserRegisterDTO = require("../dto/user.register.dto");
 

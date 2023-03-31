@@ -1,6 +1,6 @@
 const User = require("./user.model");
 const Blog = require("./blog.model")
-const {sequelize} = require("../configs/db.sequelize.config")
+const {sequelize} = require("../configs/db.config")
 
 
   
@@ -10,7 +10,7 @@ const {sequelize} = require("../configs/db.sequelize.config")
     {
       foreignKey: "authorId", 
       onDelete: "cascade",
-      hooks:true
+      hooks: true
     }
   );
 

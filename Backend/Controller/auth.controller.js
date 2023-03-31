@@ -47,7 +47,7 @@ async function loginUser(req, res) {
   }
 }
 
-async function logoutUser(req, res) {
+async function logoutUser(res) {
   try {
     userUtils.removeToken(res);
   } catch (err) {
