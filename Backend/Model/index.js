@@ -20,7 +20,7 @@ const {sequelize} = require("../configs/db.sequelize.config")
 
   async function test() {
     await sequelize.sync({ force: false });
-    console.log("User were synchronized successfully.");
+    console.log("User and Blog tables were synchronized successfully.");
   }
   
   
