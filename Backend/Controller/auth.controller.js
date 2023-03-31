@@ -22,7 +22,7 @@ async function registerUser(req, res) {
       });
     }
   } catch (err) {
-    res.status(400).send(err.message);
+    res.status(500).send(err.message);
   }
 }
 
@@ -51,7 +51,7 @@ async function logoutUser(req, res) {
   try {
     userUtils.removeToken(res);
   } catch (err) {
-    res.status(404).send("No user was logged in");
+    res.status(500).send("No user was logged in");
   }
 }
 
