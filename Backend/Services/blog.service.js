@@ -67,7 +67,7 @@ async function deleteBlog(blogId) {
     });
   }
 
-  return {message: "Blog deleted" };
+  return {message: "Blog deleted" }; 
 }
 
 module.exports = {

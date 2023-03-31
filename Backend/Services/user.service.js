@@ -19,7 +19,7 @@ async function findAllUsers(pageNumber, pageSize) {
     allUsers.push(new UserDTO(element));
   });
 
-  return { status: 200, message: allUsers };
+  return {message: allUsers };
 }
 
 async function findUserByUserName(username) {
@@ -33,7 +33,7 @@ async function findUserByUserName(username) {
   }
 
   const user = new UserDTO(foundUser);
-  return { status: 200, message: user };
+  return {message: user };
 }
 
 async function findDuplicateEmail(email) {
@@ -58,7 +58,7 @@ async function deleteUser(username) {
     throw Object.assign(new Error("User not found!"), { status: 404 });
   }
 
-  return { status: 200, message: "User removed" };
+  return {message: "User removed" };
 }
 
 async function updateUser(username, user) {
@@ -71,7 +71,7 @@ async function updateUser(username, user) {
   if (!updatedUser) {
     throw Object.assign(new Error("User not found!"), { status: 404 });
   }
-  return { status: 200, message: "User updated" };
+  return {message: "User updated" };
 }
 
 async function loginUser(username) {

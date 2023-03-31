@@ -37,12 +37,7 @@ async function register(user) {
 }
 
 async function loginUser(user) {
-  if (!user.username || !user.password) {
-    throw Object.assign(new Error("Please Enter Credentials"), {
-      status: 400,
-    });
-  }
-
+  
   const name = user.username.toLowerCase();
   const userExists = await UserService.loginUser(name);
   const password = userExists.message.password;

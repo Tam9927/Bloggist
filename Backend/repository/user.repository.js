@@ -5,7 +5,7 @@ const User = require("../model/user.model");
 const UserRegisterDTO = require("../dto/user.register.dto");
 
 async function getAllUsers(offset, limit) {
-  const result = await User.findAll({ offset, limit });
+  const result = await User.findAll({ offset, limit }); 
   return result;
 }
 
