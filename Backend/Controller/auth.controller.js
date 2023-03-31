@@ -43,7 +43,7 @@ async function loginUser(req, res) {
       });
     }
   } catch (err) {
-    res.status(err.status).send(err.message);
+    res.status(500).send(err.message);
   }
 }
 
