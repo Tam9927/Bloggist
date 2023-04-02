@@ -45,7 +45,7 @@ async function loginUser(user) {
 
   if (!validPass) {
     throw Object.assign(new Error("Incorrect Password Entered!"), {
-      status: 400,
+      status: 400, 
     });
   }
   return { message: userExists };
