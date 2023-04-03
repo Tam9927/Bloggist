@@ -2,18 +2,13 @@
 const express = require("express");
 const {Blog} = require("../model/index");
 
-async function getAllBlogs(offset, limit) {
-  const result = await Blog.findAll({ include: ["author"], offset, limit });
+async function getAllBlogs(limit,offset) {
+  const result = await Blog.findAll({ include: ["author"],limit,offset});
   return result;
 }
 
 async function getBlogByBlogId(blogId) {
   const result = await Blog.findOne({ include: ["author"], where: { blogId } });
-  return result;
-}
-
-async function getBlogbyAuthorId() {
-  const result = await Blog.findByPk(authorId);
   return result;
 }
 
@@ -27,7 +22,6 @@ async function updateBlog(blogId, BlogToUpdate) {
 
 async function deleteBlog(blogId) {
   const result = Blog.destroy({ where: { blogId } });
-  console.log(result) 
   return result;
 }
 
@@ -47,5 +41,4 @@ module.exports = {
   getBlogByBlogId,
   updateBlog,
   deleteBlog,
-  getBlogbyAuthorId,
 };

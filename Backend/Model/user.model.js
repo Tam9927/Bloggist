@@ -1,7 +1,7 @@
 "use strict";
 const { validate } = require("email-validator");
 const { DataTypes } = require("sequelize");
-const { sequelize } = require("../configs/db.config");
+const { sequelize } = require("../configs/db.sequelize.config");
 
 const User = sequelize.define(
   "user",

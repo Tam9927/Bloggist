@@ -17,11 +17,9 @@ async function registerUser(req, res) {
       const accesstoken = userUtils.generateToken(req.body.username);
       res.cookie("jwt", accesstoken, { httpOnly: true });
 
-      contentNegotiation.sendResponse(req, res, 200, {
-        success: true,
-      });
-    }
-  } catch (err) {
+      contentNegotiation.sendResponse(req, res, 200, "Registration is successful" )
+  }
+} catch (err) {
     res.status(500).send(err.message);
   }
 }

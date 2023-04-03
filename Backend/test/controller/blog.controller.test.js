@@ -1,0 +1,1 @@
+const blogController = require('../../controller/blog.controller')

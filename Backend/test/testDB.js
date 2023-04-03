@@ -1,4 +1,4 @@
-const usersDB = [
+const userDB = [
     {
       username: 'Ibrahim',
       email: 'mik858692@gmail.com',
@@ -33,7 +33,7 @@ const usersDB = [
     },
   ];
   
-  const storiesDB = [
+  const blogDB = [
     {
       title: 'Test 1',
       description: 'Hello world 1!',
@@ -77,7 +77,7 @@ const usersDB = [
   ];
   
   module.exports = {
-    usersDB,
-    storiesDB,
+    userDB,
+    blogDB,
   };
   

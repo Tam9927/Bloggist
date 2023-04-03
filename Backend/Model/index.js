@@ -1,6 +1,6 @@
 const User = require("./user.model");
 const Blog = require("./blog.model")
-const {sequelize} = require("../configs/db.config")
+const {sequelize} = require("../configs/db.sequelize.config")
 
 
   
@@ -20,7 +20,7 @@ const {sequelize} = require("../configs/db.config")
 
   async function test() {
     await sequelize.sync({ force: false });
-    console.log("User and Blog tables were synchronized successfully.");
+    //console.log("User and Blog tables were synchronized successfully.");
   }
   
   
