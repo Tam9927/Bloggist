@@ -2,7 +2,6 @@ class BlogDTO {
     constructor(blog) {
         
         this.authorId = blog.authorId;
-        this.authorName= blog.author.username
         this.Id = blog.blogId;
         this.title = blog.title;
         this.description = blog.description;

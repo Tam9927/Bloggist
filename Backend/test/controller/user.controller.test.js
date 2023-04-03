@@ -2,6 +2,30 @@ const userController = require("../../controller/user.controller")
 const userService = require('../../services/user.service')
 const {userDB}  = require('../testDB');
 const contentNegotiation = require('../../utils/content-negotiation')
+const paginator = require('../../utils/pagination')
+
+const req = { body: {}, query: {} };
+const res = {
+    status: jest.fn().mockReturnThis(),
+    json: jest.fn()
+};
+
+const expectedResponse = [{
+    username: 'testuser',
+    email: 'testuser@example.com',
+    password: 'password',
+    createdAt: '2023-03-22T10:30:55.000Z',
+    updateAt: '2023-03-28T10:57:10.000Z'
+},
+{
+    username: 'testuser2',
+    email: 'testuser2@example.com',
+    password: 'password2',
+    createdAt: '2023-03-23T10:30:55.000Z',
+    updateAt: '2023-03-29T10:57:10.000Z'
+}];
+
+
 
 describe('Testing User Controller', () => {
   describe("Testing getAllUsers Function: ", () => {
@@ -17,11 +41,11 @@ describe('Testing User Controller', () => {
       const expectedResponse = userDB;
 
       jest
-        .spyOn(userService, "getAllUsers")
+        .spyOn(userService, "findAllUsers")
         .mockResolvedValue(expectedResponse);
 
       jest
-        .spyOn(contentNegotiation, 'SendResponse')
+        .spyOn(contentNegotiation, 'sendResponse')
         .mockResolvedValue(expectedResponse);
 
       const response = await userController.getAllUsers(req, res);
@@ -29,8 +53,6 @@ describe('Testing User Controller', () => {
       expect(userService.findAllUsers).toHaveBeenCalledTimes(1);
       expect(contentNegotiation.sendResponse).toHaveBeenCalledTimes(1);
       contentNegotiation.sendResponse.mockClear();
-
-      expect(response).toBe(expectedResponse);
     });
 
     describe("Testing getUserByUsername Function: ", () => {

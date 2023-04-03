@@ -1,6 +1,7 @@
 const userRepository = require("../../repository/user.repository");
 const User = require("../../model/user.model");
 const { userDB } = require("../testDB");
+const UserRegisterDTO = require('../../dto/user.register.dto')
 
 class TestUser {
   constructor(user) {
@@ -42,7 +43,7 @@ describe("Testing User Repository", () => {
                     password:expect.any(String),
                     createdAt: expect.any(String),
                     updatedAt: expect.any(String),
-                    id: expect.any(String),
+                    Id: expect.any(String),
                 }),
             ])
         );
@@ -120,13 +121,14 @@ describe("Testing User Repository", () => {
       email: email,
       password: password,
     };
-    const expectedUser = { username, email, password };
+    const expectedUser = new UserRegisterDTO(body);
     jest.spyOn(User, "create").mockImplementation((user) => new TestUser(user));
+    
     const response = await userRepository.register(body);
     expect(User.create).toHaveBeenCalledTimes(1);
-    expect(User.create).toHaveBeenCalledWith({
-      body,
-    });
+    expect(User.create).toHaveBeenCalledWith(
+      body
+    );
     expect(response).toEqual(expect.objectContaining(expectedUser));
   });
 
