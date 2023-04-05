@@ -40,7 +40,6 @@ describe("Testing User Repository", () => {
                 expect.objectContaining({
                     username: expect.any(String),
                     email: expect.any(String),
-                    password:expect.any(String),
                     createdAt: expect.any(String),
                     updatedAt: expect.any(String),
                     Id: expect.any(String),

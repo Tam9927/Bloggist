@@ -1,6 +1,7 @@
 "use strict";
 const UserRepository = require("../repository/user.repository");
 const UserDTO = require("../dto/user.dto");
+const hashPasswordGenerator = require('../utils/HashingUtil')
 require("dotenv").config();
 
 async function findAllUsers(pageNumber, pageSize) {
@@ -8,6 +9,7 @@ async function findAllUsers(pageNumber, pageSize) {
   const limit = pageSize;
 
   const Users = await UserRepository.getAllUsers(offset, limit);
+  
   if (!Users.length) {
     throw Object.assign(new Error("No user in users table!"), {
       status: 404,
@@ -42,7 +44,7 @@ async function findDuplicateEmail(email) {
 }
 
 async function findDuplicateUsername(username) {
-  const User = await UserRepository.getUserByUserName(username);
+  const User = await UserRepository.getUserByUserName(username.toLowerCase());
   return User;
 }
 
@@ -62,7 +64,7 @@ async function deleteUser(username) {
 }
 
 async function updateUser(username, user) {
-  const hashedPassword = await Hasher(user.password);
+  const hashedPassword = await hashPasswordGenerator(user.password);
   const updatedUser = await UserRepository.updateUser(
     username.toLowerCase(),
     hashedPassword
@@ -81,7 +83,7 @@ async function loginUser(username) {
   if (!userToLogin) {
     {  throw Object.assign(new Error("No User Found with this username!"), { status: 400 }); };
   }
-  return { message: userToLogin };
+  return { message : userToLogin };
 }
 
 module.exports = {

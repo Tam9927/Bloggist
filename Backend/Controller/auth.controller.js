@@ -36,9 +36,7 @@ async function loginUser(req, res) {
       const accesstoken = userUtils.generateToken(req.body.username);
       res.cookie("jwt", accesstoken, { httpOnly: true });
 
-      contentNegotiation.sendResponse(req, res, 200, {
-        success: true,
-      });
+      contentNegotiation.sendResponse(req, res, 200, "Login is Successful");
     }
   } catch (err) {
     res.status(500).send(err.message);
