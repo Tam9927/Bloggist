@@ -33,7 +33,6 @@ describe("Testing User Repository", () => {
                 offset,limit
             })
         );
-         console.log(response)
         expect(response.length).toBe(limit);
         expect(response).toEqual(
             expect.arrayContaining([

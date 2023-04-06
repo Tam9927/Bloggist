@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">23.95% </span>
+                <span class="strong">24.48% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>23/96</span>
+                <span class='fraction'>24/98</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">23.95% </span>
+                <span class="strong">24.48% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>23/96</span>
+                <span class='fraction'>24/98</span>
             </div>
         
             
@@ -159,11 +159,15 @@
 <a name='L94'></a><a href='#L94'>94</a>
 <a name='L95'></a><a href='#L95'>95</a>
 <a name='L96'></a><a href='#L96'>96</a>
-<a name='L97'></a><a href='#L97'>97</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L97'></a><a href='#L97'>97</a>
+<a name='L98'></a><a href='#L98'>98</a>
+<a name='L99'></a><a href='#L99'>99</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -258,6 +262,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">"use strict";
 const UserRepository = require("../repository/user.repository");
 const UserDTO = require("../dto/user.dto");
+const hashPasswordGenerator = require('../utils/HashingUtil')
 require("dotenv").config();
 &nbsp;
 <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >async function findAllUsers(pageNumber, pageSize) {</span></span>
@@ -265,6 +270,7 @@ require("dotenv").config();
 <span class="cstat-no" title="statement not covered" >  const limit = pageSize;</span>
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >  const Users = await UserRepository.getAllUsers(offset, limit);</span>
+<span class="cstat-no" title="statement not covered" >  </span>
 <span class="cstat-no" title="statement not covered" >  if (!Users.length) {</span>
 <span class="cstat-no" title="statement not covered" >    throw Object.assign(new Error("No user in users table!"), {</span>
 <span class="cstat-no" title="statement not covered" >      status: 404,</span>
@@ -299,7 +305,7 @@ require("dotenv").config();
 <span class="cstat-no" title="statement not covered" >}</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >async function findDuplicateUsername(username) {</span></span>
-<span class="cstat-no" title="statement not covered" >  const User = await UserRepository.getUserByUserName(username);</span>
+<span class="cstat-no" title="statement not covered" >  const User = await UserRepository.getUserByUserName(username.toLowerCase());</span>
 <span class="cstat-no" title="statement not covered" >  return User;</span>
 <span class="cstat-no" title="statement not covered" >}</span>
 &nbsp;
@@ -319,7 +325,7 @@ require("dotenv").config();
 <span class="cstat-no" title="statement not covered" >}</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >async function updateUser(username, user) {</span></span>
-<span class="cstat-no" title="statement not covered" >  const hashedPassword = await Hasher(user.password);</span>
+<span class="cstat-no" title="statement not covered" >  const hashedPassword = await hashPasswordGenerator(user.password);</span>
 <span class="cstat-no" title="statement not covered" >  const updatedUser = await UserRepository.updateUser(</span>
 <span class="cstat-no" title="statement not covered" >    username.toLowerCase(),</span>
 <span class="cstat-no" title="statement not covered" >    hashedPassword</span>
@@ -338,7 +344,7 @@ require("dotenv").config();
 <span class="cstat-no" title="statement not covered" >  if (!userToLogin) {</span>
 <span class="cstat-no" title="statement not covered" >    {  throw Object.assign(new Error("No User Found with this username!"), { status: 400 }); };</span>
 <span class="cstat-no" title="statement not covered" >  }</span>
-<span class="cstat-no" title="statement not covered" >  return { message: userToLogin };</span>
+<span class="cstat-no" title="statement not covered" >  return { message : userToLogin };</span>
 <span class="cstat-no" title="statement not covered" >}</span>
 &nbsp;
 module.exports = {
@@ -358,7 +364,7 @@ module.exports = {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2023-04-05T03:28:40.752Z
+                at 2023-04-06T05:37:37.298Z
             </div>
         <script src="../prettify.js"></script>
         <script>

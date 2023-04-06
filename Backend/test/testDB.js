@@ -36,7 +36,7 @@ const userDB = [
       createdAt: '12-12-12',
       updatedAt: '12-12-12',
       authorId: '1',
-      blogid: '1',
+      blogId: '1',
     },
     {
       title: 'Test 2',

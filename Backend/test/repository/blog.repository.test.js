@@ -28,7 +28,6 @@ describe("Testing Stories Repository: ", () => {
       // Act
       const response = await BlogRepository.getAllBlogs(size, skip);
 
-      // Assert
       expect(Blog.findAll).toHaveBeenCalledWith(
         expect.objectContaining({
           limit: size,
@@ -106,7 +105,6 @@ describe("Testing Stories Repository: ", () => {
         authorId,
         createdAt,
         updatedAt,
-
       };
       const expectedStory = {
         title,
@@ -138,8 +136,7 @@ describe("Testing Stories Repository: ", () => {
         authorId,
         createdAt,
         updatedAt,
-        blogId
-
+        blogId,
       };
 
       const expectedError = new Error("Database error");
@@ -167,12 +164,9 @@ describe("Testing Stories Repository: ", () => {
       jest
         .spyOn(Blog, "update")
         .mockImplementation((blog) => new TestBlog(blog));
-      const response = await BlogRepository.updateBlog(blogId,blog);
+      const response = await BlogRepository.updateBlog(blogId, blog);
       expect(Blog.update).toHaveBeenCalledTimes(1);
-      expect(Blog.update).toHaveBeenCalledWith(
-       blog,
-        { where: { blogId } }
-      );
+      expect(Blog.update).toHaveBeenCalledWith(blog, { where: { blogId } });
       expect(response).toEqual(expect.objectContaining(expectedStory));
     });
 

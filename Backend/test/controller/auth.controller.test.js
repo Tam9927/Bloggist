@@ -1,6 +1,10 @@
 const authController = require("../../controller/auth.controller");
 const authService = require("../../services/auth.service");
-const { generateToken, removeToken, checkEmptyBody } = require("../../utils/user.validation");
+const {
+  generateToken,
+  removeToken,
+  checkEmptyBody,
+} = require("../../utils/user.validation");
 const { userDB } = require("../testDB");
 const contentNegotiation = require("../../utils/content-negotiation");
 
@@ -18,7 +22,6 @@ const expectedResponse = {
 };
 
 describe("Testing Auth Controller", () => {
-
   describe("Testing logOut Function: ", () => {
     it("logOut: Should Log Out A user", async () => {
       const req = {
@@ -27,10 +30,10 @@ describe("Testing Auth Controller", () => {
 
       const res = {
         status: jest.fn().mockReturnThis(), //http header mock standard
-        send: jest.fn(),
+        json: jest.fn(),
       };
 
-      //removeToken.mockReturnValue
+      removeToken.mockReturnValue();
 
       await authController.logoutUser(res);
 
@@ -38,9 +41,7 @@ describe("Testing Auth Controller", () => {
     });
   });
 
-  
   describe("Testing register function", () => {
- 
     it("should call authService.register then return a new user", async () => {
       const req = {
         body: {
@@ -51,7 +52,7 @@ describe("Testing Auth Controller", () => {
       };
 
       const newUser = {
-        message: 'hello',
+        message: "hello",
         Id: "2d805d2b-c234-4c3b-b574-291e82f48c5a",
         username: "newUser",
         email: "new@gmail.com",
@@ -71,32 +72,28 @@ describe("Testing Auth Controller", () => {
 
       const contentNegotiateResponse = "Registration is successful";
 
-      
-    authService.register.mockReturnValue(newUser);
+      authService.register.mockReturnValue(newUser);
 
-    checkEmptyBody.mockReturnValueOnce(false);  
-    generateToken.mockReturnValue(accesstoken);
-    const spyMethod = jest
+      checkEmptyBody.mockReturnValueOnce(false);
+      generateToken.mockReturnValue(accesstoken);
+      const spyMethod = jest
         .spyOn(contentNegotiation, "sendResponse")
         .mockResolvedValue(contentNegotiateResponse);
 
-    await authController.registerUser(req, res);
+      await authController.registerUser(req, res);
 
-    expect(spyMethod).toHaveBeenCalledTimes(1);
+      expect(spyMethod).toHaveBeenCalledTimes(1);
 
-    expect(authService.register).toHaveBeenCalledTimes(1);
-    expect(authService.register).toHaveBeenCalledWith(req.body);
-    expect(res.cookie).toHaveBeenCalledTimes(1);
-    expect(res.cookie).toHaveBeenCalledWith("jwt", accesstoken, {
+      expect(authService.register).toHaveBeenCalledTimes(1);
+      expect(authService.register).toHaveBeenCalledWith(req.body);
+      expect(res.cookie).toHaveBeenCalledTimes(1);
+      expect(res.cookie).toHaveBeenCalledWith("jwt", accesstoken, {
         httpOnly: true,
       });
     });
+  });
 
-
-});
-
-describe("Testing login function", () => {
-    
+  describe("Testing login function", () => {
     it("should call authService.login then return a new user", async () => {
       const req = {
         body: {
@@ -106,7 +103,7 @@ describe("Testing login function", () => {
       };
 
       const newUser = {
-        message: 'hello',
+        message: "hello",
         Id: "2d805d2b-c234-4c3b-b574-291e82f48c5a",
         username: "newUser",
         email: "new@gmail.com",
@@ -126,31 +123,24 @@ describe("Testing login function", () => {
 
       const contentNegotiateResponse = "Login is successful";
 
-      
-    authService.loginUser.mockReturnValue(newUser);
+      authService.loginUser.mockReturnValue(newUser);
 
-    checkEmptyBody.mockReturnValueOnce(false);  
-    generateToken.mockReturnValue(accesstoken);
-    const spyMethod = jest
+      checkEmptyBody.mockReturnValueOnce(false);
+      generateToken.mockReturnValue(accesstoken);
+      const spyMethod = jest
         .spyOn(contentNegotiation, "sendResponse")
         .mockResolvedValue(contentNegotiateResponse);
 
-    await authController.loginUser(req, res);
+      await authController.loginUser(req, res);
 
-    expect(spyMethod).toHaveBeenCalledTimes(1);
+      expect(spyMethod).toHaveBeenCalledTimes(1);
 
-    expect(authService.loginUser).toHaveBeenCalledTimes(1);
-    expect(authService.loginUser).toHaveBeenCalledWith(req.body);
-    expect(res.cookie).toHaveBeenCalledTimes(1);
-    expect(res.cookie).toHaveBeenCalledWith("jwt", accesstoken, {
+      expect(authService.loginUser).toHaveBeenCalledTimes(1);
+      expect(authService.loginUser).toHaveBeenCalledWith(req.body);
+      expect(res.cookie).toHaveBeenCalledTimes(1);
+      expect(res.cookie).toHaveBeenCalledWith("jwt", accesstoken, {
         httpOnly: true,
       });
     });
-});
-
-
-
-
-
-
+  });
 });

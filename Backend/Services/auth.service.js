@@ -1,7 +1,7 @@
 "use strict";
 const userValidator = require("../utils/user.validation");
 const UserService = require("../services/user.service");
-const Hasher = require("../utils/HashingUtil");
+const {hashPasswordGenerator} = require("../utils/HashingUtil");
 const bcrypt = require("bcrypt");
 require("dotenv").config();
 
@@ -29,7 +29,7 @@ async function register(user) {
     throw Object.assign(new Error("Email is already in use!"), { status: 400 });
   }
 
-  const hashedPassword = await Hasher(user.password);
+  const hashedPassword = await hashPasswordGenerator(user.password);
   user.password = hashedPassword;
 
   const registeredUser = await UserService.registerUser(user);
