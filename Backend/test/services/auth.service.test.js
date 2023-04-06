@@ -56,9 +56,73 @@ describe("Testing register function", () => {
     const response = await authService.register(user);
 
     expect(userValidator).toHaveBeenCalledTimes(1);
+    expect(userService.registerUser).toHaveBeenCalledTimes(1)
     expect(userService.registerUser).toHaveBeenCalledWith(user);
     expect(response).toEqual({ message: expectedResponse });
   });
+
+    
+    test("should throw an error while trying to signup a user without any username", async () => {
+        const user = {
+        username:'',
+          email: "testuser@example.com",
+          password: "password",
+        };
+    
+        userValidator.mockReturnValue({
+          valid: false,
+          message: "Please enter all the fields",
+        });
+    
+        await expect(authService.register(user)).rejects.toThrow(
+          Object.assign(new Error("Please enter all the fields", { status: 400 }))
+        );
+      });
+
+      test("should throw an error because of duplicate username", async () => {
+        const user = {
+        username:'tahmid',
+          email: "testuser@example.com",
+          password: "password",
+        };
+        const username = 'tahmid'
+        
+        userValidator.mockReturnValue({
+            valid: true,
+            message: "Credentials are valid",
+          });
+      
+        userService.findDuplicateUsername.mockReturnValue(username);
+    
+        await expect(authService.register(user)).rejects.toThrow(
+          Object.assign(new Error("Username is already in use!", { status: 400 }))
+        );
+      });
+
+      test("should throw an error because of duplicate username", async () => {
+        const user = {
+        username:'tahmid',
+          email: "testuser@example.com",
+          password: "password",
+        };
+        const email = "testuser@example.com"
+        
+        userValidator.mockReturnValue({
+            valid: true,
+            message: "Credentials are valid",
+          });
+      
+          userService.findDuplicateUsername.mockReturnValue(false);
+    
+        userService.findDuplicateEmail.mockReturnValue(email);
+    
+        await expect(authService.register(user)).rejects.toThrow(
+          Object.assign(new Error("Email is already in use!", { status: 400 }))
+        );
+      });
+
+
+
 });
 
 describe("Testing login function", () => {
@@ -88,7 +152,9 @@ describe("Testing login function", () => {
       const response = await authService.loginUser(user);
   
       expect(userService.loginUser).toHaveBeenCalledWith(user.username.toLowerCase());
+      expect(userService.loginUser).toHaveBeenCalledTimes(1);
       expect(response).toEqual({ message: expectedResponse });
     });
+
+
   });
-  

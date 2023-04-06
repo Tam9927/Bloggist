@@ -62,7 +62,7 @@ describe("Testing Blog Controller", () => {
   });
 
   describe("Testing getBlogByBlogId Function: ", () => {
-    it("getAllUsers: Return ablog in response", async () => {
+    it("Should Return ablog in response", async () => {
       const req = {
         params: {
           blogId: "1",
@@ -248,7 +248,7 @@ describe("Testing Blog Controller", () => {
   });
 
   describe("Testing Delete Blog by BlogId", () => {
-    it("should update the blog if exists and return success", async () => {
+    it("should delete a blog by ID and return success", async () => {
       const req = {
         params: {
           blogId: "1",

@@ -82,6 +82,31 @@ describe("Testing User Service", () => {
 
       expect(response).toStrictEqual(expectedResponse);
     });
+  
+    it("Should Fail because no body was given", async () => {
+      const pageNumber = 1;
+      const pageSize = 5;
+
+      const offset = (pageNumber - 1) * pageSize;
+      const limit = pageSize;
+
+      jest
+        .spyOn(userRepository, "getAllUsers")
+        .mockResolvedValue([]);
+
+      const response = await userService.findAllUsers(pageNumber, pageSize);
+
+      expect(userRepository.getAllUsers).toHaveBeenCalledTimes(1);
+      expect(userRepository.getAllUsers).toHaveBeenCalledWith(offset, limit);
+
+      expect(response).toStrictEqual(expectedResponse);
+    });
+  
+  
+  
+  
+  
+  
   });
 
   describe("Testing getUserByUsername Function: ", () => {

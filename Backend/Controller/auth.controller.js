@@ -10,6 +10,7 @@ async function registerUser(req, res) {
       throw Object.assign(new Error("Please Enter All the fields"), {
         status: 400,
       });
+
     }
 
     const registeredUser = await authService.register(req.body);
@@ -20,7 +21,7 @@ async function registerUser(req, res) {
       contentNegotiation.sendResponse(req, res, 200, "Registration is successful" )
   }
 } catch (err) {
-    res.status(500).send(err.message);
+     res.status(500).send(err.message);
   }
 }
 

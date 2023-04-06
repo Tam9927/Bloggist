@@ -35,7 +35,7 @@ async function findUserByUserName(username) {
   }
 
   const user = new UserDTO(foundUser);
-  return {message: user };
+  return { message: user };
 }
 
 async function findDuplicateEmail(email) {

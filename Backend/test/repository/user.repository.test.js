@@ -1,7 +1,7 @@
 const userRepository = require("../../repository/user.repository");
 const User = require("../../model/user.model");
 const { userDB } = require("../testDB");
-const UserRegisterDTO = require('../../dto/user.register.dto')
+const UserRegisterDTO = require("../../dto/user.register.dto");
 
 class TestUser {
   constructor(user) {
@@ -15,38 +15,35 @@ class TestUser {
 }
 
 describe("Testing User Repository", () => {
-  describe('Testing get all users', () => {
-    it('should return array of all users', async () => {
- 
-        const limit = 3;
-        const offset = 0;
-        jest
-            .spyOn(User, 'findAll')
-            .mockImplementation(({offset,limit}) => {
-                return userDB.slice(offset,offset+limit)
-            });
+  describe("Testing get all users", () => {
+    it("should return array of all users", async () => {
+      const limit = 3;
+      const offset = 0;
+      jest.spyOn(User, "findAll").mockImplementation(({ offset, limit }) => {
+        return userDB.slice(offset, offset + limit);
+      });
 
-        const response = await userRepository.getAllUsers(offset,limit);
+      const response = await userRepository.getAllUsers(offset, limit);
 
-        expect(User.findAll).toHaveBeenCalledWith(
-            expect.objectContaining({
-                offset,limit
-            })
-        );
-        expect(response.length).toBe(limit);
-        expect(response).toEqual(
-            expect.arrayContaining([
-                expect.objectContaining({
-                    username: expect.any(String),
-                    email: expect.any(String),
-                    createdAt: expect.any(String),
-                    updatedAt: expect.any(String),
-                    Id: expect.any(String),
-                }),
-            ])
-        );
+      expect(User.findAll).toHaveBeenCalledWith(
+        expect.objectContaining({
+          offset,
+          limit,
+        })
+      );
+      expect(response.length).toBe(limit);
+      expect(response).toEqual(
+        expect.arrayContaining([
+          expect.objectContaining({
+            username: expect.any(String),
+            email: expect.any(String),
+            createdAt: expect.any(String),
+            updatedAt: expect.any(String),
+            Id: expect.any(String),
+          }),
+        ])
+      );
     }),
-
       it("should throw an error if database query fails", async () => {
         const limit = 3;
         const offset = 1;
@@ -121,12 +118,10 @@ describe("Testing User Repository", () => {
     };
     const expectedUser = new UserRegisterDTO(body);
     jest.spyOn(User, "create").mockImplementation((user) => new TestUser(user));
-    
+
     const response = await userRepository.register(body);
     expect(User.create).toHaveBeenCalledTimes(1);
-    expect(User.create).toHaveBeenCalledWith(
-      body
-    );
+    expect(User.create).toHaveBeenCalledWith(body);
     expect(response).toEqual(expect.objectContaining(expectedUser));
   });
 
