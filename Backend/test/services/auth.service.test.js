@@ -4,22 +4,12 @@ const userService = require("../../services/user.service");
 const bcrypt = require("bcrypt");
 
 const { userValidator } = require("../../utils/user.validation");
-const { userDB } = require("../testDB");
-const contentNegotiation = require("../../utils/content-negotiation");
 const { hashPasswordGenerator } = require("../../utils/HashingUtil");
 
 jest.mock("../../utils/user.validation.js");
 jest.mock("../../utils/content-negotiation");
 jest.mock("../../utils/user.validation");
 jest.mock("../../utils/HashingUtil.js");
-
-const expectedResponse = {
-  username: "testuser",
-  email: "testuser@example.com",
-  password: "password",
-  createdAt: "2023-03-22T10:30:55.000Z",
-  updateAt: "2023-03-28T10:57:10.000Z",
-};
 
 describe("Testing register function", () => {
   it("should work and call user service to register a user", async () => {
@@ -123,7 +113,6 @@ describe("Testing register function", () => {
 
 describe("Testing login function", () => {
   it("should work and call user service to register a user", async () => {
-    const hashedPassword = "35q3eqydaqudawdiaud";
 
     const user = {
       username: "newUser",

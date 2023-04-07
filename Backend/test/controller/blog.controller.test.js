@@ -2,8 +2,8 @@ const blogController = require("../../controller/blog.controller");
 const blogService = require("../../services/blog.service");
 const { blogDB } = require("../testDB");
 const contentNegotiation = require("../../utils/content-negotiation");
-const paginator = require("../../utils/pagination");
-const { response } = require("../../app");
+require("../../utils/pagination");
+
 
 describe("Testing Blog Controller", () => {
   describe("Testing getAllBlogs Function: ", () => {
@@ -29,14 +29,14 @@ describe("Testing Blog Controller", () => {
         .spyOn(contentNegotiation, "sendResponse")
         .mockResolvedValue(expectedResponse);
 
-      const response = await blogController.getAllBlogs(req, res);
+     await blogController.getAllBlogs(req, res);
 
       expect(blogService.getAllBlogs).toHaveBeenCalledTimes(1);
       expect(contentNegotiation.sendResponse).toHaveBeenCalledTimes(1);
       contentNegotiation.sendResponse.mockClear();
     });
 
-    it("Should return an error if service call fails", async () => {
+    it("Should return an error if getAllBlogs service call fails", async () => {
       const req = {
         query: {
           page: 1,
@@ -54,15 +54,16 @@ describe("Testing Blog Controller", () => {
 
       jest.spyOn(blogService, "getAllBlogs").mockResolvedValue(expectedError);
 
-      const response = await blogController.getAllBlogs(req, res);
+      await blogController.getAllBlogs(req, res);
 
       expect(blogService.getAllBlogs).toHaveBeenCalledTimes(1);
+      expect(blogService.getAllBlogs).toHaveBeenCalledWith(req.query.page,req.query.limit);
       contentNegotiation.sendResponse.mockClear();
     });
   });
 
   describe("Testing getBlogByBlogId Function: ", () => {
-    it("Should Return ablog in response", async () => {
+    it("Should Return a blog in response", async () => {
       const req = {
         params: {
           blogId: "1",
@@ -90,7 +91,7 @@ describe("Testing Blog Controller", () => {
       contentNegotiation.sendResponse.mockClear();
     });
 
-    it("Should return an error if service call fails", async () => {
+    it("Should return an error if getBlogByBlogId service call fails", async () => {
       const req = {
         params: {
           blogId: "1",
@@ -110,6 +111,8 @@ describe("Testing Blog Controller", () => {
       await blogController.getBlogByBlogId(req, res);
 
       expect(blogService.getBlogByBlogId).toHaveBeenCalledTimes(1);
+      expect(blogService.getBlogByBlogId).toHaveBeenCalledWith(req.params.blogId);
+      
       contentNegotiation.sendResponse.mockClear();
     });
   });
@@ -157,7 +160,7 @@ describe("Testing Blog Controller", () => {
       contentNegotiation.sendResponse.mockClear();
     });
 
-    it("Should return an error if service call fails", async () => {
+    it("Should return an error if createBlog service call fails", async () => {
       const req = {
         username: "tahmid",
         body: {
@@ -179,7 +182,8 @@ describe("Testing Blog Controller", () => {
       await blogController.createBlog(req, res);
 
       expect(blogService.createBlog).toHaveBeenCalledTimes(1);
-      contentNegotiation.sendResponse.mockClear();
+      expect(blogService.createBlog).toHaveBeenCalledWith(req.body,req.username);
+      
     });
   });
 
@@ -219,7 +223,7 @@ describe("Testing Blog Controller", () => {
       contentNegotiation.sendResponse.mockClear();
     });
 
-    it("Should return an error if service call fails", async () => {
+    it("Should return an error updateBlog if service call fails", async () => {
       const req = {
         body: {
           title: "new blog",
@@ -243,7 +247,8 @@ describe("Testing Blog Controller", () => {
       await blogController.updateBlog(req, res);
 
       expect(blogService.updateBlog).toHaveBeenCalledTimes(1);
-      contentNegotiation.sendResponse.mockClear();
+      expect(blogService.updateBlog).toHaveBeenCalledWith(req.params.blogId,req.body);
+      
     });
   });
 
@@ -276,7 +281,7 @@ describe("Testing Blog Controller", () => {
       contentNegotiation.sendResponse.mockClear();
     });
 
-    it("Should return an error if service call fails", async () => {
+    it("Should return an error if deleteBlog service call fails", async () => {
       const req = {
         params: {
           blogId: "1",
@@ -296,7 +301,8 @@ describe("Testing Blog Controller", () => {
       await blogController.deleteBlog(req, res);
 
       expect(blogService.deleteBlog).toHaveBeenCalledTimes(1);
-      contentNegotiation.sendResponse.mockClear();
+      expect(blogService.deleteBlog).toHaveBeenCalledWith(req.params.blogId);
+      
     });
   });
 });

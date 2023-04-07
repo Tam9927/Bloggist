@@ -87,9 +87,6 @@ describe("Testing User Service", () => {
       const pageNumber = 1;
       const pageSize = 5;
 
-      const offset = (pageNumber - 1) * pageSize;
-      const limit = pageSize;
-
       jest.spyOn(userRepository, "getAllUsers").mockResolvedValue([]);
 
       await expect(

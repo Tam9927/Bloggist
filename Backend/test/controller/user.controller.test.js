@@ -4,28 +4,6 @@ const { userDB } = require("../testDB");
 const contentNegotiation = require("../../utils/content-negotiation");
 const paginator = require("../../utils/pagination");
 
-const req = { body: {}, query: {} };
-const res = {
-  status: jest.fn().mockReturnThis(),
-  json: jest.fn(),
-};
-
-const expectedResponse = [
-  {
-    username: "testuser",
-    email: "testuser@example.com",
-    password: "password",
-    createdAt: "2023-03-22T10:30:55.000Z",
-    updateAt: "2023-03-28T10:57:10.000Z",
-  },
-  {
-    username: "testuser2",
-    email: "testuser2@example.com",
-    password: "password2",
-    createdAt: "2023-03-23T10:30:55.000Z",
-    updateAt: "2023-03-29T10:57:10.000Z",
-  },
-];
 
 describe("Testing User Controller", () => {
   describe("Testing getAllUsers Function: ", () => {
@@ -41,7 +19,6 @@ describe("Testing User Controller", () => {
         json: jest.fn(),
       };
 
-      const next = jest.fn();
       const expectedResponse = userDB;
 
       jest
@@ -52,7 +29,7 @@ describe("Testing User Controller", () => {
         .spyOn(contentNegotiation, "sendResponse")
         .mockResolvedValue(expectedResponse);
 
-      const response = await userController.getAllUsers(req, res);
+      await userController.getAllUsers(req, res);
 
       expect(userService.findAllUsers).toHaveBeenCalledTimes(1);
       expect(contentNegotiation.sendResponse).toHaveBeenCalledTimes(1);
@@ -68,20 +45,20 @@ describe("Testing User Controller", () => {
       };
       const res = {
         status: jest.fn().mockReturnThis(),
-        json: jest.fn(),
+        send: jest.fn(),
       };
 
       const err = { message: "Internal Server Error" };
 
-      const next = jest.fn();
       const expectedError = err;
 
       jest.spyOn(userService, "findAllUsers").mockResolvedValue(expectedError);
 
-      const response = await userController.getAllUsers(req, res);
+      await userController.getAllUsers(req, res);
 
       expect(userService.findAllUsers).toHaveBeenCalledTimes(1);
-      contentNegotiation.sendResponse.mockClear();
+      expect(userService.findAllUsers).toHaveBeenCalledTimes(req.query.page,req.query.limit);
+      
     });
   });
 
@@ -125,7 +102,10 @@ describe("Testing User Controller", () => {
       contentNegotiation.sendResponse.mockClear();
     });
 
-    it("Should return an error if userService call fails", async () => {
+    
+    
+    
+    it("Should return an error if getUserByUsername Service call fails", async () => {
       const username = "test";
       const req = {
         params: {
@@ -148,14 +128,15 @@ describe("Testing User Controller", () => {
       const response = await userController.getUserByUsername(req, res);
 
       expect(userService.findUserByUserName).toHaveBeenCalledTimes(1);
-      contentNegotiation.sendResponse.mockClear();
+      expect(userService.findUserByUserName).toHaveBeenCalledWith(req.params.username);
+      
     });
 
-    
+
   });
 
   describe("Testing update User", () => {
-    it("should update the blog if exists and return success", async () => {
+    it("should update the user if exists and return success", async () => {
       const req = {
         body: {
           password: "123456",
@@ -189,7 +170,7 @@ describe("Testing User Controller", () => {
       contentNegotiation.sendResponse.mockClear();
     });
 
-    it("Should return an error if userService call fails", async () => {
+    it("Should return an error if UpdateUser Service call fails", async () => {
       const req = {
         body: {
           password: "123456",
@@ -210,10 +191,11 @@ describe("Testing User Controller", () => {
 
       jest.spyOn(userService, "updateUser").mockResolvedValue(expectedError);
 
-      const response = await userController.updateUser(req, res);
+       await userController.updateUser(req, res);
 
       expect(userService.updateUser).toHaveBeenCalledTimes(1);
-      contentNegotiation.sendResponse.mockClear();
+      expect(userService.updateUser).toHaveBeenCalledWith(req.params.username,req.body);
+      
     });
   });
 
@@ -238,7 +220,7 @@ describe("Testing User Controller", () => {
         .spyOn(contentNegotiation, "sendResponse")
         .mockResolvedValue(expectedResponse);
 
-      const response = await userController.deleteUser(req, res);
+      await userController.deleteUser(req, res);
 
       expect(userService.deleteUser).toHaveBeenCalledTimes(1);
       expect(userService.deleteUser).toHaveBeenCalledWith(req.params.username);
@@ -264,10 +246,12 @@ describe("Testing User Controller", () => {
 
       jest.spyOn(userService, "deleteUser").mockResolvedValue(expectedError);
 
-      const response = await userController.deleteUser(req, res);
+      await userController.deleteUser(req, res);
 
       expect(userService.deleteUser).toHaveBeenCalledTimes(1);
-      contentNegotiation.sendResponse.mockClear();
+      expect(userService.deleteUser).toHaveBeenCalledWith(req.params.username);
+      
+      
     });
   });
 });

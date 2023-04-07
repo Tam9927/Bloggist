@@ -6,21 +6,11 @@ const {
   checkEmptyBody,
 } = require("../../utils/user.validation");
 const userUtils = require("../../utils/user.validation");
-const { userDB } = require("../testDB");
 const contentNegotiation = require("../../utils/content-negotiation");
-const { response } = require("../../app");
 
 jest.mock("../../utils/user.validation.js");
 jest.mock("../../utils/content-negotiation");
 jest.mock("../../services/auth.service");
-
-const expectedResponse = {
-  username: "testuser",
-  email: "testuser@example.com",
-  password: "password",
-  createdAt: "2023-03-22T10:30:55.000Z",
-  updateAt: "2023-03-28T10:57:10.000Z",
-};
 
 describe("Testing Auth Controller", () => {
   describe("Testing logOut Function: ", () => {
@@ -104,15 +94,15 @@ describe("Testing Auth Controller", () => {
         cookie: jest.fn(),
       };
 
-      const err = "Please Enter All the fields";
-
       userUtils.checkEmptyBody.mockReturnValueOnce(true);
 
       await authController.registerUser(req, res);
       expect(authService.register).toHaveBeenCalledTimes(0);
+      expect(userUtils.checkEmptyBody).toHaveBeenCalledWith(req.body)
+      
     });
 
-    it("Should return an error", async () => {
+    it("Should be an error", async () => {
       const req = {
         body: {
           username: "newUser",
@@ -128,11 +118,10 @@ describe("Testing Auth Controller", () => {
 
       const err = { message: "Internal Server Error" };
 
-      const expectedError = err;
 
       jest.spyOn(authService, "register").mockResolvedValue(err);
 
-      const response = await authController.registerUser(req, res);
+      await authController.registerUser(req, res);
 
       expect(authService.register).toHaveBeenCalledTimes(1);
     });
@@ -199,12 +188,11 @@ describe("Testing Auth Controller", () => {
         cookie: jest.fn(),
       };
 
-      const err = "Please Enter All the fields";
-
       userUtils.checkEmptyBody.mockReturnValueOnce(true);
 
       await authController.loginUser(req, res);
       expect(authService.loginUser).toHaveBeenCalledTimes(0);
+      expect(userUtils.checkEmptyBody).toHaveBeenCalledWith(req.body)
     });
 
     it("Should return an error", async () => {
@@ -223,11 +211,10 @@ describe("Testing Auth Controller", () => {
 
       const err = { message: "Internal Server Error" };
 
-      const expectedError = err;
 
       jest.spyOn(authService, "loginUser").mockResolvedValue(err);
 
-      const response = await authController.loginUser(req, res);
+      await authController.loginUser(req, res);
 
       expect(authService.loginUser).toHaveBeenCalledTimes(1);
     });

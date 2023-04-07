@@ -32,11 +32,6 @@ describe("Testing User Service", () => {
       const pageNumber = 1;
       const pageSize = 5;
 
-      const offset = (pageNumber - 1) * pageSize;
-      const limit = pageSize;
-
-      const expectedResponse = blogDB;
-
       jest.spyOn(blogRepository, "getAllBlogs").mockResolvedValue([]);
 
       await expect(
