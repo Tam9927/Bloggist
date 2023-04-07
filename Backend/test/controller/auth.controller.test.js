@@ -1,7 +1,11 @@
 const authController = require("../../controller/auth.controller");
 const authService = require("../../services/auth.service");
-const {generateToken,removeToken,checkEmptyBody} = require("../../utils/user.validation");
-const userUtils = require('../../utils/user.validation')
+const {
+  generateToken,
+  removeToken,
+  checkEmptyBody,
+} = require("../../utils/user.validation");
+const userUtils = require("../../utils/user.validation");
 const { userDB } = require("../testDB");
 const contentNegotiation = require("../../utils/content-negotiation");
 const { response } = require("../../app");
@@ -91,7 +95,7 @@ describe("Testing Auth Controller", () => {
 
     it("should not be called because of empty body ", async () => {
       const req = {
-        body:{},
+        body: {},
       };
 
       const res = {
@@ -100,7 +104,7 @@ describe("Testing Auth Controller", () => {
         cookie: jest.fn(),
       };
 
-      const err = "Please Enter All the fields"
+      const err = "Please Enter All the fields";
 
       userUtils.checkEmptyBody.mockReturnValueOnce(true);
 
@@ -120,27 +124,21 @@ describe("Testing Auth Controller", () => {
         status: jest.fn().mockReturnThis(),
         send: jest.fn(),
         cookie: jest.fn(),
-        
-    };
+      };
 
-    const err = {message:"Internal Server Error"}
-    
+      const err = { message: "Internal Server Error" };
+
       const expectedError = err;
 
-      jest
-        .spyOn(authService, "register")
-        .mockResolvedValue(err);
+      jest.spyOn(authService, "register").mockResolvedValue(err);
 
       const response = await authController.registerUser(req, res);
 
       expect(authService.register).toHaveBeenCalledTimes(1);
-    
     });
-  
   });
 
   describe("Testing login function", () => {
-
     it("should call authService.login then return a new user", async () => {
       const req = {
         body: {
@@ -190,10 +188,9 @@ describe("Testing Auth Controller", () => {
       });
     });
 
-
     it("should not be called because of empty body ", async () => {
       const req = {
-        body:{},
+        body: {},
       };
 
       const res = {
@@ -202,7 +199,7 @@ describe("Testing Auth Controller", () => {
         cookie: jest.fn(),
       };
 
-      const err = "Please Enter All the fields"
+      const err = "Please Enter All the fields";
 
       userUtils.checkEmptyBody.mockReturnValueOnce(true);
 
@@ -222,24 +219,17 @@ describe("Testing Auth Controller", () => {
         status: jest.fn().mockReturnThis(),
         send: jest.fn(),
         cookie: jest.fn(),
-        
-    };
+      };
 
-    const err = {message:"Internal Server Error"}
-    
+      const err = { message: "Internal Server Error" };
+
       const expectedError = err;
 
-      jest
-        .spyOn(authService, "loginUser")
-        .mockResolvedValue(err);
+      jest.spyOn(authService, "loginUser").mockResolvedValue(err);
 
       const response = await authController.loginUser(req, res);
 
       expect(authService.loginUser).toHaveBeenCalledTimes(1);
-    
     });
-  
-});
-
-
+  });
 });

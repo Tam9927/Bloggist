@@ -27,12 +27,29 @@ describe("Testing User Service", () => {
 
       expect(response).toStrictEqual({ message: expectedResponse });
     });
+
+    test("should throw an error because of nothing found in blogs", async () => {
+      const pageNumber = 1;
+      const pageSize = 5;
+
+      const offset = (pageNumber - 1) * pageSize;
+      const limit = pageSize;
+
+      const expectedResponse = blogDB;
+
+      jest.spyOn(blogRepository, "getAllBlogs").mockResolvedValue([]);
+
+      await expect(
+        blogService.getAllBlogs(pageNumber, pageSize)
+      ).rejects.toThrow(
+        Object.assign(new Error("No blogs in this table!", { status: 400 }))
+      );
+    });
   });
 
   describe("Testing getBlogByBlogId Function: ", () => {
-    it("getAllUsers: Return all blogs in response", async () => {
+    it("getAllUsers: Returns a blog in reponse", async () => {
       const blogId = "1";
-      const pageSize = 5;
 
       const initialResponse = blogDB[0];
 
@@ -49,27 +66,16 @@ describe("Testing User Service", () => {
 
       expect(response).toStrictEqual({ message: blogDTOResponse });
     });
-  });
 
-  describe("Testing getBlogByBlogId Function: ", () => {
-    it("getAllUsers: Return all blogs in response", async () => {
+    test("should throw an error because of no blog found", async () => {
       const blogId = "1";
       const pageSize = 5;
 
-      const initialResponse = blogDB[0];
+      jest.spyOn(blogRepository, "getBlogByBlogId").mockResolvedValue(false);
 
-      const blogDTOResponse = new blogDTO(blogDB[0]);
-
-      jest
-        .spyOn(blogRepository, "getBlogByBlogId")
-        .mockResolvedValue(initialResponse);
-
-      const response = await blogService.getBlogByBlogId(blogId);
-
-      expect(blogRepository.getBlogByBlogId).toHaveBeenCalledTimes(1);
-      expect(blogRepository.getBlogByBlogId).toHaveBeenCalledWith(blogId);
-
-      expect(response).toStrictEqual({ message: blogDTOResponse });
+      await expect(blogService.getBlogByBlogId(blogId)).rejects.toThrow(
+        Object.assign(new Error("Blog Not Found", { status: 400 }))
+      );
     });
   });
 
@@ -118,29 +124,76 @@ describe("Testing User Service", () => {
 
       expect(response).toStrictEqual({ message: expectedResponse });
     });
-  });
 
-  describe("Testing updateBlog Function: ", () => {
-    it("getAllUsers: Return all blogs in response", async () => {
-      const blogId = "1";
+    it("should should throw an error because of no title or description", async () => {
+      const username = "tahmid";
+
+      const blog = {
+        title: "",
+        description: "this is a new blog",
+      };
+
+      await expect(blogService.createBlog(blog, username)).rejects.toThrow(
+        Object.assign(
+          new Error("Title And Description Needed", { status: 400 })
+        )
+      );
+    });
+
+    it("should should throw an error because of no user in db", async () => {
+      const username = "tahmid";
 
       const blog = {
         title: "new blog",
         description: "this is a new blog",
       };
 
-      const expectedResponse = { message: "Blog Updated Successfully" };
+      jest.spyOn(userService, "findUserByUserName").mockReturnValue(false);
 
-      jest
-        .spyOn(blogRepository, "updateBlog")
-        .mockResolvedValue(expectedResponse);
-
-      const response = await blogService.updateBlog(blogId, blog);
-
-      expect(blogRepository.updateBlog).toHaveBeenCalledTimes(1);
-      expect(blogRepository.updateBlog).toHaveBeenCalledWith(blogId, blog);
-
-      expect(response).toStrictEqual(expectedResponse);
+      await expect(blogService.createBlog(blog, username)).rejects.toThrow(
+        Object.assign(new Error("Author Does Not Exist", { status: 400 }))
+      );
     });
+  });
+});
+
+describe("Testing updateBlog Function: ", () => {
+  it("Should return an updated blog", async () => {
+    const blogId = "1";
+
+    const blog = {
+      title: "new blog",
+      description: "this is a new blog",
+    };
+
+    const expectedResponse = { message: "Blog Updated Successfully" };
+
+    jest
+      .spyOn(blogRepository, "updateBlog")
+      .mockResolvedValue(expectedResponse);
+
+    const response = await blogService.updateBlog(blogId, blog);
+
+    expect(blogRepository.updateBlog).toHaveBeenCalledTimes(1);
+    expect(blogRepository.updateBlog).toHaveBeenCalledWith(blogId, blog);
+
+    expect(response).toStrictEqual(expectedResponse);
+  });
+
+  it("Should fail to call blogUpdate", async () => {
+    const blogId = "1";
+
+    const blog = {
+      title: "new blog",
+      description: "this is a new blog",
+    };
+
+    jest.spyOn(blogRepository, "updateBlog").mockResolvedValue(0);
+
+    await expect(blogService.updateBlog(blogId, blog)).rejects.toThrow(
+      Object.assign(
+        new Error("No blog with this ID in the table!", { status: 400 })
+      )
+    );
   });
 });

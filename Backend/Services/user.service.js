@@ -1,7 +1,7 @@
 "use strict";
 const UserRepository = require("../repository/user.repository");
 const UserDTO = require("../dto/user.dto");
-const {hashPasswordGenerator} = require('../utils/HashingUtil')
+const { hashPasswordGenerator } = require("../utils/HashingUtil");
 require("dotenv").config();
 
 async function findAllUsers(pageNumber, pageSize) {
@@ -9,7 +9,7 @@ async function findAllUsers(pageNumber, pageSize) {
   const limit = pageSize;
 
   const Users = await UserRepository.getAllUsers(offset, limit);
-  
+
   if (!Users.length) {
     throw Object.assign(new Error("No user in users table!"), {
       status: 404,
@@ -21,7 +21,7 @@ async function findAllUsers(pageNumber, pageSize) {
     allUsers.push(new UserDTO(element));
   });
 
-  return {message: allUsers };
+  return { message: allUsers };
 }
 
 async function findUserByUserName(username) {
@@ -60,7 +60,7 @@ async function deleteUser(username) {
     throw Object.assign(new Error("User not found!"), { status: 404 });
   }
 
-  return {message: "User removed" };
+  return { message: "User removed" };
 }
 
 async function updateUser(username, user) {
@@ -73,7 +73,7 @@ async function updateUser(username, user) {
   if (!updatedUser) {
     throw Object.assign(new Error("User not found!"), { status: 404 });
   }
-  return {message: "User updated" };
+  return { message: "User updated" };
 }
 
 async function loginUser(username) {
@@ -81,9 +81,13 @@ async function loginUser(username) {
     username.toLowerCase()
   );
   if (!userToLogin) {
-    {  throw Object.assign(new Error("No User Found with this username!"), { status: 400 }); };
+    {
+      throw Object.assign(new Error("No User Found with this username!"), {
+        status: 400,
+      });
+    }
   }
-  return { message : userToLogin };
+  return { message: userToLogin };
 }
 
 module.exports = {

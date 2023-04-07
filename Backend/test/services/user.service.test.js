@@ -3,7 +3,7 @@ const userRepository = require("../../repository/user.repository");
 const { userDB } = require("../testDB");
 const paginator = require("../../utils/pagination");
 const userDTO = require("../../dto/user.dto");
-const {hashPasswordGenerator} = require("../../utils/HashingUtil");
+const { hashPasswordGenerator } = require("../../utils/HashingUtil");
 
 const req = { body: {}, query: {} };
 const res = {
@@ -82,31 +82,22 @@ describe("Testing User Service", () => {
 
       expect(response).toStrictEqual(expectedResponse);
     });
-  
-    it("Should Fail because no body was given", async () => {
+
+    it("Should Fail because users table found empty", async () => {
       const pageNumber = 1;
       const pageSize = 5;
 
       const offset = (pageNumber - 1) * pageSize;
       const limit = pageSize;
 
-      jest
-        .spyOn(userRepository, "getAllUsers")
-        .mockResolvedValue([]);
+      jest.spyOn(userRepository, "getAllUsers").mockResolvedValue([]);
 
-      const response = await userService.findAllUsers(pageNumber, pageSize);
-
-      expect(userRepository.getAllUsers).toHaveBeenCalledTimes(1);
-      expect(userRepository.getAllUsers).toHaveBeenCalledWith(offset, limit);
-
-      expect(response).toStrictEqual(expectedResponse);
+      await expect(
+        userService.findAllUsers(pageNumber, pageSize)
+      ).rejects.toThrow(
+        Object.assign(new Error("No user in users table!", { status: 400 }))
+      );
     });
-  
-  
-  
-  
-  
-  
   });
 
   describe("Testing getUserByUsername Function: ", () => {
@@ -130,6 +121,16 @@ describe("Testing User Service", () => {
       );
 
       expect(response).toStrictEqual(expectedResponse);
+    });
+
+    it("Should fail because no user found", async () => {
+      const username = "Tahmid";
+
+      jest.spyOn(userRepository, "getUserByUserName").mockResolvedValue(false);
+
+      await expect(userService.findUserByUserName(username)).rejects.toThrow(
+        Object.assign(new Error("Username doesn't exist!", { status: 400 }))
+      );
     });
   });
 
@@ -229,6 +230,23 @@ describe("Testing User Service", () => {
 
       expect(response).toStrictEqual(expectedResponse);
     });
+
+    it("Should fail to update user", async () => {
+      const username = "tahmid";
+      const user = { password: "1234567" };
+
+      const hashedPassword = "wq13423423eqe";
+
+      hashPasswordGenerator.mockReturnValue(hashedPassword);
+
+      jest.spyOn(userRepository, "updateUser").mockResolvedValueOnce(0);
+
+      await expect(
+        userService.updateUser(username, user.password)
+      ).rejects.toThrow(
+        Object.assign(new Error("User not found!", { status: 400 }))
+      );
+    });
   });
 
   describe("Testing Delete Function: ", () => {
@@ -250,6 +268,18 @@ describe("Testing User Service", () => {
       );
 
       expect(response).toStrictEqual(expectedResponse);
+    });
+
+    it(" Should fail to delete", async () => {
+      const username = "tahmid";
+
+      const initialResponse = 1;
+
+      jest.spyOn(userRepository, "deleteUser").mockResolvedValueOnce(0);
+
+      await expect(userService.deleteUser(username)).rejects.toThrow(
+        Object.assign(new Error("User not found!", { status: 400 }))
+      );
     });
   });
 
@@ -278,6 +308,20 @@ describe("Testing User Service", () => {
       );
 
       expect(response).toStrictEqual({ message: expectedResponse });
+    });
+
+    it("Should fail to fina a login user", async () => {
+      const username = "tahmid";
+
+      jest
+        .spyOn(userRepository, "getUserByUserName")
+        .mockResolvedValueOnce(false);
+
+      await expect(userService.loginUser(username)).rejects.toThrow(
+        Object.assign(
+          new Error("No User Found with this username!", { status: 400 })
+        )
+      );
     });
   });
 });

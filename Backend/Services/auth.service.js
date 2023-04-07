@@ -1,7 +1,7 @@
 "use strict";
 const userValidator = require("../utils/user.validation");
 const UserService = require("../services/user.service");
-const {hashPasswordGenerator} = require("../utils/HashingUtil");
+const { hashPasswordGenerator } = require("../utils/HashingUtil");
 const bcrypt = require("bcrypt");
 require("dotenv").config();
 
@@ -37,7 +37,6 @@ async function register(user) {
 }
 
 async function loginUser(user) {
-  
   const name = user.username.toLowerCase();
   const userExists = await UserService.loginUser(name);
   const password = userExists.message.password;
