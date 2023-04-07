@@ -1,15 +1,9 @@
 const userService = require("../../services/user.service");
 const userRepository = require("../../repository/user.repository");
 const { userDB } = require("../testDB");
-const paginator = require("../../utils/pagination");
 const userDTO = require("../../dto/user.dto");
 const { hashPasswordGenerator } = require("../../utils/HashingUtil");
 
-const req = { body: {}, query: {} };
-const res = {
-  status: jest.fn().mockReturnThis(),
-  json: jest.fn(),
-};
 
 jest.mock("../../utils/user.validation");
 jest.mock("../../utils/content-negotiation");
