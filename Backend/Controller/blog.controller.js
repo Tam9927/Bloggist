@@ -43,9 +43,8 @@ async function updateBlog(req, res) {
       req.params.blogId,
       req.body
     );
-    if (updatedBlog.message[0]) {
       contentNegotiation.sendResponse(req, res, 200, updatedBlog.message);
-    }
+    
   } catch (err) {
     res.status(500).send(err.message);
   }
@@ -54,9 +53,7 @@ async function updateBlog(req, res) {
 async function deleteBlog(req, res) {
   try {
     const deletedBlog = await BlogService.deleteBlog(req.params.blogId);
-    if (deletedBlog) {
       contentNegotiation.sendResponse(req, res, 200, deletedBlog.message);
-    }
   } catch (err) {
     res.status(500).json(err.message);
   }
