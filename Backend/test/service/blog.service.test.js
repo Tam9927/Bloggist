@@ -9,7 +9,7 @@ describe("Testing User Service", () => {
   describe("Testing getAllUsers Function: ", () => {
     it("getAllUsers: Return all blogs in response", async () => {
       const pageNumber = 1;
-      const pageSize = 5;
+      const pageSize = 7;
 
       const offset = (pageNumber - 1) * pageSize;
       const limit = pageSize;
@@ -28,7 +28,29 @@ describe("Testing User Service", () => {
       expect(response).toStrictEqual({ message: expectedResponse });
     });
 
-    test("should throw an error because of nothing found in blogs", async () => {
+    it("getAllBlogs: Should return a blogs list using default limit offset if invalid inputs given", async () => {
+      const pageNumber = 1;
+      const pageSize = 5;
+
+      const offset = (pageNumber - 1) * pageSize;
+      const limit = pageSize;
+
+
+      const expectedResponse = blogDB;
+
+      jest
+        .spyOn(blogRepository, "getAllBlogs")
+        .mockResolvedValue(expectedResponse);
+
+      const response = await blogService.getAllBlogs(pageNumber, pageSize);
+
+      expect(blogRepository.getAllBlogs).toHaveBeenCalledTimes(1);
+      expect(blogRepository.getAllBlogs).toHaveBeenCalledWith(offset, limit);
+
+      expect(response).toStrictEqual({ message: expectedResponse });
+    });
+
+  test("should throw an error because of nothing found in blogs", async () => {
       const pageNumber = 1;
       const pageSize = 5;
 

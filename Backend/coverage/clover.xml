@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1680859654958" clover="3.2.0">
-  <project timestamp="1680859654958" name="All files">
-    <metrics statements="948" coveredstatements="798" conditionals="93" coveredconditionals="77" methods="58" coveredmethods="42" elements="1099" coveredelements="917" complexity="0" loc="948" ncloc="948" packages="8" files="20" classes="20"/>
+<coverage generated="1681188971168" clover="3.2.0">
+  <project timestamp="1681188971169" name="All files">
+    <metrics statements="945" coveredstatements="795" conditionals="95" coveredconditionals="79" methods="58" coveredmethods="42" elements="1098" coveredelements="916" complexity="0" loc="945" ncloc="945" packages="8" files="20" classes="20"/>
     <package name="configs">
       <metrics statements="25" coveredstatements="17" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
       <file name="db.sequelize.config.js" path="C:\Users\Cefalo_User\OneDrive\Documents\Bloggist\Bloggist\Backend\configs\db.sequelize.config.js">
@@ -34,7 +34,7 @@
       </file>
     </package>
     <package name="controller">
-      <metrics statements="187" coveredstatements="163" conditionals="30" coveredconditionals="18" methods="12" coveredmethods="12"/>
+      <metrics statements="184" coveredstatements="160" conditionals="30" coveredconditionals="18" methods="12" coveredmethods="12"/>
       <file name="auth.controller.js" path="C:\Users\Cefalo_User\OneDrive\Documents\Bloggist\Bloggist\Backend\controller\auth.controller.js">
         <metrics statements="55" coveredstatements="53" conditionals="10" coveredconditionals="9" methods="3" coveredmethods="3"/>
         <line num="1" count="1" type="stmt"/>
@@ -94,7 +94,7 @@
         <line num="55" count="1" type="stmt"/>
       </file>
       <file name="blog.controller.js" path="C:\Users\Cefalo_User\OneDrive\Documents\Bloggist\Bloggist\Backend\controller\blog.controller.js">
-        <metrics statements="71" coveredstatements="61" conditionals="10" coveredconditionals="5" methods="5" coveredmethods="5"/>
+        <metrics statements="68" coveredstatements="58" conditionals="10" coveredconditionals="5" methods="5" coveredmethods="5"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
         <line num="3" count="1" type="stmt"/>
@@ -142,30 +142,27 @@
         <line num="45" count="2" type="stmt"/>
         <line num="46" count="2" type="stmt"/>
         <line num="47" count="2" type="stmt"/>
-        <line num="48" count="2" type="stmt"/>
-        <line num="49" count="2" type="cond" truecount="0" falsecount="1"/>
+        <line num="48" count="2" type="cond" truecount="0" falsecount="1"/>
+        <line num="49" count="0" type="stmt"/>
         <line num="50" count="0" type="stmt"/>
-        <line num="51" count="0" type="stmt"/>
-        <line num="52" count="2" type="stmt"/>
-        <line num="53" count="1" type="stmt"/>
-        <line num="54" count="2" type="cond" truecount="1" falsecount="0"/>
+        <line num="51" count="2" type="stmt"/>
+        <line num="52" count="1" type="stmt"/>
+        <line num="53" count="2" type="cond" truecount="1" falsecount="0"/>
+        <line num="54" count="2" type="stmt"/>
         <line num="55" count="2" type="stmt"/>
         <line num="56" count="2" type="stmt"/>
-        <line num="57" count="2" type="stmt"/>
-        <line num="58" count="2" type="stmt"/>
-        <line num="59" count="2" type="stmt"/>
-        <line num="60" count="2" type="cond" truecount="0" falsecount="1"/>
-        <line num="61" count="0" type="stmt"/>
-        <line num="62" count="0" type="stmt"/>
-        <line num="63" count="2" type="stmt"/>
+        <line num="57" count="2" type="cond" truecount="0" falsecount="1"/>
+        <line num="58" count="0" type="stmt"/>
+        <line num="59" count="0" type="stmt"/>
+        <line num="60" count="2" type="stmt"/>
+        <line num="61" count="1" type="stmt"/>
+        <line num="62" count="1" type="stmt"/>
+        <line num="63" count="1" type="stmt"/>
         <line num="64" count="1" type="stmt"/>
         <line num="65" count="1" type="stmt"/>
         <line num="66" count="1" type="stmt"/>
         <line num="67" count="1" type="stmt"/>
         <line num="68" count="1" type="stmt"/>
-        <line num="69" count="1" type="stmt"/>
-        <line num="70" count="1" type="stmt"/>
-        <line num="71" count="1" type="stmt"/>
       </file>
       <file name="user.controller.js" path="C:\Users\Cefalo_User\OneDrive\Documents\Bloggist\Bloggist\Backend\controller\user.controller.js">
         <metrics statements="61" coveredstatements="49" conditionals="10" coveredconditionals="4" methods="4" coveredmethods="4"/>
@@ -256,12 +253,12 @@
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
         <line num="3" count="1" type="cond" truecount="1" falsecount="0"/>
-        <line num="4" count="4" type="stmt"/>
-        <line num="5" count="4" type="stmt"/>
-        <line num="6" count="4" type="stmt"/>
-        <line num="7" count="4" type="stmt"/>
-        <line num="8" count="4" type="stmt"/>
-        <line num="9" count="4" type="stmt"/>
+        <line num="4" count="6" type="stmt"/>
+        <line num="5" count="6" type="stmt"/>
+        <line num="6" count="6" type="stmt"/>
+        <line num="7" count="6" type="stmt"/>
+        <line num="8" count="6" type="stmt"/>
+        <line num="9" count="6" type="stmt"/>
         <line num="10" count="1" type="stmt"/>
         <line num="11" count="1" type="stmt"/>
         <line num="12" count="1" type="stmt"/>
@@ -524,7 +521,7 @@
       </file>
     </package>
     <package name="services">
-      <metrics statements="234" coveredstatements="223" conditionals="33" coveredconditionals="33" methods="15" coveredmethods="14"/>
+      <metrics statements="234" coveredstatements="223" conditionals="35" coveredconditionals="35" methods="15" coveredmethods="14"/>
       <file name="auth.service.js" path="C:\Users\Cefalo_User\OneDrive\Documents\Bloggist\Bloggist\Backend\services\auth.service.js">
         <metrics statements="53" coveredstatements="53" conditionals="8" coveredconditionals="8" methods="2" coveredmethods="2"/>
         <line num="1" count="1" type="stmt"/>
@@ -582,25 +579,25 @@
         <line num="53" count="1" type="stmt"/>
       </file>
       <file name="blog.service.js" path="C:\Users\Cefalo_User\OneDrive\Documents\Bloggist\Bloggist\Backend\services\blog.service.js">
-        <metrics statements="79" coveredstatements="68" conditionals="11" coveredconditionals="11" methods="5" coveredmethods="4"/>
+        <metrics statements="79" coveredstatements="68" conditionals="12" coveredconditionals="12" methods="5" coveredmethods="4"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
         <line num="3" count="1" type="stmt"/>
         <line num="4" count="1" type="stmt"/>
         <line num="5" count="1" type="stmt"/>
-        <line num="6" count="2" type="cond" truecount="1" falsecount="0"/>
-        <line num="7" count="2" type="stmt"/>
-        <line num="8" count="2" type="stmt"/>
-        <line num="9" count="2" type="stmt"/>
-        <line num="10" count="2" type="stmt"/>
-        <line num="11" count="2" type="cond" truecount="1" falsecount="0"/>
+        <line num="6" count="3" type="cond" truecount="1" falsecount="0"/>
+        <line num="7" count="3" type="stmt"/>
+        <line num="8" count="3" type="stmt"/>
+        <line num="9" count="3" type="stmt"/>
+        <line num="10" count="3" type="stmt"/>
+        <line num="11" count="3" type="cond" truecount="1" falsecount="0"/>
         <line num="12" count="1" type="stmt"/>
         <line num="13" count="1" type="stmt"/>
         <line num="14" count="1" type="stmt"/>
-        <line num="15" count="1" type="stmt"/>
-        <line num="16" count="1" type="stmt"/>
-        <line num="17" count="1" type="stmt"/>
-        <line num="18" count="1" type="stmt"/>
+        <line num="15" count="1" type="cond" truecount="1" falsecount="0"/>
+        <line num="16" count="2" type="stmt"/>
+        <line num="17" count="2" type="stmt"/>
+        <line num="18" count="2" type="stmt"/>
         <line num="19" count="1" type="stmt"/>
         <line num="20" count="3" type="cond" truecount="1" falsecount="0"/>
         <line num="21" count="3" type="cond" truecount="2" falsecount="0"/>
@@ -664,32 +661,32 @@
         <line num="79" count="1" type="stmt"/>
       </file>
       <file name="user.service.js" path="C:\Users\Cefalo_User\OneDrive\Documents\Bloggist\Bloggist\Backend\services\user.service.js">
-        <metrics statements="102" coveredstatements="102" conditionals="14" coveredconditionals="14" methods="8" coveredmethods="8"/>
+        <metrics statements="102" coveredstatements="102" conditionals="15" coveredconditionals="15" methods="8" coveredmethods="8"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
         <line num="3" count="1" type="stmt"/>
         <line num="4" count="1" type="stmt"/>
         <line num="5" count="1" type="stmt"/>
         <line num="6" count="1" type="stmt"/>
-        <line num="7" count="2" type="cond" truecount="1" falsecount="0"/>
-        <line num="8" count="2" type="stmt"/>
-        <line num="9" count="2" type="stmt"/>
-        <line num="10" count="2" type="stmt"/>
-        <line num="11" count="2" type="stmt"/>
-        <line num="12" count="2" type="stmt"/>
-        <line num="13" count="2" type="cond" truecount="1" falsecount="0"/>
+        <line num="7" count="3" type="cond" truecount="1" falsecount="0"/>
+        <line num="8" count="3" type="stmt"/>
+        <line num="9" count="3" type="stmt"/>
+        <line num="10" count="3" type="stmt"/>
+        <line num="11" count="3" type="stmt"/>
+        <line num="12" count="3" type="stmt"/>
+        <line num="13" count="3" type="cond" truecount="1" falsecount="0"/>
         <line num="14" count="1" type="stmt"/>
         <line num="15" count="1" type="stmt"/>
         <line num="16" count="1" type="stmt"/>
-        <line num="17" count="1" type="stmt"/>
-        <line num="18" count="1" type="stmt"/>
-        <line num="19" count="1" type="stmt"/>
-        <line num="20" count="1" type="cond" truecount="1" falsecount="0"/>
-        <line num="21" count="1" type="stmt"/>
-        <line num="22" count="1" type="stmt"/>
-        <line num="23" count="1" type="stmt"/>
-        <line num="24" count="1" type="stmt"/>
-        <line num="25" count="1" type="stmt"/>
+        <line num="17" count="1" type="cond" truecount="1" falsecount="0"/>
+        <line num="18" count="2" type="stmt"/>
+        <line num="19" count="2" type="stmt"/>
+        <line num="20" count="2" type="cond" truecount="1" falsecount="0"/>
+        <line num="21" count="2" type="stmt"/>
+        <line num="22" count="2" type="stmt"/>
+        <line num="23" count="2" type="stmt"/>
+        <line num="24" count="2" type="stmt"/>
+        <line num="25" count="2" type="stmt"/>
         <line num="26" count="1" type="stmt"/>
         <line num="27" count="2" type="cond" truecount="1" falsecount="0"/>
         <line num="28" count="2" type="stmt"/>

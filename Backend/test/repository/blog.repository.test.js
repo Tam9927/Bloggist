@@ -17,8 +17,8 @@ describe("Testing Stories Repository: ", () => {
   describe("Testing findAllStories function: ", () => {
     it("should return a list of stories: ", async () => {
       // Arrange
-      const size = 3;
-      const skip = 0;
+      const limit = 3;
+      const offset = 0;
       jest
         .spyOn(Blog, "findAll")
         .mockImplementation(({ limit, offset }) =>
@@ -26,15 +26,15 @@ describe("Testing Stories Repository: ", () => {
         );
 
       // Act
-      const response = await BlogRepository.getAllBlogs(size, skip);
+      const response = await BlogRepository.getAllBlogs(offset,limit);
 
       expect(Blog.findAll).toHaveBeenCalledWith(
         expect.objectContaining({
-          limit: size,
-          offset: skip,
+          offset,
+          limit,
         })
       );
-      expect(response.length).toBe(size);
+      expect(response.length).toBe(limit);
       expect(response).toEqual(
         expect.arrayContaining([
           expect.objectContaining({

@@ -50,6 +50,35 @@ describe("Testing User Service", () => {
   describe("Testing getAllUsers Function: ", () => {
     it("getAllUsers: Return all users in response", async () => {
       const pageNumber = 1;
+      const pageSize = 7;
+
+      const offset = (pageNumber - 1) * pageSize;
+      const limit = pageSize;
+
+      const initialResponse = users;
+      const dtoUsers = [];
+
+      users.forEach((user) => {
+        const dtoUser = new userDTO(user);
+        dtoUsers.push(dtoUser);
+      });
+
+      const expectedResponse = { message: dtoUsers };
+
+      jest
+        .spyOn(userRepository, "getAllUsers")
+        .mockResolvedValue(initialResponse);
+
+      const response = await userService.findAllUsers(pageNumber, pageSize);
+
+      expect(userRepository.getAllUsers).toHaveBeenCalledTimes(1);
+      expect(userRepository.getAllUsers).toHaveBeenCalledWith(offset, limit);
+
+      expect(response).toStrictEqual(expectedResponse);
+    });
+
+    it("getAllUsers: Should return a users list using default limit offset if invalid inputs given", async () => {
+      const pageNumber = 1;
       const pageSize = 5;
 
       const offset = (pageNumber - 1) * pageSize;
@@ -76,6 +105,7 @@ describe("Testing User Service", () => {
 
       expect(response).toStrictEqual(expectedResponse);
     });
+
 
     it("Should Fail because users table found empty", async () => {
       const pageNumber = 1;
