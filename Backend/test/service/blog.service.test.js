@@ -71,7 +71,7 @@ describe("Testing User Service", () => {
       const initialResponse = blogDB[0];
 
       const blogDTOResponse = new blogDTO(blogDB[0]);
-
+    
       jest
         .spyOn(blogRepository, "getBlogByBlogId")
         .mockResolvedValue(initialResponse);

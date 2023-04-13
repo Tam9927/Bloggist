@@ -7,6 +7,16 @@ const router = require("./router/index");
 const db = require("./configs/db.sequelize.config");
 const PORT = process.env.PORT || 4000;
 const cookieParser = require("cookie-parser");
+const cors = require("cors")
+
+app.use(
+
+  cors({
+    origin:"http://localhost:3001"
+
+  })
+
+)
 
 db.connectToDB();
 

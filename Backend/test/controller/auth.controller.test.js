@@ -6,7 +6,7 @@ const {
   checkEmptyBody,
 } = require("../../utils/user.validation");
 const userUtils = require("../../utils/user.validation");
-const contentNegotiation = require("../../utils/content-negotiation");
+const contentNegotiation = require("../../utils/content-negotiation"); 
 
 jest.mock("../../utils/user.validation.js");
 jest.mock("../../utils/content-negotiation");
