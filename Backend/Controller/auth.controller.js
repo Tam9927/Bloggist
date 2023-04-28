@@ -2,12 +2,12 @@
 require("dotenv").config();
 const authService = require("../services/auth.service");
 const userUtils = require("../utils/user.validation");
-const contentNegotiation = require("../utils/content-negotiation");
+const contentNegotiation = require("../utils/content-negotiation");  
 
 async function registerUser(req, res) {
   try {
     if (userUtils.checkEmptyBody(req.body)) {
-      throw Object.assign(new Error("Please Enter All the fields"), {
+      throw Object.assign(new Error("Please Enter All the fields"), {   
         status: 400,
       });
 
@@ -52,4 +52,4 @@ async function logoutUser(res) {
   }
 }
 
-module.exports = { registerUser, loginUser, logoutUser };
+module.exports = { registerUser, loginUser, logoutUser }; 

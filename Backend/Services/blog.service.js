@@ -47,6 +47,21 @@ async function getBlogByBlogId(blogId) {
   return { message: Blog };
 }
 
+async function getBlogByAuthorId(authorId) {
+  const blog = await BlogRepository.getBlogByAuthorId(authorId);
+  if (!blog) {
+    throw Object.assign(new Error("Blogs Not Found"), {
+      status: 404,
+    });
+  }
+
+  const Blog = new BlogDTO(blog);
+
+  return { message: Blog };
+}
+
+
+
 async function updateBlog(blogId, blog) {
   const updatedBlog = await BlogRepository.updateBlog(blogId, blog);
 
@@ -76,4 +91,5 @@ module.exports = {
   getBlogByBlogId,
   updateBlog,
   deleteBlog,
+  getBlogByAuthorId
 };

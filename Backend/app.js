@@ -7,41 +7,42 @@ const router = require("./router/index");
 const db = require("./configs/db.sequelize.config");
 const PORT = process.env.PORT || 4000;
 const cookieParser = require("cookie-parser");
-const cors = require("cors")
+const cors = require("cors");
 
-app.use(
+  app.use(cors(
+    { 
+      origin: ['http://localhost:3000', 'http://127.0.0.1:3000'], 
+      methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+      allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept'],
+      credentials: true 
+    })); 
+  
 
-  cors({
-    origin:"http://localhost:3001"
-
-  })
-
-)
 
 db.connectToDB();
 
-app.use(express.json()); 
+app.use(express.json());  
 app.use(cookieParser());
 
 app.use((err, req, res, next) => {
   if (err.name == "ValidationError") {
     var valErrors = [];
 
-    valErrors.push("Server Crashed!!!");
+    valErrors.push("Server Crashed!!!"); 
 
     Object.keys(err.errors).forEach((key) =>
       valErrors.push(err.errors[key].message)
     );
-    res.status(422).send(valErrors);
+    res.status(422).send(valErrors); 
   }
 });
 
-app.use("/api/v1/", router);
+app.use("/api/v1/", router);  
 
 app.use("*", (req, res) => {
   res.status(404).json({
     success: "false",
-    message: "Page not found", 
+    message: "Page not found",  
     error: {
       statusCode: 404,
       message: "This Route is not Valid",

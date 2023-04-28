@@ -37,6 +37,17 @@ async function getBlogByBlogId(req, res) {
   }
 }
 
+async function getBlogByAuthorId(req, res) {
+  try {
+    const blog = await BlogService.getBlogByAuthorId(req.params.authorId);
+    contentNegotiation.sendResponse(req, res, 200, blog.message); 
+  } catch (err) {
+    res.status(500).send(err.message);
+  }
+}
+
+
+
 async function updateBlog(req, res) {
   try {
     const updatedBlog = await BlogService.updateBlog(
@@ -65,4 +76,5 @@ module.exports = {
   getBlogByBlogId,
   updateBlog,
   deleteBlog,
+  getBlogByAuthorId
 };

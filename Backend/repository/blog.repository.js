@@ -12,6 +12,12 @@ async function getBlogByBlogId(blogId) {
   return result;
 }
 
+async function getBlogByAuthorId(authorId) {
+  const result = await Blog.findOne({include: ["author"], where: { authorId } });
+  return result; 
+}
+
+
 async function updateBlog(blogId, BlogToUpdate) {
   const result = await Blog.update(
     { title: BlogToUpdate.title, description: BlogToUpdate.description },
@@ -41,4 +47,5 @@ module.exports = {
   getBlogByBlogId,
   updateBlog,
   deleteBlog,
+  getBlogByAuthorId
 };

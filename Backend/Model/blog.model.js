@@ -23,6 +23,7 @@ const Blog = sequelize.define(
     authorId: {
       type: DataTypes.UUID,
       foreignKey: true,
+      unique: true,
       noUpdate: true,
       allowNull: false,
       validate: {

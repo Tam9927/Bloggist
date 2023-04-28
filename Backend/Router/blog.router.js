@@ -16,4 +16,8 @@ router
   .put(authMiddleware, blogMiddleware, BlogController.updateBlog) 
   .delete(authMiddleware, blogMiddleware, BlogController.deleteBlog);
 
+  router
+  .route("/author/:authorId")
+  .get(BlogController.getBlogByAuthorId)
+
 module.exports = router;
