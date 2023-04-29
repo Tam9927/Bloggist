@@ -1,11 +1,10 @@
-'use strict'
+"use strict";
 require("dotenv").config();
 const { validate } = require("email-validator");
 const { DataTypes } = require("sequelize");
-const { sequelize } = require("../configs/db.config");
-const user = require("./user.model");
+const { sequelize } = require("../configs/db.sequelize.config");
 
-const blog = sequelize.define(
+const Blog = sequelize.define(
   "blog",
   {
     blogId: {
@@ -21,31 +20,27 @@ const blog = sequelize.define(
       defaultValue: "Untitled Blog",
     },
 
+    authorId: {
+      type: DataTypes.UUID,
+      foreignKey: true,
+      noUpdate: true,
+      allowNull: false,
+      validate: {
+        notEmpty: true
+      }
+    },
+
     description: {
       type: DataTypes.STRING,
     },
-  
   },
 
   {
     tableName: "blogs",
   }
-  
 );
 
-user.hasMany(blog, {
-  foreignKey: "authorid",
-});
 
-blog.belongsTo(user, {
-  foreignKey: "authorId", 
-});
 
-async function test() {
-  await blog.sync();
-  console.log("Blog synchronized successfully.");
-}
 
-test();
-
-module.exports = blog;
+module.exports = Blog;

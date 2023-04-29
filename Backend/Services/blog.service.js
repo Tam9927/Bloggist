@@ -1,85 +1,74 @@
-'use strict'
-const authMiddleware = require("../Middleware/auth.middleware");
+"use strict";
 const BlogRepository = require("../repository/blog.repository");
 const UserService = require("./user.service");
+const BlogDTO = require("../dto/blog.dto");
 
-async function getAllBlogs(pageNumber,pageSize) {
-  try {
-    const offset = (pageNumber-1)*pageSize;
-    const limit = pageSize;
+async function getAllBlogs(pageNumber, pageSize) {
+  const offset = (pageNumber - 1) * pageSize;
+  const limit = pageSize;
 
-    const data = await BlogRepository.getAllBlogs(offset,limit);
-    if (!data.length) {
-      return { status: 200, message: data };
-    }
-    return data;
-  } catch(err) {
-    return { status: 500, message: err };
+  const allBlogs = await BlogRepository.getAllBlogs(offset, limit);
+  if (!allBlogs.length) {
+    throw Object.assign(new Error("No blogs in this table!"), {
+      status: 404,
+    });
   }
+
+  return {message: allBlogs };
 }
 
-async function createBlog(blog,username) {
+async function createBlog(blog, username) {
+  
   if (!blog.title || !blog.description) {
-    return { status: 400, message: "Title and Description needed" };
+    throw Object.assign(new Error("Title And Description Needed"), {
+      status: 400,
+    });
   }
-
-  try {
-    const authorExists = await UserService.findUserByUserName(username);
-    if (authorExists) {
-      blog.authorId = authorExists.message.Id;
-      const result = await BlogRepository.createBlog(blog);
-      return { status: 404, message: result };
-    }
-
-    return { status: 400, message: "Bad Request: Author Does not exist" };
-  } catch(err) {
-    return { status: 500, message: err };
+  const authorExists = await UserService.findUserByUserName(username);
+  if (authorExists) {
+    blog.authorId = authorExists.message.Id;
+    const createdBlog = await BlogRepository.createBlog(blog);
+    return {message:createdBlog};
   }
+  throw Object.assign(new Error("Author Does Not Exist"), {
+    status: 404,
+  });
 }
 
 async function getBlogByBlogId(blogId) {
-  try {
-    const result = await BlogRepository.getBlogByBlogId(
-      blogId
-    );
-    
-
-    if (!result) {
-      return { status: 404, message: "Blog not found" };
-    }
-
-    return { status: 200, message: result };
-  } catch(err) {
-    return { status: 500, message: err };
+  const blog = await BlogRepository.getBlogByBlogId(blogId);
+  if (!blog) {
+    throw Object.assign(new Error("Blog Not Found"), {
+      status: 404,
+    });
   }
+
+  const Blog = new BlogDTO(blog);
+
+  return {message:Blog};
 }
 
 async function updateBlog(blogId, blog) {
-  try {
-    
-      const result = await BlogRepository.updateBlog(blogId,blog);
+  const updatedBlog = await BlogRepository.updateBlog(blogId, blog);
 
-    if (!result) {
-      return { status: 404, message: "Blog not found" };
-    }
-    return { status: 200, message: "Blog Updated" };
-  } catch(err) {
-    return { status: 500, message: err };
+  if (!updatedBlog) {
+    throw Object.assign(new Error("No blog with this ID in the table!"), {
+      status: 404,
+    });
   }
+  return {message: "Blog Updated Successfully" };
 }
 
 async function deleteBlog(blogId) {
-  try {
-    const result = await BlogRepository.deleteBlog(blogId);
+  const deletedBlog = await BlogRepository.deleteBlog(blogId);
 
-    if (!result) {
-      return { status: 404, message: "Could Not Delete Blog" };
-    }
-
-    return { status: 200, message: "Blog removed" };
-  } catch(err) {
-    return { status: 500, message: err };
+  if (!deletedBlog) {
+    throw Object.assign(new Error("Blog Could Not Be Deleted"), {
+      status: 404,
+    });
   }
+
+  return {message: "Blog deleted" }; 
 }
 
 module.exports = {

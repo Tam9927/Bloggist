@@ -1,10 +1,9 @@
-'use strict'
+"use strict";
 const { validate } = require("email-validator");
 const { DataTypes } = require("sequelize");
-const { sequelize } = require("../configs/db.config");
+const { sequelize } = require("../configs/db.sequelize.config");
 
-
-const user = sequelize.define(
+const User = sequelize.define(
   "user",
   {
     Id: {
@@ -45,11 +44,4 @@ const user = sequelize.define(
   }
 );
 
-async function test() {
-  await user.sync();
-  console.log("User were synchronized successfully.");
-}
-
-test();
-
-module.exports = user;
+module.exports = User;

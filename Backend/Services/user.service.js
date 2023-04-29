@@ -1,114 +1,94 @@
-'use strict'
+"use strict";
 const UserRepository = require("../repository/user.repository");
-const userUtils = require("../utils/user.utils");
 const UserDTO = require("../dto/user.dto");
-const validator = require("email-validator");
-const crypto = require("crypto");
-const bcrypt = require("bcrypt");
-const uuid = require("uuid");
 require("dotenv").config();
 
-async function findAllUsers(pageNumber,pageSize) {
-  try {
-    const data = await UserRepository.getAllUsers(pageNumber,pageSize);
-    if (!data.length) {
-      return { status: 200, message: "Users table is empty!" };
-    }
+async function findAllUsers(pageNumber, pageSize) {
+  const offset = (pageNumber - 1) * pageSize;
+  const limit = pageSize;
 
-    const allUsers = [];
-    data.forEach((element) => {
-      allUsers.push(new UserDTO(element));
+  const Users = await UserRepository.getAllUsers(offset, limit);
+  if (!Users.length) {
+    throw Object.assign(new Error("No user in users table!"), {
+      status: 404,
     });
-
-    return { status: 200, message: allUsers };
-  } catch(err) {
-    return { status: 500, message: err };
   }
+
+  const allUsers = [];
+  Users.forEach((element) => {
+    allUsers.push(new UserDTO(element));
+  });
+
+  return {message: allUsers };
 }
 
 async function findUserByUserName(username) {
-  try {
-    const result = await UserRepository.getUserByUserName(username.toLowerCase());
-    if (!result) {
-      return { status: 404, message: "User not found" };
-    }
-
-    const user = new UserDTO(result);
-    return { status: 200, message: user };
-  } catch(err) {
-    return { status: 500, message:err };
+  const foundUser = await UserRepository.getUserByUserName(
+    username.toLowerCase()
+  );
+  if (!foundUser) {
+    throw Object.assign(new Error("Username doesn't exist!"), {
+      status: 404,
+    });
   }
+
+  const user = new UserDTO(foundUser);
+  return {message: user };
 }
 
-async function findUserByEmail(email) {
+async function findDuplicateEmail(email) {
   const Email = await UserRepository.getUserByEmail(email);
-  if (Email) {
-    return { status: 200, message: "User Found" };
-  }
+  return Email;
+}
 
-  return { status: 404, message: "User not found" };
+async function findDuplicateUsername(username) {
+  const User = await UserRepository.getUserByUserName(username);
+  return User;
 }
 
 async function registerUser(user) {
-  try {
-    const data = await UserRepository.register(user);
-    return data;
-  } catch(err) {
-    return { status: 500, message:err };
-  }
+  const registeredUser = await UserRepository.register(user);
+  return registeredUser;
 }
 
 async function deleteUser(username) {
-  try {
-    const result = await UserRepository.deleteUser(username.toLowerCase());
+  const deletedUser = await UserRepository.deleteUser(username.toLowerCase());
 
-    if (!result) {
-      return { status: 404, message: "User not found" };
-    }
-
-    return { status: 200, message: "User removed" };
-  } catch(err) {
-    return { status: 500, message: err};
+  if (!deletedUser) {
+    throw Object.assign(new Error("User not found!"), { status: 404 });
   }
+
+  return {message: "User removed" };
 }
 
 async function updateUser(username, user) {
-  try {
-    const saltrounds = parseInt(process.env.SALTROUND);
-    const salt = await bcrypt.genSalt(saltrounds);
- 
-    const hashedPassword = await bcrypt.hash(user.password, salt);
+  const hashedPassword = await Hasher(user.password);
+  const updatedUser = await UserRepository.updateUser(
+    username.toLowerCase(),
+    hashedPassword
+  );
 
-    const result = await UserRepository.updateUser(
-      username.toLowerCase(),
-      hashedPassword
-    );
-
-    if (!result) {
-      return { status: 404, message: "User not found" };
-    }
-    return { status: 200, message: "User updated" };
-  } catch(err) {
-    return { status: 500, message: err };
+  if (!updatedUser) {
+    throw Object.assign(new Error("User not found!"), { status: 404 });
   }
+  return {message: "User updated" };
 }
 
 async function loginUser(username) {
-  try {
-    const result = await UserRepository.getUserByName(username.toLowerCase());
-    if (!result) {
-      return { status: 404, message: "Check username or password" };
-    }
-    return { status: 200, message: result };
-  } catch(err) {
-    return { status: 400, message: err };
+  const userToLogin = await UserRepository.getUserByUserName(
+    username.toLowerCase()
+  );
+  if (!userToLogin) {
+    {  throw Object.assign(new Error("No User Found with this username!"), { status: 400 }); };
   }
+  return { message: userToLogin };
 }
 
 module.exports = {
   findAllUsers,
   findUserByUserName,
-  findUserByEmail,
+  findDuplicateEmail,
+  findDuplicateUsername,
   deleteUser,
   updateUser,
   registerUser,

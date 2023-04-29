@@ -1,20 +1,16 @@
-"use strict"
+"use strict";
 require("dotenv").config();
-const express = require('express');
-"use strict"
+const express = require("express");
 
 const app = express();
-const router = require('./Router/index');
-const db = require('./Configs/db.config');
+const router = require("./router/index");
+const db = require("./configs/db.sequelize.config");
 const PORT = process.env.PORT || 4000;
-const bodyParser = require('body-parser');
-const cookieParser = require('cookie-parser');
-
+const cookieParser = require("cookie-parser");
 
 db.connectToDB();
 
-
-app.use(express.json());
+app.use(express.json()); 
 app.use(cookieParser());
 
 app.use((err, req, res, next) => {
@@ -30,12 +26,12 @@ app.use((err, req, res, next) => {
   }
 });
 
-app.use("/api/", router);
+app.use("/api/v1/", router);
 
 app.use("*", (req, res) => {
   res.status(404).json({
     success: "false",
-    message: "Page not found",
+    message: "Page not found", 
     error: {
       statusCode: 404,
       message: "This Route is not Valid",
