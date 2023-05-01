@@ -8,19 +8,19 @@ async function getAllBlogs(offset , limit) {
 }
 
 async function getBlogByBlogId(blogId) {
-  const result = await Blog.findOne({ include: ["author"], where: { blogId } });
+  const result = await Blog.findOne({ include: ["author"], where: { blogId } }); 
   return result;
 }
 
-async function getBlogByAuthorId(authorId) {
-  const result = await Blog.findOne({include: ["author"], where: { authorId } });
+async function getBlogByAuthorId(authorId) { 
+  const result = await Blog.findOne({include: ["author"], where: { authorId } });  
   return result; 
 }
 
 
-async function updateBlog(blogId, BlogToUpdate) {
+async function updateBlog(blogId, BlogToUpdate) {   
   const result = await Blog.update(
-    { title: BlogToUpdate.title, description: BlogToUpdate.description },
+    { title: BlogToUpdate.title, description: BlogToUpdate.description }, 
     { where: { blogId: blogId } }
   );
   return result;
