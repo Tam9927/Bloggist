@@ -12,7 +12,7 @@ async function getBlogByBlogId(blogId) {
   return result;
 }
 
-async function getBlogByAuthorId(authorId) { 
+async function getBlogByAuthorId(authorId) {  
   const result = await Blog.findOne({include: ["author"], where: { authorId } });  
   return result; 
 }

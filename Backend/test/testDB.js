@@ -74,6 +74,6 @@ const userDB = [
   
   module.exports = {
     userDB,
-    blogDB,
-  };
+    blogDB, 
+  }; 
   
