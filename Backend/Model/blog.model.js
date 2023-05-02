@@ -25,14 +25,14 @@ const Blog = sequelize.define(
       foreignKey: true,
       unique: true,
       noUpdate: true,
-      allowNull: false,
+      allowNull: false,   
       validate: {
         notEmpty: true
       }
     },
 
     description: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING, 
     },
   },
 

@@ -1,7 +1,7 @@
 "use strict";
 const BlogRepository = require("../repository/blog.repository");
 const UserService = require("./user.service");
-const BlogDTO = require("../dto/blog.dto");
+const BlogDTO = require("../dto/blog.dto"); 
 
 async function getAllBlogs(pageNumber, pageSize) {
   const offset = (pageNumber - 1) * pageSize;
@@ -55,9 +55,9 @@ async function getBlogByAuthorId(authorId) {
     });
   }
 
-  const Blog = new BlogDTO(blog);
+  //const Blog = new BlogDTO(blog);
 
-  return { message: Blog };
+  return { message: blog };
 }
 
 

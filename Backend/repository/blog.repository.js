@@ -1,10 +1,15 @@
 "use strict";
 const express = require("express");
+const BlogDTO = require("../DTO/blog.dto")
 const {Blog} = require("../model/index");
 
 async function getAllBlogs(offset , limit) {
   const result = await Blog.findAll({ include: ["author"], offset,limit});
-  return result;
+  const allBlog = [];
+    result.forEach((element) => {
+      allBlog.push( new BlogDTO(element));
+    });
+    return allBlog;
 }
 
 async function getBlogByBlogId(blogId) {
@@ -13,8 +18,12 @@ async function getBlogByBlogId(blogId) {
 }
 
 async function getBlogByAuthorId(authorId) {  
-  const result = await Blog.findOne({include: ["author"], where: { authorId } });  
-  return result; 
+  const result = await Blog.findAll({ include: ["author"],where: { authorId } });  
+  const allBlog = [];
+  result.forEach((element) => {
+    allBlog.push( new BlogDTO(element));
+  });
+  return allBlog;
 }
 
 

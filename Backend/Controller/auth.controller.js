@@ -16,7 +16,8 @@ async function registerUser(req, res) {
     const registeredUser = await authService.register(req.body);
     if (registeredUser.message) {
       const accesstoken = userUtils.generateToken(req.body.username);
-      res.cookie("jwt", accesstoken, { httpOnly: true });
+      res.cookie("jwt", accesstoken, { httpOnly: false,
+        secure: false});
 
       contentNegotiation.sendResponse(req, res, 200, "Registration is successful" )
   }
@@ -35,7 +36,8 @@ async function loginUser(req, res) {
     const UserToLogin = await authService.loginUser(req.body);
     if (UserToLogin.message) {
       const accesstoken = userUtils.generateToken(req.body.username);
-      res.cookie("jwt", accesstoken, { httpOnly: true });
+      res.cookie("jwt", accesstoken, { httpOnly: false,
+        secure: false });
 
       contentNegotiation.sendResponse(req, res, 200, "Login is Successful");
     }
