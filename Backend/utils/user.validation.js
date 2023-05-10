@@ -2,7 +2,7 @@
 const validator = require("email-validator");
 const jwt = require("jsonwebtoken");
 
-function userValidator(username, email, password) {
+function registerValidator(username, email, password) {
   if (!username || !email || !password) {
     return { valid: false, message: "Please enter all the fields" };
   }
@@ -25,6 +25,31 @@ function userValidator(username, email, password) {
     };
   }
 
+  if (!checkPasswordValid(password)) { 
+    return {
+      valid: false,
+      message: "Password must contain atleast 6 characters",    
+    };
+  }
+
+  return { valid: true, message: "Credentials are valid" };
+}
+
+
+
+
+function loginValidator(username,password) {
+  if (!username ||!password) {
+    return { valid: false, message: "Please enter all the fields" };
+  }
+
+  if (!checkUsernameValid(username)) {
+    return {
+      valid: false,
+      message: "Username cannot contain space and special characters!",
+    };
+  }
+
   if (!checkPasswordValid(password)) {
     return {
       valid: false,
@@ -32,8 +57,16 @@ function userValidator(username, email, password) {
     };
   }
 
-  return { valid: true, message: "Credentials are valid" };
+  if (!checkPasswordValid(password)) {
+    return {
+      valid: false,
+      message: "Password must contain atleast 6 characters",
+    };
+  }
+
+  return { valid: true, message: "Credentials are valid" };  
 }
+
 
 
 const checkEmptyBody = (body) => {
@@ -71,7 +104,8 @@ function checkEmailValid(email) {
 }
 
 module.exports = {
-  userValidator,
+  registerValidator,
+  loginValidator,
   checkUsernameValid,
   checkPasswordValid,
   checkEmailValid,

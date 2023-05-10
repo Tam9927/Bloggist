@@ -8,7 +8,7 @@ async function getAllBlogs(pageNumber, pageSize) {
   const limit = pageSize;
 
   const allBlogs = await BlogRepository.getAllBlogs(offset, limit);
-  if (!allBlogs.length) {
+  if (!allBlogs.rows.length) {
     throw Object.assign(new Error("No blogs in this table!"), {
       status: 404,
     });
@@ -17,7 +17,7 @@ async function getAllBlogs(pageNumber, pageSize) {
   return { message: allBlogs };
 }
 
-async function createBlog(blog, username) {
+async function createBlog(blog, username) { 
   if (!blog.title || !blog.description) {
     throw Object.assign(new Error("Title And Description Needed"), {
       status: 400,

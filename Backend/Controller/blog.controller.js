@@ -49,12 +49,13 @@ async function getBlogByAuthorId(req, res) {
 
 
 async function updateBlog(req, res) {
+  const status = 200;
   try {
     const updatedBlog = await BlogService.updateBlog(
       req.params.blogId,
       req.body
     );
-      contentNegotiation.sendResponse(req, res, 200, updatedBlog.message);
+      contentNegotiation.sendResponse(req, res, status, updatedBlog.message);
     
   } catch (err) {
     res.status(500).send(err.message);

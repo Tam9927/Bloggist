@@ -6,7 +6,7 @@ const bcrypt = require("bcrypt");
 require("dotenv").config();
 
 async function register(user) {
-  const userValid = userValidator.userValidator(
+  const userValid = userValidator.registerValidator(
     user.username,
     user.email,
     user.password
@@ -37,6 +37,15 @@ async function register(user) {
 }
 
 async function loginUser(user) {
+
+  const userValid = userValidator.loginValidator(
+    user.username,
+    user.password
+  );
+
+  if (!userValid.valid) {
+    throw Object.assign(new Error(userValid.message), { status: 400 });
+  }
   const name = user.username.toLowerCase();
   const userExists = await UserService.loginUser(name);
   const password = userExists.message.password;

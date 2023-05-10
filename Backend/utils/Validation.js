@@ -19,7 +19,7 @@ function userValidator(username, email, password){
         return {valid : false, message:'Password must contain atleast 6 characters'};
     }
 
-    return {valid : true, message:'Credentials are valid'};
+    return {valid : true, message:'Credentials are valid'}; 
 
 }
 

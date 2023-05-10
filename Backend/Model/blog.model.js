@@ -9,7 +9,7 @@ const Blog = sequelize.define(
   {
     blogId: {
       type: DataTypes.UUID,
-      defaultValue: DataTypes.UUIDV4,
+      defaultValue: DataTypes.UUIDV4,     
       primaryKey: true,
     },
 
@@ -32,7 +32,7 @@ const Blog = sequelize.define(
     },
 
     description: {
-      type: DataTypes.STRING, 
+      type: DataTypes.TEXT, 
     },
   },
 

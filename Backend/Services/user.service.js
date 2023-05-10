@@ -82,7 +82,7 @@ async function loginUser(username) {
   );
   if (!userToLogin) {
     {
-      throw Object.assign(new Error("No User Found with this username!"), {
+      throw Object.assign(new Error("Username not found"), { 
         status: 400,
       });
     }
