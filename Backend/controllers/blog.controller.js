@@ -1,6 +1,6 @@
 "use strict";
 const express = require("express");
-const BlogService = require("../service/blog.service");
+const BlogService = require("../services/blog.service");
 const contentNegotiation = require("../utils/content-negotiation");
 const paginator = require("../utils/pagination");
 require("dotenv").config();

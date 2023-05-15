@@ -18,7 +18,7 @@ async function findAllUsers(pageNumber, pageSize) {
 
   const allUsers = [];
   Users.forEach((element) => {
-    allUsers.push(new UserDTO(element));
+    allUsers.push(new UserDTO(element)); 
   });
 
   return { message: allUsers };

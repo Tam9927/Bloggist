@@ -1,6 +1,6 @@
 "use strict";
 require("dotenv").config();
-const authService = require("../service/auth.service");
+const authService = require("../services/auth.service");
 const userUtils = require("../utils/user.validation");
 const contentNegotiation = require("../utils/content-negotiation");  
 
