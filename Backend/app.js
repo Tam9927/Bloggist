@@ -3,7 +3,7 @@ require("dotenv").config();
 const express = require("express");
 
 const app = express();
-const router = require("./router/index");
+const router = require("./routers/index");
 const db = require("./configs/db.sequelize.config");
 const PORT = process.env.PORT || 4000; 
 const HOST = process.env.HOST ;
