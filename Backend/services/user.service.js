@@ -1,7 +1,7 @@
 "use strict";
 const UserRepository = require("../repositories/user.repository");
 const UserDTO = require("../dto's/user.dto");
-const { hashPasswordGenerator } = require("../utils/hashingUtil");
+const { hashPasswordGenerator } = require("../utils/hashingUtils");
 require("dotenv").config();
 
 async function findAllUsers(pageNumber, pageSize) {

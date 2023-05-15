@@ -1,7 +1,7 @@
 "use strict";
 const userValidator = require("../utils/user.validation");
 const UserService = require("../services/user.service");
-const { hashPasswordGenerator } = require("../utils/hashingUtil");
+const { hashPasswordGenerator } = require("../utils/hashingUtils");
 const bcrypt = require("bcrypt");
 require("dotenv").config();
 
