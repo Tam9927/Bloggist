@@ -9,6 +9,12 @@ router.use("/users",userRouter);
 
 router.use("/auth", authRouter);
 
-router.use("/blogs", blogRouter); 
+router.use("/blogs", blogRouter);
+
+router.use("/health", (req,res)=>{
+    res.status(200).send();
+}); 
+
+
 
 module.exports = router;

@@ -22,5 +22,6 @@ async function connectToDB() {
     console.error("Unable to connect to the database:", error); 
   }
 }
-
-module.exports = { sequelize, connectToDB };
+ 
+module.exports = { sequelize, connectToDB };  
+ 

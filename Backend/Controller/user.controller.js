@@ -1,6 +1,6 @@
 "use strict";
 const express = require("express");
-const UserService = require("../services/user.service");
+const UserService = require("../service/user.service");
 const contentNegotiation = require("../utils/content-negotiation");
 const paginator = require("../utils/pagination");
 require("dotenv").config();
@@ -12,7 +12,7 @@ async function getAllUsers(req, res) {
     const allUsers = await UserService.findAllUsers(pageNumber, pageSize);
     contentNegotiation.sendResponse(req, res, 200, allUsers.message);
   } catch (err) {
-    res.status(500).send(err.message);
+    res.status(500).send(err.message); 
   }
 }
 

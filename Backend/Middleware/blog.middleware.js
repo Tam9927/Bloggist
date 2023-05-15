@@ -1,6 +1,6 @@
 "use strict";
-const blogService = require("../services/blog.service");
-const userService = require("../services/user.service");
+const blogService = require("../service/blog.service");
+const userService = require("../service/user.service");
 
 async function blogMiddleware(req,res,next) {
   try {

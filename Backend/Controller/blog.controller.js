@@ -1,6 +1,6 @@
 "use strict";
 const express = require("express");
-const BlogService = require("../services/blog.service");
+const BlogService = require("../service/blog.service");
 const contentNegotiation = require("../utils/content-negotiation");
 const paginator = require("../utils/pagination");
 require("dotenv").config();
@@ -15,7 +15,7 @@ async function getAllBlogs(req, res) {
 
     contentNegotiation.sendResponse(req, res, status, blogs.message);
   } catch (err) {
-    res.status(500).send(err.message);
+    res.status(500).send(err.message); 
   }
 }
 

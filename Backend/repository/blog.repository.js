@@ -1,6 +1,6 @@
 "use strict";
 const express = require("express");
-const BlogDTO = require("../DTO/blog.dto")
+const BlogDTO = require("../dto/blog.dto")
 const {Blog,User} = require("../model/index");
 
 async function getAllBlogs(offset , limit) {
