@@ -14,8 +14,8 @@ const cors = require("cors");
   app.use(cors(
     { 
       origin: ['http://localhost:3000', 'http://127.0.0.1:3000'],  
-      methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-      allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept'],  
+      methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], 
+      allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept'],   
       credentials: true 
     })); 
   
