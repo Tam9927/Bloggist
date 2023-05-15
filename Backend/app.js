@@ -3,17 +3,19 @@ require("dotenv").config();
 const express = require("express");
 
 const app = express();
-const router = require("./router/index");
+const router = require("./Router/index");
 const db = require("./configs/db.sequelize.config");
 const PORT = process.env.PORT || 4000;
+const HOST = process.env.HOST ;
+
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 
   app.use(cors(
     { 
-      origin: ['http://localhost:3000', 'http://127.0.0.1:3000'], 
+      origin: ['http://localhost:3000', 'http://127.0.0.1:3000'],  
       methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-      allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept'],
+      allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept'], 
       credentials: true 
     })); 
   
@@ -50,7 +52,7 @@ app.use("*", (req, res) => {
   });
 });
 
-app.listen(PORT, () => {
+app.listen(PORT, HOST, () => {
   console.log(`Server is running ${PORT}`);
 });
 

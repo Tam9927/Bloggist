@@ -18,8 +18,8 @@ async function getBlogByBlogId(blogId) {
   return result;
 }
 
-async function getBlogByAuthorId(authorId) {  
-  const result = await Blog.findAll({ include: ["author"],where: { authorId } });  
+async function getBlogByAuthorId(authorId) {     
+  const result = await Blog.findAll({ include: ["author"],where: { authorId } });   
   const allBlog = [];
   result.forEach((element) => {
     allBlog.push( new BlogDTO(element));

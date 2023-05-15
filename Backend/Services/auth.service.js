@@ -39,7 +39,7 @@ async function register(user) {
 async function loginUser(user) {
 
   const userValid = userValidator.loginValidator(
-    user.username,
+    user.username,  
     user.password
   );
 
