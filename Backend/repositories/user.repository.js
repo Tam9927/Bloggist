@@ -1,8 +1,8 @@
 "use strict";
 const express = require("express");
 const database = require("../configs/db.sequelize.config");
-const {User} = require("../model/index");
-const UserRegisterDTO = require("../dto/user.register.dto");
+const {User} = require("../models/index");
+const UserRegisterDTO = require("../dto's/user.register.dto");
 
 async function getAllUsers(offset, limit) {
   const result = await User.findAll({ offset, limit }); 

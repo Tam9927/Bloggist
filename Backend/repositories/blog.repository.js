@@ -1,7 +1,7 @@
 "use strict";
 const express = require("express");
-const BlogDTO = require("../dto/blog.dto")
-const {Blog,User} = require("../model/index");
+const BlogDTO = require("../dto's/blog.dto")
+const {Blog,User} = require("../models/index");
 
 async function getAllBlogs(offset , limit) {
   const result = await Blog.findAndCountAll({ include: ["author"],offset,limit,order: [['createdAt', 'DESC']] });

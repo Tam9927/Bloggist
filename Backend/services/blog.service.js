@@ -1,7 +1,7 @@
 "use strict";
-const BlogRepository = require("../repository/blog.repository");
+const BlogRepository = require("../repositories/blog.repository");
 const UserService = require("./user.service");
-const BlogDTO = require("../dto/blog.dto"); 
+const BlogDTO = require("../dto's/blog.dto"); 
 
 async function getAllBlogs(pageNumber, pageSize) {
   const offset = (pageNumber - 1) * pageSize;

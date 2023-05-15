@@ -1,6 +1,6 @@
 "use strict";
-const UserRepository = require("../repository/user.repository");
-const UserDTO = require("../dto/user.dto");
+const UserRepository = require("../repositories/user.repository");
+const UserDTO = require("../dto's/user.dto");
 const { hashPasswordGenerator } = require("../utils/hashingUtil");
 require("dotenv").config();
 
