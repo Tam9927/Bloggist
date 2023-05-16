@@ -3,8 +3,8 @@ const BlogRepository = require("../repositories/blog.repository");
 const UserService = require("./user.service");
 const BlogDTO = require("../dto's/blog.dto"); 
 
-async function getAllBlogs(pageNumber, pageSize) {
-  const offset = (pageNumber - 1) * pageSize;
+async function getAllBlogs(pageNumber, pageSize) { 
+  const offset = (pageNumber - 1) * pageSize; 
   const limit = pageSize;
 
   const allBlogs = await BlogRepository.getAllBlogs(offset, limit);
@@ -17,7 +17,7 @@ async function getAllBlogs(pageNumber, pageSize) {
   return { message: allBlogs };
 }
 
-async function createBlog(blog, username) { 
+async function createBlog(blog, username) {       
   if (!blog.title || !blog.description) {
     throw Object.assign(new Error("Title And Description Needed"), {
       status: 400,

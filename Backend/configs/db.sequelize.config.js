@@ -8,8 +8,8 @@ dotenv.config();
 const APP_NAME = process.env.APP_NAME;
 const TABLENAME = process.env.TABLENAME;
 
-const sequelize = new Sequelize("BloggistDatabase_salmonpush", "BloggistDatabase_salmonpush", "ecffebfdbc5435ccb4101c22621110ce06825f69", {
-  host: "83z.h.filess.io",
+const sequelize = new Sequelize("BloggistDatabase_preventfog", "BloggistDatabase_preventfog", "a7d78f43170b47ca65bc37656021ff6502587ebf", {
+  host: "roy.h.filess.io",
   port:3307,
   dialect: "mysql",
 });
