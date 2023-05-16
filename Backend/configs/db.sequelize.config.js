@@ -8,9 +8,9 @@ dotenv.config();
 const APP_NAME = process.env.APP_NAME;
 const TABLENAME = process.env.TABLENAME;
 
-const sequelize = new Sequelize("BloggistDatabase_preventfog", "BloggistDatabase_preventfog", "a7d78f43170b47ca65bc37656021ff6502587ebf", {
-  host: "roy.h.filess.io",
-  port:3307,
+const sequelize = new Sequelize("sql12618650", "sql12618650", "ZMUyZ95Ua1", {
+  host: "sql12.freemysqlhosting.net",
+  port:3306,
   dialect: "mysql",
 });
 
