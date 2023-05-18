@@ -15,7 +15,7 @@ const sequelize = new Sequelize("sql12618650", "sql12618650", "ZMUyZ95Ua1", {
 }); 
 
 
-async function connectToDB() {
+async function connectToDB() { 
   try {
     await sequelize.authenticate();
     console.log("Connection has been established successfully.");
