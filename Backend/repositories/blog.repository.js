@@ -44,17 +44,18 @@ async function deleteBlog(blogId) {
 async function createBlog(blog) {
   try {
     const result = await Blog.create(blog);
+    console.log(result)  
     return result;
   } catch (err) {
-    console.log(err.stack);
-    throw err;
+    console.log(err.stack); 
+    throw err; 
   }
 }
 
 module.exports = {
   getAllBlogs,
   createBlog,
-  getBlogByBlogId,
+  getBlogByBlogId, 
   updateBlog,
   deleteBlog,
   getBlogByAuthorId

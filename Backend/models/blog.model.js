@@ -17,7 +17,7 @@ const Blog = sequelize.define(
       type: DataTypes.STRING,
       notNull: true,
       notEmpty: true,
-      defaultValue: "Untitled Blog",
+      // defaultValue: "Untitled Blog",
     },
 
     authorId: {
