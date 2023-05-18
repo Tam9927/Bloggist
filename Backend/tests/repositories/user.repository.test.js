@@ -1,5 +1,5 @@
-const userRepository = require("../../repository/user.repository");
-const User = require("../../model/user.model");
+const userRepository = require("../../repositories/user.repository");
+const User = require("../../models/user.model");
 const { userDB } = require("../testDB");
 const UserRegisterDTO = require("../../dto/user.register.dto");
 

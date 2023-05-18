@@ -1,6 +1,6 @@
-const BlogRepository = require("../../repository/blog.repository");
+const BlogRepository = require("../../repositories/blog.repository");
 const { blogDB } = require("../testDB");
-const Blog = require("../../model/blog.model");
+const Blog = require("../../models/blog.model");
 
 class TestBlog {
   constructor(Blog) {

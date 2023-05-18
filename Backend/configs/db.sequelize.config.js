@@ -14,12 +14,6 @@ const sequelize = new Sequelize("sql12618650", "sql12618650", "ZMUyZ95Ua1", {
   dialect: "mysql",
 }); 
 
-// const sequelize = new Sequelize("bloggist", "root", "", {
-//   host: "localhost",
-//   dialect: "mysql", 
-// });
- 
-
 
 async function connectToDB() {
   try {

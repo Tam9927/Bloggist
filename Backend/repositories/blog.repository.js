@@ -36,7 +36,7 @@ async function updateBlog(blogId, BlogToUpdate) {
   return result;
 }
 
-async function deleteBlog(blogId) {
+async function deleteBlog(blogId) { 
   const result = Blog.destroy({ where: { blogId } });
   return result;
 }

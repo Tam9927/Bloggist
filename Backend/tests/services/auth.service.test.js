@@ -1,4 +1,4 @@
-const authController = require("../../controller/auth.controller");
+const authController = require("../../controllers/auth.controller");
 const authService = require("../../services/auth.service");
 const userService = require("../../services/user.service");
 const bcrypt = require("bcrypt");

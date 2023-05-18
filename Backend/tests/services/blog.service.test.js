@@ -1,9 +1,9 @@
 const blogService = require("../../services/blog.service");
 const userService = require("../../services/user.service");
-const blogRepository = require("../../repository/blog.repository");
+const blogRepository = require("../../repositories/blog.repository");
 const { blogDB, userDB } = require("../testDB");
 const paginator = require("../../utils/pagination");
-const blogDTO = require("../../dto/blog.dto");
+const blogDTO = require("../../dto's/blog.dto");
 
 describe("Testing User Service", () => {
   describe("Testing getAllUsers Function: ", () => {

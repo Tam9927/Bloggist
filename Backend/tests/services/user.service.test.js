@@ -1,8 +1,8 @@
 const userService = require("../../services/user.service");
-const userRepository = require("../../repository/user.repository");
+const userRepository = require("../../repositories/user.repository");
 const { userDB } = require("../testDB");
-const userDTO = require("../../dto/user.dto");
-const { hashPasswordGenerator } = require("../../utils/HashingUtil");
+const userDTO = require("../../dto's/user.dto");
+const { hashPasswordGenerator } = require("../../utils/hashingUtil");
 
 
 jest.mock("../../utils/user.validation");
