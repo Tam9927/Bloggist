@@ -17,8 +17,8 @@ const cors = require("cors");
       methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], 
       allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept'],   
       credentials: true 
-    })); 
-  
+    }));  
+   
 
 
 db.connectToDB(); 
