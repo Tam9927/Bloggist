@@ -1,60 +1,58 @@
 "use strict";
 
-const json2xml = require('xml-js');
-const json2html = require('json-to-html');
-const json2plain = require('json-to-plain-text');
-const { json } = require('body-parser');
+const json2xml = require("xml-js");
+const json2html = require("json-to-html");
+const json2plain = require("json-to-plain-text");
+require("body-parser");
 
-function sendJsonResponse(req, res, status, data){
-    const jsonData = { 'data' : data };
-    this.sendFinalResponse(req, res, status, jsonData);
+function sendJsonResponse(clientData) {
+  var jsonData = { data: clientData };
+  return jsonData; 
 }
 
-function sendXmlResponse (req, res, status, data){
-    var options = {compact: true, ignoreComment: true, spaces: 4};
-    var xmlData = json2xml.json2xml(JSON.stringify(data), options);
-    this.sendFinalResponse(req, res, status, xmlData);
+function sendXmlResponse(clientData) {
+  var options = { compact: true, ignoreComment: true, spaces: 4 };
+  var xmlData = json2xml.json2xml(JSON.stringify(clientData), options);
+  return xmlData
 }
 
-function sendPlainResponse(req, res, status, data){
-    var plainData = json2plain.toPlainText(JSON.parse(JSON.stringify(data)));
-    this.sendFinalResponse(req, res, status, plainData);
+function sendPlainResponse(clientData) {
+  return json2plain.toPlainText(JSON.parse(JSON.stringify(clientData)));
 }
 
-function sendHtmlResponse(req, res, status, data){
-    var htmlData = json2html(JSON.parse(JSON.stringify(data)));
-    this.sendFinalResponse(req, res, status, htmlData);
+function sendHtmlResponse(clientData) {
+  return json2html(JSON.parse(JSON.stringify(clientData)));
 }
 
-function sendFinalResponse(req, res, status, data){
-    res.status(status).send(data);
+function sendFinalResponse(res, status, data) {
+  res.status(status).send(data);
 }
 
-
-function sendResponse(req, res, status, data){
-    if(req.headers.accept ==='application/xml' || req.headers.accept === 'text/xml'){
-        return this.sendXmlResponse(req, res, status, data);
-    }
-    if(req.headers.accept === 'text/html'){
-        return this.sendHtmlResponse(req, res, status, data);
-    }
-    if(req.headers.accept === 'text/plain'){
-        return this.sendPlainResponse(req, res, status, data);
-    }
-    return this.sendJsonResponse(req, res, status, data);
-}
-
-
-
-
-
-module.exports =  {
-
-    sendXmlResponse,
-    sendJsonResponse,
-    sendHtmlResponse,
-    sendResponse,
-    sendPlainResponse,
-    sendFinalResponse
-
-}
+function sendResponse(req, res, status, clientData){
+  switch(req.headers.accept){
+    case 'application/xml':
+      clientData = this.sendXmlResponse(clientData);
+      break;
+    case 'text/html':
+      clientData = this.sendHtmlResponse(clientData);
+      break;
+    case 'text/plain':
+      clientData = this.sendPlainResponse(clientData);
+      break;
+      case 'text/xml':
+      clientData = this.sendXmlResponse(clientData);
+      break;
+     default:
+      clientData = this.sendJsonResponse(clientData);
+       break;
+  }
+  return this.sendFinalResponse(res, status, clientData); 
+};
+module.exports = {
+  sendXmlResponse,
+  sendJsonResponse,
+  sendHtmlResponse,
+  sendResponse,
+  sendPlainResponse,
+  sendFinalResponse,
+};
